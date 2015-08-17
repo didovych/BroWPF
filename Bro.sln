@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bro", "Bro\Bro.csproj", "{10D42C67-D147-430E-A58F-1E38B843DFD3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BroData", "BroData\BroData.csproj", "{6131FF28-0415-40D5-B3DC-6E3B9DB8301E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox", "Sandbox\Sandbox.csproj", "{01E7BB2F-B11F-48C1-9B0B-D470BA9977E4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{10D42C67-D147-430E-A58F-1E38B843DFD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10D42C67-D147-430E-A58F-1E38B843DFD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10D42C67-D147-430E-A58F-1E38B843DFD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10D42C67-D147-430E-A58F-1E38B843DFD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6131FF28-0415-40D5-B3DC-6E3B9DB8301E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6131FF28-0415-40D5-B3DC-6E3B9DB8301E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6131FF28-0415-40D5-B3DC-6E3B9DB8301E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6131FF28-0415-40D5-B3DC-6E3B9DB8301E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01E7BB2F-B11F-48C1-9B0B-D470BA9977E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01E7BB2F-B11F-48C1-9B0B-D470BA9977E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01E7BB2F-B11F-48C1-9B0B-D470BA9977E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01E7BB2F-B11F-48C1-9B0B-D470BA9977E4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
