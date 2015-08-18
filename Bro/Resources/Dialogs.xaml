@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:dialog="clr-namespace:DialogControl;assembly=DialogControl"
+                    xmlns:dialogs="clr-namespace:Bro.ViewModels.Dialogs"
+                    xmlns:dialogs1="clr-namespace:Bro.Controls.Dialogs">
+    <Style TargetType="{x:Type dialog:Dialog}">
+        <Style.Triggers>
+            <Trigger Property="HasContent" Value="True">
+                <Setter Property="Showing" Value="True" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <DataTemplate DataType="{x:Type dialogs:AddOnStockProductDialogViewModel}">
+        <dialogs1:AddOnStockProductDialog/>
+    </DataTemplate>
+</ResourceDictionary>

@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using Bro.ViewModels.Dialogs;
 using Bro.ViewModels.ProductsViewModels;
 using BroData;
+using Microsoft.Practices.Prism.Commands;
 
 namespace Bro.ViewModels
 {
@@ -16,7 +18,7 @@ namespace Bro.ViewModels
             _context = new Context();
 
             SoldProductsViewModel = new SoldProductsViewModel(_context);
-            OnStockProductsViewModel = new OnStockProductsViewModel(_context);
+            OnStockProductsViewModel = new OnStockProductsViewModel(this);
             ToRepairProductsViewModel = new ToRepairProductsViewModel(_context);
             ToPawnProductsViewModel = new ToPawnProductsViewModel(_context);
 
@@ -134,5 +136,7 @@ namespace Bro.ViewModels
                 NotifyPropertyChanged();
             }
         }
+
+    
     }
 }

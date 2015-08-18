@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using Bro.ViewModels.Dialogs;
 using BroData;
 using Microsoft.Practices.Prism.Commands;
 
@@ -12,15 +13,21 @@ namespace Bro.ViewModels.ProductsViewModels
 {
     public class OnStockProductsViewModel : ProductsViewModel
     {
-        public OnStockProductsViewModel(Context context) : base(context)
+        public OnStockProductsViewModel(MainViewModel model) : base(model.Context)
         {
+            _mainViewModel = model;
+
             AddProductCommand = new DelegateCommand(AddProduct);
+            CloseAddDialogCommand = new DelegateCommand(() => AddDialogViewModel = null);
+
             SellProductCommand = new DelegateCommand(SellProduct, () => SelectedProduct != null && SelectedProduct.Status != TranType.OnRepair);
             EditProductCommand = new DelegateCommand(EditProduct, () => SelectedProduct != null);
             DeleteProductCommand = new DelegateCommand(DeleteProduct, () => SelectedProduct != null);
             RepairProductCommand = new DelegateCommand(RepairProduct, () => SelectedProduct != null && SelectedProduct.Status != TranType.OnRepair);
             TakeProductFromRepairerCommand = new DelegateCommand(TakeProductFromRepairer, () => SelectedProduct != null && SelectedProduct.Status == TranType.OnRepair);
         }
+
+        private readonly MainViewModel _mainViewModel;
 
         private OnStockProductViewModel _selectedProduct;
 
@@ -36,6 +43,30 @@ namespace Bro.ViewModels.ProductsViewModels
                 DeleteProductCommand.RaiseCanExecuteChanged();
                 RepairProductCommand.RaiseCanExecuteChanged();
                 TakeProductFromRepairerCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        private DelegateCommand _closeAddDialogCommand;
+
+        public DelegateCommand CloseAddDialogCommand
+        {
+            get { return _closeAddDialogCommand; }
+            set
+            {
+                _closeAddDialogCommand = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private AddOnStockProductDialogViewModel _addDialogViewModel;
+
+        public AddOnStockProductDialogViewModel AddDialogViewModel
+        {
+            get { return _addDialogViewModel; }
+            set
+            {
+                _addDialogViewModel = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -116,7 +147,7 @@ namespace Bro.ViewModels.ProductsViewModels
         /// </summary>
         public void AddProduct()
         {
-            MessageBox.Show("New product was added!");
+            AddDialogViewModel = new AddOnStockProductDialogViewModel(_mainViewModel);
         }
 
         public void SellProduct()

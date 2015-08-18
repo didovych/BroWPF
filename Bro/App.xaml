@@ -4,6 +4,11 @@
              xmlns:viewModels="clr-namespace:Bro.ViewModels"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         <viewModels:MainViewModel x:Key="MainViewModel"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/ViewModels.xaml"/>
+                <ResourceDictionary Source="Resources/Dialogs.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
