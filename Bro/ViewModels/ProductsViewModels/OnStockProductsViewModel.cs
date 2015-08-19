@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 using Bro.ViewModels.Dialogs;
 using BroData;
 using Microsoft.Practices.Prism.Commands;
+using MessageBox = System.Windows.MessageBox;
 
 namespace Bro.ViewModels.ProductsViewModels
 {
@@ -21,10 +24,19 @@ namespace Bro.ViewModels.ProductsViewModels
             CloseAddDialogCommand = new DelegateCommand(() => AddDialogViewModel = null);
 
             SellProductCommand = new DelegateCommand(SellProduct, () => SelectedProduct != null && SelectedProduct.Status != TranType.OnRepair);
+            CloseSellDialogCommand = new DelegateCommand(() => SellDialogViewModel = null);
+
+            RepairProductCommand = new DelegateCommand(RepairProduct, () => SelectedProduct != null && (SelectedProduct.Status == TranType.Bought || SelectedProduct.Status == TranType.Repaired));
+            CloseRepairDialogCommand = new DelegateCommand(() => RepairDialogViewModel = null);
+
+            RepairedProductCommand = new DelegateCommand(RepairedProduct, () => SelectedProduct != null && SelectedProduct.Status == TranType.OnRepair);
+            CloseRepairedDialogCommand = new DelegateCommand(() => RepairedDialogViewModel = null);
+            
             EditProductCommand = new DelegateCommand(EditProduct, () => SelectedProduct != null);
+            
             DeleteProductCommand = new DelegateCommand(DeleteProduct, () => SelectedProduct != null);
-            RepairProductCommand = new DelegateCommand(RepairProduct, () => SelectedProduct != null && SelectedProduct.Status != TranType.OnRepair);
-            TakeProductFromRepairerCommand = new DelegateCommand(TakeProductFromRepairer, () => SelectedProduct != null && SelectedProduct.Status == TranType.OnRepair);
+            OnAirProductCommand = new DelegateCommand(OnAirProduct, () => SelectedProduct != null && (SelectedProduct.Status == TranType.Bought || SelectedProduct.Status == TranType.Repaired));
+            FromAirCommand = new DelegateCommand(FromAirProduct, () => SelectedProduct != null && SelectedProduct.Status == TranType.OnAir);
         }
 
         private readonly MainViewModel _mainViewModel;
@@ -42,9 +54,13 @@ namespace Bro.ViewModels.ProductsViewModels
                 EditProductCommand.RaiseCanExecuteChanged();
                 DeleteProductCommand.RaiseCanExecuteChanged();
                 RepairProductCommand.RaiseCanExecuteChanged();
-                TakeProductFromRepairerCommand.RaiseCanExecuteChanged();
+                RepairedProductCommand.RaiseCanExecuteChanged();
+                OnAirProductCommand.RaiseCanExecuteChanged();
+                FromAirCommand.RaiseCanExecuteChanged();
             }
         }
+
+        #region Delegate commands
 
         private DelegateCommand _closeAddDialogCommand;
 
@@ -58,6 +74,42 @@ namespace Bro.ViewModels.ProductsViewModels
             }
         }
 
+        private DelegateCommand _closeSellDialogCommand;
+
+        public DelegateCommand CloseSellDialogCommand
+        {
+            get { return _closeSellDialogCommand; }
+            set
+            {
+                _closeSellDialogCommand = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private DelegateCommand _closeRepairDialogCommand;
+
+        public DelegateCommand CloseRepairDialogCommand
+        {
+            get { return _closeRepairDialogCommand; }
+            set
+            {
+                _closeRepairDialogCommand = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private DelegateCommand _closeRepairedDialogCommand;
+
+        public DelegateCommand CloseRepairedDialogCommand
+        {
+            get { return _closeRepairedDialogCommand; }
+            set
+            {
+                _closeRepairedDialogCommand = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private AddOnStockProductDialogViewModel _addDialogViewModel;
 
         public AddOnStockProductDialogViewModel AddDialogViewModel
@@ -66,6 +118,42 @@ namespace Bro.ViewModels.ProductsViewModels
             set
             {
                 _addDialogViewModel = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private SellOnStockProductDialogViewModel _sellDialogViewModel;
+
+        public SellOnStockProductDialogViewModel SellDialogViewModel
+        {
+            get { return _sellDialogViewModel; }
+            set
+            {
+                _sellDialogViewModel = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private RepairOnStockProductDialogViewModel _repairDialogViewModel;
+
+        public RepairOnStockProductDialogViewModel RepairDialogViewModel
+        {
+            get { return _repairDialogViewModel; }
+            set
+            {
+                _repairDialogViewModel = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private RepairedOnStockProductDialogViewModel _repairedDialogViewModel;
+
+        public RepairedOnStockProductDialogViewModel RepairedDialogViewModel
+        {
+            get { return _repairedDialogViewModel; }
+            set
+            {
+                _repairedDialogViewModel = value;
                 NotifyPropertyChanged();
             }
         }
@@ -130,21 +218,43 @@ namespace Bro.ViewModels.ProductsViewModels
             }
         }
 
-        private DelegateCommand _takeProductFromRepairerCommand;
+        private DelegateCommand _repairedProductCommand;
 
-        public DelegateCommand TakeProductFromRepairerCommand
+        public DelegateCommand RepairedProductCommand
         {
-            get { return _takeProductFromRepairerCommand; }
+            get { return _repairedProductCommand; }
             set
             {
-                _takeProductFromRepairerCommand = value;
+                _repairedProductCommand = value;
                 NotifyPropertyChanged();
             }
         }
 
-        /// <summary>
-        /// Create new transaction with TransactionType "Bought" and add it
-        /// </summary>
+        private DelegateCommand _onAirProductCommand;
+
+        public DelegateCommand OnAirProductCommand
+        {
+            get { return _onAirProductCommand; }
+            set
+            {
+                _onAirProductCommand = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private DelegateCommand _fromAirCommand;
+
+        public DelegateCommand FromAirCommand
+        {
+            get { return _fromAirCommand; }
+            set
+            {
+                _fromAirCommand = value;
+                NotifyPropertyChanged();
+            }
+        }
+        #endregion
+
         public void AddProduct()
         {
             AddDialogViewModel = new AddOnStockProductDialogViewModel(_mainViewModel);
@@ -152,28 +262,7 @@ namespace Bro.ViewModels.ProductsViewModels
 
         public void SellProduct()
         {
-            //try
-            //{
-            //    var transaction = new Transaction
-            //    {
-            //        TypeID = (int) TranType.Sold,
-            //        OperatorID = 1,
-            //        ProductID = SelectedProduct.ID,
-            //        Price = 500,
-            //        Date = DateTime.Now,
-            //    };
-
-            //    Context.Transactions.Add(transaction);
-            //    Context.SaveChanges();
-
-            //    MessageBox.Show("Product sold");
-            //}
-            //catch (Exception e)
-            //{
-            //    // TODO: Log exception
-            //    MessageBox.Show(string.Format("Failed to sell product: {0}", e.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            //}
-            MessageBox.Show("Selected product was sold!");
+            SellDialogViewModel = new SellOnStockProductDialogViewModel(_mainViewModel);
         }
 
         /// <summary>
@@ -181,7 +270,26 @@ namespace Bro.ViewModels.ProductsViewModels
         /// </summary>
         public void DeleteProduct()
         {
-            MessageBox.Show("Selected product was deleted!");
+            MessageBoxResult answer = MessageBox.Show("Удалить выбранный товар?", "Question", MessageBoxButton.YesNo);
+
+            if (answer != MessageBoxResult.Yes) return;
+
+            var transactionsToDelete =
+                _mainViewModel.Context.Transactions.Where(x => x.ProductID == SelectedProduct.ID).ToList();
+
+            foreach (var transaction in transactionsToDelete)
+            {
+                _mainViewModel.Context.Transactions.Remove(transaction);
+            }
+
+            var productToDelete = _mainViewModel.Context.Products.ToList()
+                .LastOrDefault(x => x.ID == SelectedProduct.ID);
+
+            _mainViewModel.Context.Products.Remove(productToDelete);
+
+            _mainViewModel.Context.SaveChanges();
+
+            MessageBox.Show("Товар удален", "Confirmation", MessageBoxButton.OK);
         }
 
         /// <summary>
@@ -192,20 +300,61 @@ namespace Bro.ViewModels.ProductsViewModels
             MessageBox.Show("Selected product was edited!");
         }
 
-        /// <summary>
-        /// Add new transaction with SelectedProduct and TypeID "OnRepair"
-        /// </summary>
         public void RepairProduct()
         {
-            MessageBox.Show("Selected product was given to Repairer!");
+            RepairDialogViewModel = new RepairOnStockProductDialogViewModel(_mainViewModel);
         }
 
         /// <summary>
         /// Add new transaction with SelectedProduct and TypeID "Repaired"
         /// </summary>
-        public void TakeProductFromRepairer()
+        public void RepairedProduct()
         {
-            MessageBox.Show("Selected product was taken from Repairer!");
+            RepairedDialogViewModel = new RepairedOnStockProductDialogViewModel(_mainViewModel);
+        }
+
+        private void OnAirProduct()
+        {
+            //TODO change operatorID
+            Transaction transaction = new Transaction {ProductID = SelectedProduct.ID, Date = DateTime.Now, TypeID = (int) TranType.OnAir, OperatorID = 1};
+
+            try
+            {
+                _mainViewModel.Context.Transactions.Add(transaction);
+                _mainViewModel.Context.SaveChanges();
+
+                MessageBox.Show(("Товар передан на выносную торговлю"), "Success", MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(("Не удалось перевести товар на выносную"), "Error",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+
+                Logging.WriteToLog("Failed add new  onAir transaction" + e.Message);
+            }
+        }
+
+        private void FromAirProduct()
+        {
+            //TODO change operatorID
+            Transaction transaction = new Transaction{ProductID = SelectedProduct.ID, Date = DateTime.Now, TypeID = (int) TranType.Bought, OperatorID = 1, Price = 0};
+
+            try
+            {
+                _mainViewModel.Context.Transactions.Add(transaction);
+                _mainViewModel.Context.SaveChanges();
+
+                MessageBox.Show(("Товар переведен на приход"), "Success", MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(("Не удалось забрать товар с выносной"), "Error",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+
+                Logging.WriteToLog("Failed add new  onAir -> Bought transaction" + e.Message);
+            }
         }
 
         protected override List<ProductViewModel> GetProducts(Context context)

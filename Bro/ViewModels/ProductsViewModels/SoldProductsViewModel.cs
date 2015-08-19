@@ -50,6 +50,8 @@ namespace Bro.ViewModels
         /// </summary>
         public void DeleteProduct()
         {
+            Logging.WriteToLog("test");
+
             MessageBox.Show("Selected product was deleted!");
         }
 

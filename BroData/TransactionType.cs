@@ -18,7 +18,8 @@ namespace BroData
         Repaired = 6,
         ToPawn = 8,
         Cashin = 9,
-        Cashout = 10
+        Cashout = 10,
+        OnAir = 11
     }
 
     [Table("TransactionType")]

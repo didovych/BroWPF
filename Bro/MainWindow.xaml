@@ -2,10 +2,13 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:dialogControl="clr-namespace:DialogControl;assembly=DialogControl"
-        Title="MainWindow" Height="350" Width="700" DataContext="{StaticResource MainViewModel}">
+        Title="MainWindow" Height="350" Width="800" DataContext="{StaticResource MainViewModel}">
     <Grid>
         <StackPanel>
             <dialogControl:Dialog Content="{Binding Path=OnStockProductsViewModel.AddDialogViewModel}" Title="Add product" CancelCommand="{Binding OnStockProductsViewModel.CloseAddDialogCommand}"/>
+            <dialogControl:Dialog Content="{Binding Path=OnStockProductsViewModel.SellDialogViewModel}" Title="Sell product" CancelCommand="{Binding OnStockProductsViewModel.CloseSellDialogCommand}"/>
+            <dialogControl:Dialog Content="{Binding Path=OnStockProductsViewModel.RepairDialogViewModel}" Title="Repair product" CancelCommand="{Binding OnStockProductsViewModel.CloseRepairDialogCommand}"/>
+            <dialogControl:Dialog Content="{Binding Path=OnStockProductsViewModel.RepairedDialogViewModel}" Title="Repaired product" CancelCommand="{Binding OnStockProductsViewModel.CloseRepairedDialogCommand}"/>
         </StackPanel>
         <TabControl>
             <TabItem Header="Products">
@@ -62,12 +65,14 @@
                                 <Button Width="70" Height="30" Margin="20,0,0,0" Content="Edit" Command="{Binding OnStockProductsViewModel.EditProductCommand}"/>
                                 <Button Width="70" Height="30" Margin="20,0,0,0" Content="Delete" Command="{Binding OnStockProductsViewModel.DeleteProductCommand}"/>
                                 <Button Width="70" Height="30" Margin="20,0,0,0" Content="Repair" Command="{Binding OnStockProductsViewModel.RepairProductCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Сделанно" Command="{Binding OnStockProductsViewModel.TakeProductFromRepairerCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Сделанно" Command="{Binding OnStockProductsViewModel.RepairedProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="On air" Command="{Binding OnStockProductsViewModel.OnAirProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="From air" Command="{Binding OnStockProductsViewModel.FromAirCommand}"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>
 
-                    <TabItem Header="To repair">
+                    <TabItem Header="To repair" Height="22" VerticalAlignment="Top">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
@@ -98,7 +103,7 @@
                         </Grid>
                     </TabItem>
 
-                    <TabItem Header="To pawn">
+                    <TabItem Header="To pawn" Height="24" VerticalAlignment="Top">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
@@ -129,7 +134,7 @@
                     </TabItem>
                 </TabControl>
             </TabItem>
-            <TabItem Header="Contragents">
+            <TabItem Header="Contragents" Margin="-2,-2,-2,2">
                 <TabControl>
                     <TabItem Header="Salesmen">
                         <Grid>

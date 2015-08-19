@@ -31,7 +31,7 @@
         <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Notes}"/>
         <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Price}"/>
         
-        <Button Grid.Row="5" Grid.Column="0" Content="Ok" IsDefault="True" Command="{Binding AddProductCommand}"/>
+        <Button Grid.Row="5" Grid.Column="0" Content="Ok"  Command="{Binding AddProductCommand}"/>
         <Button Grid.Row="5" Grid.Column="1" Content="Cancel" IsCancel="True"/>
     </Grid>
 </UserControl>

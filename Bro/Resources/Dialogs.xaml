@@ -14,4 +14,13 @@
     <DataTemplate DataType="{x:Type dialogs:AddOnStockProductDialogViewModel}">
         <dialogs1:AddOnStockProductDialog/>
     </DataTemplate>
+    <DataTemplate DataType="{x:Type dialogs:RepairOnStockProductDialogViewModel}">
+        <dialogs1:RepairOnStockProductDialog/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type dialogs:RepairedOnStockProductDialogViewModel}">
+        <dialogs1:RepairedOnStockProductDialog/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type dialogs:SellOnStockProductDialogViewModel}">
+        <dialogs1:SellOnStockProductDialog/>
+    </DataTemplate>
 </ResourceDictionary>

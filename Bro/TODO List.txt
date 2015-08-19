@@ -1,0 +1,2 @@
+﻿1. Add "onAir" transaction type
+2. Add "phone deposits"

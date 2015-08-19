@@ -22,8 +22,6 @@ namespace Bro.ViewModels.Dialogs
             SelectedCategory = Categories.FirstOrDefault();
             if (SelectedCategory != null) 
                 Models = SelectedCategory.Models.Select(x => x.Name).ToList();
-
-            
         }
 
         private readonly MainViewModel _mainViewModel;
@@ -39,6 +37,7 @@ namespace Bro.ViewModels.Dialogs
             {
                 _serialNumber = value;
                 NotifyPropertyChanged();
+                AddProductCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -64,6 +63,7 @@ namespace Bro.ViewModels.Dialogs
             {
                 _notes = value;
                 NotifyPropertyChanged();
+                AddProductCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -76,7 +76,10 @@ namespace Bro.ViewModels.Dialogs
             {
                 _price = value;
                 NotifyPropertyChanged();
-                AddProductCommand.RaiseCanExecuteChanged();
+                if (value < 0)
+                    MessageBox.Show(("Цена меньше нуля"), "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                if (value == 0)
+                    MessageBox.Show(("Цена равна нулю"), "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -120,45 +123,86 @@ namespace Bro.ViewModels.Dialogs
 
         private bool Validate()
         {
-            // TODO add validation here
-
             if (string.IsNullOrEmpty(ModelName)) return false;
+            if (ModelName.Length > 50)
+            {
+                MessageBox.Show(("Название модели не может быть длинее 50 символов"), "Error", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return false;
+            }
+            if (Notes != null && Notes.Length > 50)
+            {
+                MessageBox.Show(("Примечание не может быть длинее 50 символов"), "Error", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return false;
+            }
+            if (SerialNumber != null && SerialNumber.Length > 50)
+            {
+                MessageBox.Show(("Серийный номер не может быть длинее 50 символов"), "Error", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return false;
+            }
 
             return true;
         }
 
         private void AddProduct()
         {
-            // TODO add logic here
-
             ModelName = Trim(ModelName);
             SerialNumber = Trim(SerialNumber);
             Notes = Trim(Notes);
-
+            
             Product product = new Product {SerialNumber = SerialNumber, Notes = Notes};
 
             if (Models.Contains(ModelName)) product.ModelID = GetModelIDByName(ModelName);
-            else
+
+            if (!Models.Contains(ModelName) || product.ModelID == -1)
             {
                 Model model = new Model{Name = ModelName, CategoryID = SelectedCategory.ID};
 
                 try
                 {
                     _mainViewModel.Context.Models.Add(model);
-                    _mainViewModel.Context.SaveChanges();
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show("Failed " + e.Message);
+                    MessageBox.Show(("Не удалось добавить новую модель"), "Error",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+
+                    Logging.WriteToLog("Failed add new model" + e.Message);
                 }
                 
-
                 product.ModelID = model.ID;
             }
 
-            //TODO finish this mothod
+            try
+            {
+                _mainViewModel.Context.Products.Add(product);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(("Не удалось добавить новый товар"), "Error",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
 
-            MessageBox.Show(product.ModelID + "");
+                Logging.WriteToLog("Failed add new  onStock product" + e.Message);
+            }
+
+            // TODO fix operatorID
+
+            Transaction transaction = new Transaction {ProductID = product.ID, Date = DateTime.Now, TypeID = (int) TranType.Bought, OperatorID = 1, Price = Price};
+
+            try
+            {
+                _mainViewModel.Context.Transactions.Add(transaction);
+                _mainViewModel.Context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(("Не удалось добавить новый товар"), "Error",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+
+                Logging.WriteToLog("Failed add new  bought transaction" + e.Message);
+            }
 
             _mainViewModel.OnStockProductsViewModel.AddDialogViewModel = null;
         }

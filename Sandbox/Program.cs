@@ -14,17 +14,14 @@ namespace Sandbox
         {
             using (var context = new Context())
             {
-                var trans = context.Transactions.Where(
-                    x => x.TransactionType.ID == (int) TranType.Cashin || x.TransactionType.ID == (int) TranType.Cashout)
-                    .ToList()
-                    .Select(x => new CashTransactionViewModel(x)).ToList();
+                int? lastRepairerID = null;
+                lastRepairerID =
+                context.Transactions.OrderBy(x => x.Date).ToList().LastOrDefault(x => x.ProductID == 15 && x.TypeID == (int)TranType.OnRepair).ContragentID;
 
-                Console.WriteLine(trans.Count);
+                Console.WriteLine(lastRepairerID);
 
                 Console.ReadLine();
             }
-
-            Console.WriteLine();
         }
     }
 }
