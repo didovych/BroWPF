@@ -85,6 +85,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -106,6 +107,21 @@
     <Compile Include="Controls\Dialogs\AddOnStockProductDialog.xaml.cs">
       <DependentUpon>AddOnStockProductDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Dialogs\AddRepairerDialog.xaml.cs">
+      <DependentUpon>AddRepairerDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\AddSalesmanDialog.xaml.cs">
+      <DependentUpon>AddSalesmanDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\EditClientDialog.xaml.cs">
+      <DependentUpon>EditClientDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\EditRepairerDialog.xaml.cs">
+      <DependentUpon>EditRepairerDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\EditSalesmanDialog.xaml.cs">
+      <DependentUpon>EditSalesmanDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Dialogs\RepairedOnStockProductDialog.xaml.cs">
       <DependentUpon>RepairedOnStockProductDialog.xaml</DependentUpon>
     </Compile>
@@ -122,6 +138,11 @@
     <Compile Include="ViewModels\ContragentsViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\ContragentsViewModels\ContragentsViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\AddOnStockProductDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\AddRepairerDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\AddSalesmanDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\EditClientDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\EditRepairerDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\EditSalesmanDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\RepairedOnStockProductDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\RepairOnStockProductDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\SellOnStockProductDialogViewModel.cs" />
@@ -143,6 +164,26 @@
     <Compile Include="ViewModels\ProductsViewModels\ToRepairProductViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Page Include="Controls\Dialogs\AddOnStockProductDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\AddRepairerDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\AddSalesmanDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\EditClientDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\EditRepairerDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\EditSalesmanDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

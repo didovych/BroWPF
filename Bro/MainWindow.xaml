@@ -9,6 +9,12 @@
             <dialogControl:Dialog Content="{Binding Path=OnStockProductsViewModel.SellDialogViewModel}" Title="Sell product" CancelCommand="{Binding OnStockProductsViewModel.CloseSellDialogCommand}"/>
             <dialogControl:Dialog Content="{Binding Path=OnStockProductsViewModel.RepairDialogViewModel}" Title="Repair product" CancelCommand="{Binding OnStockProductsViewModel.CloseRepairDialogCommand}"/>
             <dialogControl:Dialog Content="{Binding Path=OnStockProductsViewModel.RepairedDialogViewModel}" Title="Repaired product" CancelCommand="{Binding OnStockProductsViewModel.CloseRepairedDialogCommand}"/>
+
+            <dialogControl:Dialog Content="{Binding Path=SalesmenViewModel.AddSalesmanDialogViewModel}" Title="Add salesman" CancelCommand="{Binding SalesmenViewModel.CloseAddSalesmanDialogCommand}"/>
+            <dialogControl:Dialog Content="{Binding Path=RepairersViewModel.AddRepairerDialogViewModel}" Title="Add repairer" CancelCommand="{Binding RepairersViewModel.CloseAddRepairerDialogCommand}"/>
+            <dialogControl:Dialog Content="{Binding Path=SalesmenViewModel.EditSalesmanDialogViewModel}" Title="Edit salesman" CancelCommand="{Binding SalesmenViewModel.CloseEditSalesmanDialogCommand}"/>
+            <dialogControl:Dialog Content="{Binding Path=RepairersViewModel.EditRepairerDialogViewModel}" Title="Edit repairer" CancelCommand="{Binding RepairersViewModel.CloseEditRepairerDialogCommand}"/>
+            <dialogControl:Dialog Content="{Binding Path=ClientsViewModel.EditClientDialogViewModel}" Title="Edit client" CancelCommand="{Binding ClientsViewModel.CloseEditClientDialogCommand}"/>
         </StackPanel>
         <TabControl>
             <TabItem Header="Products">
@@ -39,7 +45,7 @@
                         </Grid>
                     </TabItem>
 
-                    <TabItem Header="On stock" Height="20" VerticalAlignment="Bottom">
+                    <TabItem Header="On stock">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
@@ -72,7 +78,7 @@
                         </Grid>
                     </TabItem>
 
-                    <TabItem Header="To repair" Height="22" VerticalAlignment="Top">
+                    <TabItem Header="To repair">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
@@ -103,7 +109,7 @@
                         </Grid>
                     </TabItem>
 
-                    <TabItem Header="To pawn" Height="24" VerticalAlignment="Top">
+                    <TabItem Header="To pawn">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
@@ -142,7 +148,7 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="50"/>
                             </Grid.RowDefinitions>
-                            <DataGrid ItemsSource="{Binding SalesmenViewModel.ContragentsView}" SelectedItem="{Binding SalesmenViewModel.SelectedContragent, Mode=TwoWay}" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False">
+                            <DataGrid ItemsSource="{Binding SalesmenViewModel.ContragentsView}" SelectedItem="{Binding SalesmenViewModel.SelectedContragent}" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Binding="{Binding FirstName}" Header="First name" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding LastName}" Header="Last name" IsReadOnly="True"/>
@@ -169,12 +175,10 @@
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Binding="{Binding FirstName}" Header="First name" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding LastName}" Header="Last name" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding Passport}" Header="Passport" IsReadOnly="True"/>
                                 </DataGrid.Columns>
                             </DataGrid>
 
                             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2">
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Add" Command="{Binding ClientsViewModel.AddContragentCommand}"/>
                                 <Button Width="70" Height="30" Margin="20,0,0,0" Content="Edit" Command="{Binding ClientsViewModel.EditContragentCommand}"/>
                                 <Button Width="70" Height="30" Margin="20,0,0,0" Content="Delete" Command="{Binding ClientsViewModel.DeleteContragentCommand}"/>
                             </StackPanel>

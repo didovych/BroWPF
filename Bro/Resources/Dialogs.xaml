@@ -23,4 +23,19 @@
     <DataTemplate DataType="{x:Type dialogs:SellOnStockProductDialogViewModel}">
         <dialogs1:SellOnStockProductDialog/>
     </DataTemplate>
+    <DataTemplate DataType="{x:Type dialogs:AddSalesmanDialogViewModel}">
+        <dialogs1:AddSalesmanDialog/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type dialogs:AddRepairerDialogViewModel}">
+        <dialogs1:AddRepairerDialog/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type dialogs:EditSalesmanDialogViewModel}">
+        <dialogs1:EditSalesmanDialog/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type dialogs:EditRepairerDialogViewModel}">
+        <dialogs1:EditRepairerDialog/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type dialogs:EditClientDialogViewModel}">
+        <dialogs1:EditClientDialog/>
+    </DataTemplate>
 </ResourceDictionary>

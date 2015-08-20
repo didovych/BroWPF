@@ -28,32 +28,13 @@ namespace Bro.ViewModels
             set
             {
                 _selectedProduct = value;
+                SelectedProductID = value.ID;
                 NotifyPropertyChanged();
                 DeleteProductCommand.RaiseCanExecuteChanged();
             }
         }
 
-        private DelegateCommand _deleteProductCommand;
-
-        public DelegateCommand DeleteProductCommand
-        {
-            get { return _deleteProductCommand; }
-            set
-            {
-                _deleteProductCommand = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Find all transactions with SelectedProduct and delete all of them
-        /// </summary>
-        public void DeleteProduct()
-        {
-            Logging.WriteToLog("test");
-
-            MessageBox.Show("Selected product was deleted!");
-        }
+        protected override int SelectedProductID { get; set; }
 
         protected override List<ProductViewModel> GetProducts(Context context)
         {

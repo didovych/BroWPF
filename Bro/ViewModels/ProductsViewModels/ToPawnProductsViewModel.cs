@@ -28,6 +28,7 @@ namespace Bro.ViewModels.ProductsViewModels
             set
             {
                 _selectedProduct = value;
+                SelectedProductID = value.ID;
                 NotifyPropertyChanged();
                 SellProductCommand.RaiseCanExecuteChanged();
                 EditProductCommand.RaiseCanExecuteChanged();
@@ -35,6 +36,8 @@ namespace Bro.ViewModels.ProductsViewModels
                 SendToOnStockProductCommand.RaiseCanExecuteChanged();
             }
         }
+
+        protected override int SelectedProductID { get; set; }
 
         private DelegateCommand _addProductCommand;
 
@@ -72,18 +75,6 @@ namespace Bro.ViewModels.ProductsViewModels
             }
         }
 
-        private DelegateCommand _deleteProductCommand;
-
-        public DelegateCommand DeleteProductCommand
-        {
-            get { return _deleteProductCommand; }
-            set
-            {
-                _deleteProductCommand = value;
-                NotifyPropertyChanged();
-            }
-        }
-
         private DelegateCommand _sendToOnStockProductCommand;
 
         public DelegateCommand SendToOnStockProductCommand
@@ -107,14 +98,6 @@ namespace Bro.ViewModels.ProductsViewModels
         public void SellProduct()
         {
             MessageBox.Show("Selected product was sold!");
-        }
-
-        /// <summary>
-        /// Find all transactions with SelectedProduct and delete all of them
-        /// </summary>
-        public void DeleteProduct()
-        {
-            MessageBox.Show("Selected product was deleted!");
         }
 
         /// <summary>

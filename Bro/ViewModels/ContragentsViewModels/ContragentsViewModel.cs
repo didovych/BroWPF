@@ -16,13 +16,19 @@ namespace Bro.ViewModels
     {
         protected ContragentsViewModel(Context context)
         {
+            _context = context;
+
             Contragents = new ObservableCollection<ContragentViewModel>(GetContragents(context));
             ContragentsView = CollectionViewSource.GetDefaultView(Contragents);
 
-            DeleteContragentCommand = new DelegateCommand(DeleteContragent, () => SelectedContragent != null);
             AddContragentCommand = new DelegateCommand(AddContragent);
+
+            DeleteContragentCommand = new DelegateCommand(DeleteContragent, () => SelectedContragent != null);
+            
             EditContragentCommand = new DelegateCommand(EditContragent, () => SelectedContragent != null);
         }
+
+        private readonly Context _context;
 
         private ContragentViewModel _selectedContragent;
 
@@ -34,11 +40,11 @@ namespace Bro.ViewModels
                 _selectedContragent = value;
                 NotifyPropertyChanged();
                 DeleteContragentCommand.RaiseCanExecuteChanged();
-                AddContragentCommand.RaiseCanExecuteChanged();
                 EditContragentCommand.RaiseCanExecuteChanged();
             }
         }
 
+        #region Delegate commands
         private DelegateCommand _deleteContragentCommand;
 
         public DelegateCommand DeleteContragentCommand
@@ -75,6 +81,8 @@ namespace Bro.ViewModels
             }
         }
 
+        #endregion
+
         private ObservableCollection<ContragentViewModel> _contragents;
 
         public ObservableCollection<ContragentViewModel> Contragents
@@ -104,7 +112,31 @@ namespace Bro.ViewModels
         /// </summary>
         public void DeleteContragent()
         {
-            MessageBox.Show(String.Format("Contragent {0} was deleted", SelectedContragent.ID));
+            MessageBoxResult answer = MessageBox.Show("Удалить выбранного контрагента?", "Question", MessageBoxButton.YesNo);
+
+            if (answer != MessageBoxResult.Yes) return;
+
+            var contragentToDelete = _context.Contragents.ToList()
+                .LastOrDefault(x => x.ID == SelectedContragent.ID);
+
+            if (contragentToDelete.ContragentTransactions.Any()  || contragentToDelete.OperatorTransactions.Any())
+            {
+                MessageBox.Show("Нельзя удалить контрагента, у которого есть транзакции", "Error", MessageBoxButton.OK);
+                return;
+            }
+
+            try
+            {
+                _context.Contragents.Remove(contragentToDelete);
+                _context.SaveChanges();
+
+                MessageBox.Show("Контрагент удалён.", "Confirmation", MessageBoxButton.OK);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Не удалось удалить контрагента", "Error", MessageBoxButton.OK);
+                Logging.WriteToLog("Failed to remove contagent. " + e.Message);
+            }
         }
 
         protected abstract void AddContragent();

@@ -1,2 +1,5 @@
-﻿1. Add "onAir" transaction type
-2. Add "phone deposits"
+﻿2. Add "phone deposits"
+
+Client passport delete
+
+dont ask repeirer

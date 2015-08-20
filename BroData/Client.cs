@@ -11,9 +11,6 @@ namespace BroData
     {
         public int ID { get; set; }
 
-        [StringLength(250)]
-        public string Passport { get; set; }
-
         public virtual Contragent Contragent { get; set; }
     }
 }

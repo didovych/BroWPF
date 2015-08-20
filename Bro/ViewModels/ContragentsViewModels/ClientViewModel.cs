@@ -11,19 +11,7 @@ namespace Bro.ViewModels
     {
         public ClientViewModel(Client client) : base(client.Contragent)
         {
-            Passport = client.Passport;
         }
 
-        private string _passport;
-
-        public string Passport
-        {
-            get { return _passport; }
-            set
-            {
-                _passport = value;
-                NotifyPropertyChanged();
-            }
-        }
     }
 }

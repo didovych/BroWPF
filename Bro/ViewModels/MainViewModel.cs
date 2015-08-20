@@ -22,9 +22,9 @@ namespace Bro.ViewModels
             ToRepairProductsViewModel = new ToRepairProductsViewModel(_context);
             ToPawnProductsViewModel = new ToPawnProductsViewModel(_context);
 
-            SalesmenViewModel = new SalesmenViewModel(_context);
-            ClientsViewModel = new ClientsViewModel(_context);
-            RepairersViewModel = new RepairersViewModel(_context);
+            SalesmenViewModel = new SalesmenViewModel(this);
+            ClientsViewModel = new ClientsViewModel(this);
+            RepairersViewModel = new RepairersViewModel(this);
 
             CashTransactionsViewModel = new CashTransactionsViewModel(_context);
         }

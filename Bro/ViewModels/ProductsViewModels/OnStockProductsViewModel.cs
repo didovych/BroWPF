@@ -33,13 +33,16 @@ namespace Bro.ViewModels.ProductsViewModels
             CloseRepairedDialogCommand = new DelegateCommand(() => RepairedDialogViewModel = null);
             
             EditProductCommand = new DelegateCommand(EditProduct, () => SelectedProduct != null);
-            
+
             DeleteProductCommand = new DelegateCommand(DeleteProduct, () => SelectedProduct != null);
+            
             OnAirProductCommand = new DelegateCommand(OnAirProduct, () => SelectedProduct != null && (SelectedProduct.Status == TranType.Bought || SelectedProduct.Status == TranType.Repaired));
             FromAirCommand = new DelegateCommand(FromAirProduct, () => SelectedProduct != null && SelectedProduct.Status == TranType.OnAir);
         }
 
         private readonly MainViewModel _mainViewModel;
+
+        protected override int SelectedProductID { get; set; }
 
         private OnStockProductViewModel _selectedProduct;
 
@@ -50,6 +53,7 @@ namespace Bro.ViewModels.ProductsViewModels
             {
                 _selectedProduct = value;
                 NotifyPropertyChanged();
+                SelectedProductID = value.ID;
                 SellProductCommand.RaiseCanExecuteChanged();
                 EditProductCommand.RaiseCanExecuteChanged();
                 DeleteProductCommand.RaiseCanExecuteChanged();
@@ -110,53 +114,7 @@ namespace Bro.ViewModels.ProductsViewModels
             }
         }
 
-        private AddOnStockProductDialogViewModel _addDialogViewModel;
 
-        public AddOnStockProductDialogViewModel AddDialogViewModel
-        {
-            get { return _addDialogViewModel; }
-            set
-            {
-                _addDialogViewModel = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private SellOnStockProductDialogViewModel _sellDialogViewModel;
-
-        public SellOnStockProductDialogViewModel SellDialogViewModel
-        {
-            get { return _sellDialogViewModel; }
-            set
-            {
-                _sellDialogViewModel = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private RepairOnStockProductDialogViewModel _repairDialogViewModel;
-
-        public RepairOnStockProductDialogViewModel RepairDialogViewModel
-        {
-            get { return _repairDialogViewModel; }
-            set
-            {
-                _repairDialogViewModel = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private RepairedOnStockProductDialogViewModel _repairedDialogViewModel;
-
-        public RepairedOnStockProductDialogViewModel RepairedDialogViewModel
-        {
-            get { return _repairedDialogViewModel; }
-            set
-            {
-                _repairedDialogViewModel = value;
-                NotifyPropertyChanged();
-            }
-        }
 
         private DelegateCommand _addProductCommand;
 
@@ -190,18 +148,6 @@ namespace Bro.ViewModels.ProductsViewModels
             set
             {
                 _editProductCommand = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private DelegateCommand _deleteProductCommand;
-
-        public DelegateCommand DeleteProductCommand
-        {
-            get { return _deleteProductCommand; }
-            set
-            {
-                _deleteProductCommand = value;
                 NotifyPropertyChanged();
             }
         }
@@ -255,6 +201,57 @@ namespace Bro.ViewModels.ProductsViewModels
         }
         #endregion
 
+        #region Dialog view models
+        private AddOnStockProductDialogViewModel _addDialogViewModel;
+
+        public AddOnStockProductDialogViewModel AddDialogViewModel
+        {
+            get { return _addDialogViewModel; }
+            set
+            {
+                _addDialogViewModel = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private SellOnStockProductDialogViewModel _sellDialogViewModel;
+
+        public SellOnStockProductDialogViewModel SellDialogViewModel
+        {
+            get { return _sellDialogViewModel; }
+            set
+            {
+                _sellDialogViewModel = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private RepairOnStockProductDialogViewModel _repairDialogViewModel;
+
+        public RepairOnStockProductDialogViewModel RepairDialogViewModel
+        {
+            get { return _repairDialogViewModel; }
+            set
+            {
+                _repairDialogViewModel = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private RepairedOnStockProductDialogViewModel _repairedDialogViewModel;
+
+        public RepairedOnStockProductDialogViewModel RepairedDialogViewModel
+        {
+            get { return _repairedDialogViewModel; }
+            set
+            {
+                _repairedDialogViewModel = value;
+                NotifyPropertyChanged();
+            }
+        }
+        #endregion
+
+        #region Methods
         public void AddProduct()
         {
             AddDialogViewModel = new AddOnStockProductDialogViewModel(_mainViewModel);
@@ -263,33 +260,6 @@ namespace Bro.ViewModels.ProductsViewModels
         public void SellProduct()
         {
             SellDialogViewModel = new SellOnStockProductDialogViewModel(_mainViewModel);
-        }
-
-        /// <summary>
-        /// Find all transactions with SelectedProduct and delete all of them
-        /// </summary>
-        public void DeleteProduct()
-        {
-            MessageBoxResult answer = MessageBox.Show("Удалить выбранный товар?", "Question", MessageBoxButton.YesNo);
-
-            if (answer != MessageBoxResult.Yes) return;
-
-            var transactionsToDelete =
-                _mainViewModel.Context.Transactions.Where(x => x.ProductID == SelectedProduct.ID).ToList();
-
-            foreach (var transaction in transactionsToDelete)
-            {
-                _mainViewModel.Context.Transactions.Remove(transaction);
-            }
-
-            var productToDelete = _mainViewModel.Context.Products.ToList()
-                .LastOrDefault(x => x.ID == SelectedProduct.ID);
-
-            _mainViewModel.Context.Products.Remove(productToDelete);
-
-            _mainViewModel.Context.SaveChanges();
-
-            MessageBox.Show("Товар удален", "Confirmation", MessageBoxButton.OK);
         }
 
         /// <summary>
@@ -356,6 +326,9 @@ namespace Bro.ViewModels.ProductsViewModels
                 Logging.WriteToLog("Failed add new  onAir -> Bought transaction" + e.Message);
             }
         }
+        #endregion
+
+        
 
         protected override List<ProductViewModel> GetProducts(Context context)
         {
