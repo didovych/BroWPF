@@ -93,6 +93,7 @@ namespace Bro.ViewModels.Dialogs
                 Logging.WriteToLog("Failed edit repairer" + e.Message);
             }
 
+            _mainViewModel.RepairersViewModel.Update();
             _mainViewModel.RepairersViewModel.EditRepairerDialogViewModel = null;
         }
 

@@ -15,7 +15,9 @@ namespace Bro.ViewModels
             Date = transaction.Date;
             CashTranType = (TranType) transaction.TransactionType.ID;
             Salesman = new SalesmanViewModel(transaction.Operator.Salesman);
+            if (transaction.Contragent != null) Contragent = new ContragentViewModel(transaction.Contragent);
             if (transaction.Price != null) Price = transaction.Price.Value;
+            Notes = transaction.Notes;
         }
 
         private int _id;
@@ -74,6 +76,30 @@ namespace Bro.ViewModels
             set
             {
                 _price = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _notes;
+
+        public string Notes
+        {
+            get { return _notes; }
+            set
+            {
+                _notes = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private ContragentViewModel _contragent;
+
+        public ContragentViewModel Contragent
+        {
+            get { return _contragent; }
+            set
+            {
+                _contragent = value;
                 NotifyPropertyChanged();
             }
         }

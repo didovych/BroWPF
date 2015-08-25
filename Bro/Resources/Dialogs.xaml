@@ -14,17 +14,36 @@
     <DataTemplate DataType="{x:Type dialogs:AddOnStockProductDialogViewModel}">
         <dialogs1:AddOnStockProductDialog/>
     </DataTemplate>
+    <DataTemplate DataType="{x:Type dialogs:AddToRepairProductDialogViewModel}">
+        <dialogs1:AddToRepairProductDialog/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type dialogs:EditProductDialogViewModel}">
+        <dialogs1:EditProductDialog/>
+    </DataTemplate>
     <DataTemplate DataType="{x:Type dialogs:RepairOnStockProductDialogViewModel}">
         <dialogs1:RepairOnStockProductDialog/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type dialogs:RepairToRepairProductDialogViewModel}">
+        <dialogs1:RepairToRepairProductDialog/>
     </DataTemplate>
     <DataTemplate DataType="{x:Type dialogs:RepairedOnStockProductDialogViewModel}">
         <dialogs1:RepairedOnStockProductDialog/>
     </DataTemplate>
-    <DataTemplate DataType="{x:Type dialogs:SellOnStockProductDialogViewModel}">
-        <dialogs1:SellOnStockProductDialog/>
+    <DataTemplate DataType="{x:Type dialogs:RepairedToRepairProductDialogViewModel}">
+        <dialogs1:RepairedToRepairProductDialog/>
     </DataTemplate>
+    <DataTemplate DataType="{x:Type dialogs:SellProductDialogViewModel}">
+        <dialogs1:SellProductDialog/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type dialogs:AddToPawnProductDialogViewModel}">
+        <dialogs1:AddToPawnProductDialog/>
+    </DataTemplate>
+    
     <DataTemplate DataType="{x:Type dialogs:AddSalesmanDialogViewModel}">
         <dialogs1:AddSalesmanDialog/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type dialogs:AddGuardDialogViewModel}">
+        <dialogs1:AddGuardDialog/>
     </DataTemplate>
     <DataTemplate DataType="{x:Type dialogs:AddRepairerDialogViewModel}">
         <dialogs1:AddRepairerDialog/>
@@ -35,7 +54,17 @@
     <DataTemplate DataType="{x:Type dialogs:EditRepairerDialogViewModel}">
         <dialogs1:EditRepairerDialog/>
     </DataTemplate>
+    <DataTemplate DataType="{x:Type dialogs:EditGuardDialogViewModel}">
+        <dialogs1:EditGuardDialog/>
+    </DataTemplate>
     <DataTemplate DataType="{x:Type dialogs:EditClientDialogViewModel}">
         <dialogs1:EditClientDialog/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type dialogs:AddCashDialogViewModel}">
+        <dialogs1:AddCashDialog/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type dialogs:PaySalaryDialogViewModel}">
+        <dialogs1:PaySalaryDialog/>
     </DataTemplate>
 </ResourceDictionary>

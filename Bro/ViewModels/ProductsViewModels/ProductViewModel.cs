@@ -11,11 +11,13 @@ namespace Bro.ViewModels
     {
         protected ProductViewModel(Product product)
         {
-            ID = product.ID;
+            IDs = new List<int>(product.ID);
             SerialNumber = product.SerialNumber;
             ModelName = product.Model.Name;
             CategoryName = product.Model.Category.Name;
             Notes = product.Notes;
+            SellingPrice = product.SellingPrice;
+            DateSellTo = product.DateSellTo;
 
             Origin = TranType.Zero;
             MoneySpentForProduct = 0;
@@ -35,14 +37,14 @@ namespace Bro.ViewModels
             Status = orderedTransactions.LastOrDefault() == null ? TranType.Zero : (TranType) orderedTransactions.LastOrDefault().TransactionType.ID;
         }
 
-        private int _id;
+        private List<int> _ids;
 
-        public int ID
+        public List<int> IDs
         {
-            get { return _id; }
+            get { return _ids; }
             set
             {
-                _id = value;
+                _ids = value;
                 NotifyPropertyChanged();
             }
         }
@@ -106,6 +108,30 @@ namespace Bro.ViewModels
             set
             {
                 _notes = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private decimal? _sellingPrice;
+
+        public decimal? SellingPrice
+        {
+            get { return _sellingPrice; }
+            set
+            {
+                _sellingPrice = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private DateTime? _dateSellTo;
+
+        public DateTime? DateSellTo
+        {
+            get { return _dateSellTo; }
+            set
+            {
+                _dateSellTo = value;
                 NotifyPropertyChanged();
             }
         }

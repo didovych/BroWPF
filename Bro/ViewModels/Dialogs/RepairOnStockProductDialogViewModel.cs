@@ -84,6 +84,8 @@ namespace Bro.ViewModels.Dialogs
                 Logging.WriteToLog("Failed to add to DB send OnStock product to repair" + exception.Message);
             }
 
+            _mainViewModel.OnStockProductsViewModel.Update();
+
             _mainViewModel.OnStockProductsViewModel.RepairDialogViewModel = null;
         }
 

@@ -121,6 +121,7 @@ namespace Bro.ViewModels.Dialogs
                 Logging.WriteToLog("Failed edit salesman" + e.Message);
             }
 
+            _mainViewModel.SalesmenViewModel.Update();
             _mainViewModel.SalesmenViewModel.EditSalesmanDialogViewModel = null;
         }
 

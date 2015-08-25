@@ -34,5 +34,7 @@ namespace BroData
         public virtual Repairer Repairer { get; set; }
 
         public virtual Salesman Salesman { get; set; }
+
+        public virtual Guard Guard { get; set; }
     }
 }

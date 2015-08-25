@@ -19,13 +19,13 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="First name"/>
-        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding FirstName}"/>
+        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"/>
         <Label Grid.Row="1" Grid.Column="0" Content="Last name"/>
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding LastName}"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"/>
         <Label Grid.Row="2" Grid.Column="0" Content="Profit percentage"/>
-        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ProfitPercentage}"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ProfitPercentage, UpdateSourceTrigger=PropertyChanged}"/>
         <Label Grid.Row="3" Grid.Column="0" Content="Salary per day"/>
-        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding SalaryPerDay}"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding SalaryPerDay, UpdateSourceTrigger=PropertyChanged}"/>
 
         <Button Grid.Row="4" Grid.Column="0" Content="Ok" Command="{Binding EditSalesmanCommand}"/>
         <Button Grid.Row="4" Grid.Column="1" Content="Cancel" IsCancel="True"/>

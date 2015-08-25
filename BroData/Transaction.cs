@@ -15,8 +15,6 @@ namespace BroData
 
         public DateTime Date { get; set; }
 
-        public DateTime? DateEnd { get; set; }
-
         public int TypeID { get; set; }
 
         public int? ContragentID { get; set; }
@@ -30,6 +28,9 @@ namespace BroData
         public virtual Contragent Operator { get; set; }
 
         public virtual Product Product { get; set; }
+
+        [StringLength(50)]
+        public string Notes { get; set; }
 
         public virtual TransactionType TransactionType { get; set; }
     }

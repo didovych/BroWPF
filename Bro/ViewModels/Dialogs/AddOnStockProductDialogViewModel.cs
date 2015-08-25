@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -83,6 +84,18 @@ namespace Bro.ViewModels.Dialogs
             }
         }
 
+        private decimal? _sellingPrice;
+
+        public decimal? SellingPrice
+        {
+            get { return _sellingPrice; }
+            set
+            {
+                _sellingPrice = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private List<Category> _categories;
 
         public List<Category> Categories
@@ -151,68 +164,54 @@ namespace Bro.ViewModels.Dialogs
             ModelName = Trim(ModelName);
             SerialNumber = Trim(SerialNumber);
             Notes = Trim(Notes);
-            
-            Product product = new Product {SerialNumber = SerialNumber, Notes = Notes};
 
-            if (Models.Contains(ModelName)) product.ModelID = GetModelIDByName(ModelName);
+            Product product = new Product {SerialNumber = SerialNumber, Notes = Notes, SellingPrice = SellingPrice};
 
-            if (!Models.Contains(ModelName) || product.ModelID == -1)
+            if (Models.Contains(ModelName)) product.Model = GetModelIDByName(ModelName);
+
+            if (!Models.Contains(ModelName) || product.Model == null)
             {
-                Model model = new Model{Name = ModelName, CategoryID = SelectedCategory.ID};
+                Model model = new Model {Name = ModelName, CategoryID = SelectedCategory.ID};
 
-                try
-                {
-                    _mainViewModel.Context.Models.Add(model);
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(("Не удалось добавить новую модель"), "Error",
-                        MessageBoxButton.OK, MessageBoxImage.Error);
+                _mainViewModel.Context.Models.Add(model);
 
-                    Logging.WriteToLog("Failed add new model" + e.Message);
-                }
-                
-                product.ModelID = model.ID;
+                product.Model = model;
             }
 
-            try
-            {
-                _mainViewModel.Context.Products.Add(product);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(("Не удалось добавить новый товар"), "Error",
-                        MessageBoxButton.OK, MessageBoxImage.Error);
-
-                Logging.WriteToLog("Failed add new  onStock product" + e.Message);
-            }
+            _mainViewModel.Context.Products.Add(product);
 
             // TODO fix operatorID
 
-            Transaction transaction = new Transaction {ProductID = product.ID, Date = DateTime.Now, TypeID = (int) TranType.Bought, OperatorID = 1, Price = Price};
+            Transaction transaction = new Transaction
+            {
+                Product = product,
+                Date = DateTime.Now,
+                TypeID = (int) TranType.Bought,
+                OperatorID = 1,
+                Price = Price
+            };
 
+            _mainViewModel.Context.Transactions.Add(transaction);
             try
             {
-                _mainViewModel.Context.Transactions.Add(transaction);
                 _mainViewModel.Context.SaveChanges();
             }
             catch (Exception e)
             {
                 MessageBox.Show(("Не удалось добавить новый товар"), "Error",
-                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBoxButton.OK, MessageBoxImage.Error);
 
-                Logging.WriteToLog("Failed add new  bought transaction" + e.Message);
+                Logging.WriteToLog("Failed add new bought transaction. " + e.Message);
             }
+
+            _mainViewModel.OnStockProductsViewModel.Update();
 
             _mainViewModel.OnStockProductsViewModel.AddDialogViewModel = null;
         }
 
-        private int GetModelIDByName(string modelName)
+        private Model GetModelIDByName(string modelName)
         {
-            var model = SelectedCategory.Models.Where(x => x.Name == modelName).ToList().FirstOrDefault();
-            if (model == null) return -1;
-
-            return model.ID;
+            return SelectedCategory.Models.FirstOrDefault(x => x.Name == modelName);
         }
 
         private string Trim(string s)

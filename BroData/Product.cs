@@ -24,6 +24,10 @@ namespace BroData
         [StringLength(50)]
         public string Notes { get; set; }
 
+        public decimal? SellingPrice { get; set; }
+
+        public DateTime? DateSellTo { get; set; }
+
         public virtual ICollection<Transaction> Transactions { get; set; }
 
         public virtual Model Model { get; set; }

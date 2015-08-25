@@ -6,15 +6,31 @@
     <Grid>
         <StackPanel>
             <dialogControl:Dialog Content="{Binding Path=OnStockProductsViewModel.AddDialogViewModel}" Title="Add product" CancelCommand="{Binding OnStockProductsViewModel.CloseAddDialogCommand}"/>
-            <dialogControl:Dialog Content="{Binding Path=OnStockProductsViewModel.SellDialogViewModel}" Title="Sell product" CancelCommand="{Binding OnStockProductsViewModel.CloseSellDialogCommand}"/>
+            <dialogControl:Dialog Content="{Binding Path=ToRepairProductsViewModel.AddDialogViewModel}" Title="Add product" CancelCommand="{Binding ToRepairProductsViewModel.CloseAddDialogCommand}"/>
             <dialogControl:Dialog Content="{Binding Path=OnStockProductsViewModel.RepairDialogViewModel}" Title="Repair product" CancelCommand="{Binding OnStockProductsViewModel.CloseRepairDialogCommand}"/>
+            <dialogControl:Dialog Content="{Binding Path=ToRepairProductsViewModel.RepairDialogViewModel}" Title="Repair product" CancelCommand="{Binding ToRepairProductsViewModel.CloseRepairDialogCommand}"/>
             <dialogControl:Dialog Content="{Binding Path=OnStockProductsViewModel.RepairedDialogViewModel}" Title="Repaired product" CancelCommand="{Binding OnStockProductsViewModel.CloseRepairedDialogCommand}"/>
+            <dialogControl:Dialog Content="{Binding Path=ToRepairProductsViewModel.RepairedDialogViewModel}" Title="Repaired product" CancelCommand="{Binding ToRepairProductsViewModel.CloseRepairedDialogCommand}"/>
+            <dialogControl:Dialog Content="{Binding Path=ToPawnProductsViewModel.AddProductDialogViewModel}" Title="Add product" CancelCommand="{Binding ToPawnProductsViewModel.CloseAddProductCommand}"/>
+            
+            <dialogControl:Dialog Content="{Binding Path=OnStockProductsViewModel.SellProductDialogViewModel}" Title="Sell product" CancelCommand="{Binding OnStockProductsViewModel.CloseSellProductDialog}"/>
+            <dialogControl:Dialog Content="{Binding Path=ToPawnProductsViewModel.SellProductDialogViewModel}" Title="Sell product" CancelCommand="{Binding ToPawnProductsViewModel.CloseSellProductDialog}"/>
+            <dialogControl:Dialog Content="{Binding Path=ToRepairProductsViewModel.SellProductDialogViewModel}" Title="Sell product" CancelCommand="{Binding ToRepairProductsViewModel.CloseSellProductDialog}"/>
+
+            <dialogControl:Dialog Content="{Binding Path=OnStockProductsViewModel.EditProductDialogViewModel}" Title="Edit product" CancelCommand="{Binding OnStockProductsViewModel.CloseEditProductDialogCommand}"/>
+            <dialogControl:Dialog Content="{Binding Path=ToPawnProductsViewModel.EditProductDialogViewModel}" Title="Edit product" CancelCommand="{Binding ToPawnProductsViewModel.CloseEditProductDialogCommand}"/>
+            <dialogControl:Dialog Content="{Binding Path=ToRepairProductsViewModel.EditProductDialogViewModel}" Title="Edit product" CancelCommand="{Binding ToRepairProductsViewModel.CloseEditProductDialogCommand}"/>
 
             <dialogControl:Dialog Content="{Binding Path=SalesmenViewModel.AddSalesmanDialogViewModel}" Title="Add salesman" CancelCommand="{Binding SalesmenViewModel.CloseAddSalesmanDialogCommand}"/>
+            <dialogControl:Dialog Content="{Binding Path=GuardsViewModel.AddGuardDialogViewModel}" Title="Add guard" CancelCommand="{Binding GuardsViewModel.CloseAddGuardDialogCommand}"/>
             <dialogControl:Dialog Content="{Binding Path=RepairersViewModel.AddRepairerDialogViewModel}" Title="Add repairer" CancelCommand="{Binding RepairersViewModel.CloseAddRepairerDialogCommand}"/>
             <dialogControl:Dialog Content="{Binding Path=SalesmenViewModel.EditSalesmanDialogViewModel}" Title="Edit salesman" CancelCommand="{Binding SalesmenViewModel.CloseEditSalesmanDialogCommand}"/>
+            <dialogControl:Dialog Content="{Binding Path=GuardsViewModel.EditGuardDialogViewModel}" Title="Edit guard" CancelCommand="{Binding GuardsViewModel.CloseEditGuardDialogCommand}"/>
             <dialogControl:Dialog Content="{Binding Path=RepairersViewModel.EditRepairerDialogViewModel}" Title="Edit repairer" CancelCommand="{Binding RepairersViewModel.CloseEditRepairerDialogCommand}"/>
             <dialogControl:Dialog Content="{Binding Path=ClientsViewModel.EditClientDialogViewModel}" Title="Edit client" CancelCommand="{Binding ClientsViewModel.CloseEditClientDialogCommand}"/>
+
+            <dialogControl:Dialog Content="{Binding Path=CashTransactionsViewModel.AddCashViewModel}" Title="Add cash" CancelCommand="{Binding CashTransactionsViewModel.CloseAddDialogCommand}"/>
+            <dialogControl:Dialog Content="{Binding Path=CashTransactionsViewModel.PaySalaryViewModel}" Title="Pay Salary" CancelCommand="{Binding CashTransactionsViewModel.ClosePaySalaryDialogCommand}"/>
         </StackPanel>
         <TabControl>
             <TabItem Header="Products">
@@ -48,24 +64,34 @@
                     <TabItem Header="On stock">
                         <Grid>
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="50"/>
                             </Grid.RowDefinitions>
 
-                            <DataGrid ItemsSource="{Binding OnStockProductsViewModel.ProductsView}" SelectedItem="{Binding OnStockProductsViewModel.SelectedProduct, Mode=TwoWay}" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Label Content="from"/>
+                                <DatePicker SelectedDate="{Binding OnStockProductsViewModel.FromDateFilter}" DisplayDateEnd="{Binding OnStockProductsViewModel.ThroughDateFilter}" />
+                                <Label Content="through"/>
+                                <DatePicker SelectedDate="{Binding OnStockProductsViewModel.ThroughDateFilter}" DisplayDateStart="{Binding OnStockProductsViewModel.FromDateFilter}"/>
+                                <Button Content="Filter" Command="{Binding OnStockProductsViewModel.FilterCommand}"/>
+                            </StackPanel>
+                            
+                            <DataGrid Grid.Row="1" ItemsSource="{Binding OnStockProductsViewModel.ProductsView}" SelectedItem="{Binding OnStockProductsViewModel.SelectedProduct, Mode=TwoWay}" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Binding="{Binding CategoryName}" Header="Category" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding ModelName}" Header="Model" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding SerialNumber}" Header="Serial number" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding DateBought}" Header="Date bought" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding SalesmanBought.FirstName}" Header="Salesman bought" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding MoneySpentForProduct}" Header="Price bought" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding MoneySpentForProduct}" Header="Price" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding SellingPrice}" Header="Selling price" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding Status}" Header="Status" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding Notes}" Header="Notes" IsReadOnly="True"/>
                                 </DataGrid.Columns>
                             </DataGrid>
 
-                            <StackPanel Orientation="Horizontal" Grid.Row="1">
+                            <StackPanel Orientation="Horizontal" Grid.Row="2">
                                 <Button Width="70" Height="30" Margin="20,0,0,0" Content="Add" Command="{Binding OnStockProductsViewModel.AddProductCommand}"/>
                                 <Button Width="70" Height="30" Margin="20,0,0,0" Content="Sell" Command="{Binding OnStockProductsViewModel.SellProductCommand}"/>
                                 <Button Width="70" Height="30" Margin="20,0,0,0" Content="Edit" Command="{Binding OnStockProductsViewModel.EditProductCommand}"/>
@@ -89,11 +115,11 @@
                                     <DataGridTextColumn Binding="{Binding CategoryName}" Header="Category" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding ModelName}" Header="Model" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding SerialNumber}" Header="Serial number" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding Client.FirstName}" Header="Client" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding LastTransactionDate}" Header="Last transaction date" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding LastTransactionSalesman.FirstName}" Header="Last transaction salesman" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding CurrentRepairer.FirstName}" Header="Current repairer" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding Status}" Header="Status" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding MoneySpentForProduct}" Header="Money spent" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding Notes}" Header="Notes" IsReadOnly="True"/>
                                 </DataGrid.Columns>
                             </DataGrid>
@@ -123,8 +149,9 @@
                                     <DataGridTextColumn Binding="{Binding Client.FirstName}" Header="Client" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding SalesmanTake.FirstName}" Header="Salesman take" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding DateTake}" Header="Date take" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding DateEnd}" Header="Date end" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding DateSellTo}" Header="Date end" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding MoneySpentForProduct}" Header="Price" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding SellingPrice}" Header="Sell to" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding Notes}" Header="Notes" IsReadOnly="True"/>
                                 </DataGrid.Columns>
                             </DataGrid>
@@ -205,6 +232,27 @@
                             </StackPanel>
                         </Grid>
                     </TabItem>
+
+                    <TabItem Header="Guards">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="50"/>
+                            </Grid.RowDefinitions>
+                            <DataGrid ItemsSource="{Binding GuardsViewModel.ContragentsView}" SelectedItem="{Binding GuardsViewModel.SelectedContragent, Mode=TwoWay}" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding FirstName}" Header="First name" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding LastName}" Header="Last name" IsReadOnly="True"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2">
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Add" Command="{Binding GuardsViewModel.AddContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Edit" Command="{Binding GuardsViewModel.EditContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Delete" Command="{Binding GuardsViewModel.DeleteContragentCommand}"/>
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
                 </TabControl>
             </TabItem>
             <TabItem Header="Cash transactions">
@@ -219,12 +267,14 @@
                             <DataGridTextColumn Binding="{Binding CashTranType}" Header="Type" IsReadOnly="True"/>
                             <DataGridTextColumn Binding="{Binding Salesman.FirstName}" Header="Salesman" IsReadOnly="True"/>
                             <DataGridTextColumn Binding="{Binding Price}" Header="Price" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding Contragent.LastName}" Header="Employee" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding Notes}" Header="Notes" IsReadOnly="True"/>
                         </DataGrid.Columns>
                     </DataGrid>
 
                     <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2">
-                        <Button Width="70" Height="30" Margin="20,0,0,0" Content="Add" Command="{Binding CashTransactionsViewModel.AddCashTransactionCommand}"/>
-                        <Button Width="70" Height="30" Margin="20,0,0,0" Content="Edit" Command="{Binding CashTransactionsViewModel.EditCashTransactionCommand}"/>
+                        <Button Width="70" Height="30" Margin="20,0,0,0" Content="New cash tran" Command="{Binding CashTransactionsViewModel.AddCashTransactionCommand}"/>
+                        <Button Width="70" Height="30" Margin="20,0,0,0" Content="Pay salary" Command="{Binding CashTransactionsViewModel.PaySalaryCommand}"/>
                         <Button Width="70" Height="30" Margin="20,0,0,0" Content="Delete" Command="{Binding CashTransactionsViewModel.DeleteCashTransactionCommand}"/>
                     </StackPanel>
                 </Grid>

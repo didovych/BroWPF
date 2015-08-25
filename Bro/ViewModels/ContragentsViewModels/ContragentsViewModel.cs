@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using BroData;
+using Microsoft.Practices.Prism;
 using Microsoft.Practices.Prism.Commands;
 
 namespace Bro.ViewModels
@@ -107,6 +108,12 @@ namespace Bro.ViewModels
             }
         }
 
+        public void Update()
+        {
+            Contragents.Clear();
+            Contragents.AddRange(GetContragents(_context));
+        }
+
         /// <summary>
         /// Delete selected contragent
         /// </summary>
@@ -137,6 +144,8 @@ namespace Bro.ViewModels
                 MessageBox.Show("Не удалось удалить контрагента", "Error", MessageBoxButton.OK);
                 Logging.WriteToLog("Failed to remove contagent. " + e.Message);
             }
+
+            Update();
         }
 
         protected abstract void AddContragent();

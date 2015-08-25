@@ -20,6 +20,7 @@ namespace BroData
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Repairer> Repairers { get; set; }
         public virtual DbSet<Salesman> Salesmen { get; set; }
+        public virtual DbSet<Guard> Guards { get; set; }
         public virtual DbSet<TransactionType> TransactionTypes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -61,6 +62,10 @@ namespace BroData
 
             modelBuilder.Entity<Contragent>()
                 .HasOptional(e => e.Salesman)
+                .WithRequired(e => e.Contragent);
+
+            modelBuilder.Entity<Contragent>()
+                .HasOptional(e => e.Guard)
                 .WithRequired(e => e.Contragent);
 
             modelBuilder.Entity<Model>()

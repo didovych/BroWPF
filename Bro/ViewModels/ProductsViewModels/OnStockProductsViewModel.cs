@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
+using Bro.Helpers;
 using Bro.ViewModels.Dialogs;
 using BroData;
 using Microsoft.Practices.Prism.Commands;
@@ -24,7 +25,6 @@ namespace Bro.ViewModels.ProductsViewModels
             CloseAddDialogCommand = new DelegateCommand(() => AddDialogViewModel = null);
 
             SellProductCommand = new DelegateCommand(SellProduct, () => SelectedProduct != null && SelectedProduct.Status != TranType.OnRepair);
-            CloseSellDialogCommand = new DelegateCommand(() => SellDialogViewModel = null);
 
             RepairProductCommand = new DelegateCommand(RepairProduct, () => SelectedProduct != null && (SelectedProduct.Status == TranType.Bought || SelectedProduct.Status == TranType.Repaired));
             CloseRepairDialogCommand = new DelegateCommand(() => RepairDialogViewModel = null);
@@ -42,8 +42,6 @@ namespace Bro.ViewModels.ProductsViewModels
 
         private readonly MainViewModel _mainViewModel;
 
-        protected override int SelectedProductID { get; set; }
-
         private OnStockProductViewModel _selectedProduct;
 
         public OnStockProductViewModel SelectedProduct
@@ -53,7 +51,9 @@ namespace Bro.ViewModels.ProductsViewModels
             {
                 _selectedProduct = value;
                 NotifyPropertyChanged();
-                SelectedProductID = value.ID;
+
+                if (value != null) SelectedProductID = value.ID;
+                
                 SellProductCommand.RaiseCanExecuteChanged();
                 EditProductCommand.RaiseCanExecuteChanged();
                 DeleteProductCommand.RaiseCanExecuteChanged();
@@ -74,18 +74,6 @@ namespace Bro.ViewModels.ProductsViewModels
             set
             {
                 _closeAddDialogCommand = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private DelegateCommand _closeSellDialogCommand;
-
-        public DelegateCommand CloseSellDialogCommand
-        {
-            get { return _closeSellDialogCommand; }
-            set
-            {
-                _closeSellDialogCommand = value;
                 NotifyPropertyChanged();
             }
         }
@@ -114,8 +102,7 @@ namespace Bro.ViewModels.ProductsViewModels
             }
         }
 
-
-
+        
         private DelegateCommand _addProductCommand;
 
         public DelegateCommand AddProductCommand
@@ -124,30 +111,6 @@ namespace Bro.ViewModels.ProductsViewModels
             set
             {
                 _addProductCommand = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private DelegateCommand _sellProductCommand;
-
-        public DelegateCommand SellProductCommand
-        {
-            get { return _sellProductCommand; }
-            set
-            {
-                _sellProductCommand = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private DelegateCommand _editProductCommand;
-
-        public DelegateCommand EditProductCommand
-        {
-            get { return _editProductCommand; }
-            set
-            {
-                _editProductCommand = value;
                 NotifyPropertyChanged();
             }
         }
@@ -199,6 +162,7 @@ namespace Bro.ViewModels.ProductsViewModels
                 NotifyPropertyChanged();
             }
         }
+
         #endregion
 
         #region Dialog view models
@@ -210,18 +174,6 @@ namespace Bro.ViewModels.ProductsViewModels
             set
             {
                 _addDialogViewModel = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private SellOnStockProductDialogViewModel _sellDialogViewModel;
-
-        public SellOnStockProductDialogViewModel SellDialogViewModel
-        {
-            get { return _sellDialogViewModel; }
-            set
-            {
-                _sellDialogViewModel = value;
                 NotifyPropertyChanged();
             }
         }
@@ -255,19 +207,6 @@ namespace Bro.ViewModels.ProductsViewModels
         public void AddProduct()
         {
             AddDialogViewModel = new AddOnStockProductDialogViewModel(_mainViewModel);
-        }
-
-        public void SellProduct()
-        {
-            SellDialogViewModel = new SellOnStockProductDialogViewModel(_mainViewModel);
-        }
-
-        /// <summary>
-        /// Edit the last transaction with SelectedProduct, but disable to edit TransactionType (Onstock product must stay onstock)
-        /// </summary>
-        public void EditProduct()
-        {
-            MessageBox.Show("Selected product was edited!");
         }
 
         public void RepairProduct()
@@ -328,13 +267,28 @@ namespace Bro.ViewModels.ProductsViewModels
         }
         #endregion
 
-        
+        protected override bool Filter(object obj)
+        {
+            var product = obj as OnStockProductViewModel;
+
+            if (product == null) return false;
+
+            return product.DateBought >= FromDateFilter && product.DateBought <= ThroughDateFilter;
+        }
 
         protected override List<ProductViewModel> GetProducts(Context context)
         {
             var notSoldProducts =
                 context.Products.Where(x => x.Transactions.Any()).ToList()
-                    .Where(x => x.Transactions.OrderBy(y => y.Date).Last().TransactionType.ID != (int)TranType.Sold);
+                    .Where(x => x.Transactions.OrderBy(y => y.Date).Last().TransactionType.ID != (int) TranType.Sold);
+
+            //return 
+            //    notSoldProducts.GroupBy(x => new ModelSerialNumberGroup(x))
+            //        .Select(x => new OnStockProductViewModel(x))
+            //          .Where(y => y.Origin == TranType.Bought)
+            //        .Cast<ProductViewModel>()
+            //        .ToList();
+
 
             return
                 notSoldProducts.Select(x => new OnStockProductViewModel(x))

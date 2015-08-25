@@ -92,6 +92,7 @@ namespace Bro.ViewModels.Dialogs
                 Logging.WriteToLog("Failed edit client" + e.Message);
             }
 
+            _mainViewModel.ClientsViewModel.Update();
             _mainViewModel.ClientsViewModel.EditClientDialogViewModel = null;
         }
 

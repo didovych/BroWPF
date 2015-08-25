@@ -21,22 +21,6 @@ namespace Bro.ViewModels.ProductsViewModels
 
                 CurrentRepairer = (lastTransaction.Contragent == null || lastTransaction.Contragent.Repairer == null)  ? null : new RepairerViewModel(lastTransaction.Contragent.Repairer);
             }
-
-            var ToRepairTransaction = orderedTransactions.LastOrDefault(x => x.TransactionType.ID == (int)TranType.ToRepair);
-            if (ToRepairTransaction != null)
-                Client = new ClientViewModel(ToRepairTransaction.Contragent.Client);
-        }
-
-        private ClientViewModel _client;
-
-        public ClientViewModel Client
-        {
-            get { return _client; }
-            set
-            {
-                _client = value;
-                NotifyPropertyChanged();
-            }
         }
 
         private RepairerViewModel _currentRepairer;

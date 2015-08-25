@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Guard.cs" />
     <Compile Include="Transaction.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="Client.cs" />

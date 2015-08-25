@@ -104,6 +104,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\Dialogs\AddCashDialog.xaml.cs">
+      <DependentUpon>AddCashDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\AddGuardDialog.xaml.cs">
+      <DependentUpon>AddGuardDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Dialogs\AddOnStockProductDialog.xaml.cs">
       <DependentUpon>AddOnStockProductDialog.xaml</DependentUpon>
     </Compile>
@@ -113,8 +119,20 @@
     <Compile Include="Controls\Dialogs\AddSalesmanDialog.xaml.cs">
       <DependentUpon>AddSalesmanDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Dialogs\AddToPawnProductDialog.xaml.cs">
+      <DependentUpon>AddToPawnProductDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\AddToRepairProductDialog.xaml.cs">
+      <DependentUpon>AddToRepairProductDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Dialogs\EditClientDialog.xaml.cs">
       <DependentUpon>EditClientDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\EditGuardDialog.xaml.cs">
+      <DependentUpon>EditGuardDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\EditProductDialog.xaml.cs">
+      <DependentUpon>EditProductDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Dialogs\EditRepairerDialog.xaml.cs">
       <DependentUpon>EditRepairerDialog.xaml</DependentUpon>
@@ -122,30 +140,51 @@
     <Compile Include="Controls\Dialogs\EditSalesmanDialog.xaml.cs">
       <DependentUpon>EditSalesmanDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Dialogs\PaySalaryDialog.xaml.cs">
+      <DependentUpon>PaySalaryDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Dialogs\RepairedOnStockProductDialog.xaml.cs">
       <DependentUpon>RepairedOnStockProductDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\RepairedToRepairProductDialog.xaml.cs">
+      <DependentUpon>RepairedToRepairProductDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Dialogs\RepairOnStockProductDialog.xaml.cs">
       <DependentUpon>RepairOnStockProductDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Dialogs\SellOnStockProductDialog.xaml.cs">
-      <DependentUpon>SellOnStockProductDialog.xaml</DependentUpon>
+    <Compile Include="Controls\Dialogs\RepairToRepairProductDialog.xaml.cs">
+      <DependentUpon>RepairToRepairProductDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Dialogs\SellProductDialog.xaml.cs">
+      <DependentUpon>SellProductDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\ModelSerialNumberGroup.cs" />
     <Compile Include="Logging.cs" />
-    <Compile Include="ViewModels\CashTransactionsViewModel.cs" />
-    <Compile Include="ViewModels\CashTransactionViewModel.cs" />
+    <Compile Include="ViewModels\CashTransactions\CashTransactionsViewModel.cs" />
+    <Compile Include="ViewModels\CashTransactions\CashTransactionViewModel.cs" />
     <Compile Include="ViewModels\ContragentsViewModels\ClientsViewModel.cs" />
     <Compile Include="ViewModels\ContragentsViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\ContragentsViewModels\ContragentsViewModel.cs" />
+    <Compile Include="ViewModels\ContragentsViewModels\GuardsViewModel.cs" />
+    <Compile Include="ViewModels\ContragentsViewModels\GuardViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\AddCashDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\AddGuardDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\AddOnStockProductDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\AddRepairerDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\AddSalesmanDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\AddToPawnProductDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\AddToRepairProductDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\EditClientDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\EditGuardDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\EditProductDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\EditRepairerDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\EditSalesmanDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\PaySalaryDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\RepairedOnStockProductDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\RepairedToRepairProductDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\RepairOnStockProductDialogViewModel.cs" />
-    <Compile Include="ViewModels\Dialogs\SellOnStockProductDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\RepairToRepairProductDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\SellProductDialogViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ProductsViewModels\OnStockProductsViewModel.cs" />
     <Compile Include="ViewModels\ProductsViewModels\OnStockProductViewModel.cs" />
@@ -163,6 +202,14 @@
     <Compile Include="ViewModels\ProductsViewModels\ToRepairProductsViewModel.cs" />
     <Compile Include="ViewModels\ProductsViewModels\ToRepairProductViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Page Include="Controls\Dialogs\AddCashDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\AddGuardDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Dialogs\AddOnStockProductDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -175,7 +222,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Dialogs\AddToPawnProductDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\AddToRepairProductDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Dialogs\EditClientDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\EditGuardDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\EditProductDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -187,7 +250,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Dialogs\PaySalaryDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Dialogs\RepairedOnStockProductDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\RepairedToRepairProductDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -195,7 +266,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Dialogs\SellOnStockProductDialog.xaml">
+    <Page Include="Controls\Dialogs\RepairToRepairProductDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\SellProductDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

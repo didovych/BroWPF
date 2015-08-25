@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Bro.Helpers;
 using BroData;
 using Microsoft.Practices.Prism.Commands;
 
@@ -11,11 +12,36 @@ namespace Bro.ViewModels.ProductsViewModels
 {
     public class OnStockProductViewModel : ProductViewModel
     {
-        public OnStockProductViewModel(Product product): base(product)
-        {
-            var orderedTransactions = product.Transactions.OrderBy(x => x.Date);
+        //public OnStockProductViewModel(Product product): base(product)
+        //{
+        //    var orderedTransactions = product.Transactions.OrderBy(x => x.Date);
 
-            var transactionBought = orderedTransactions.LastOrDefault(x => x.TransactionType.ID == (int) TranType.Bought);
+        //    var transactionBought = orderedTransactions.LastOrDefault(x => x.TransactionType.ID == (int) TranType.Bought);
+        //    if (transactionBought != null)
+        //    {
+        //        DateBought = transactionBought.Date;
+        //        SalesmanBought = new SalesmanViewModel(transactionBought.Operator.Salesman);
+        //    }
+
+        //    var lastTransaction = orderedTransactions.LastOrDefault();
+        //    if (lastTransaction != null)
+        //    {
+        //        LastTransactionDate = lastTransaction.Date;
+        //    }
+        //}
+
+        public OnStockProductViewModel(IGrouping<ModelSerialNumberGroup, Product> products)
+            : base(products.FirstOrDefault())
+        {
+            IDs = products.Select(x => x.ID).ToList();
+
+            Product firstProduct = products.FirstOrDefault();
+
+            if (firstProduct == null) return;
+            var orderedTransactions = firstProduct.Transactions.OrderBy(x => x.Date);
+
+            var transactionBought =
+                orderedTransactions.LastOrDefault(x => x.TransactionType.ID == (int) TranType.Bought);
             if (transactionBought != null)
             {
                 DateBought = transactionBought.Date;

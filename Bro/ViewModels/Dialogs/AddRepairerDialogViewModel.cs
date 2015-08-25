@@ -77,6 +77,8 @@ namespace Bro.ViewModels.Dialogs
                 Logging.WriteToLog("Failed add new repairer" + e.Message);
             }
 
+            _mainViewModel.RepairersViewModel.Update();
+
             _mainViewModel.RepairersViewModel.AddRepairerDialogViewModel = null;
         }
 

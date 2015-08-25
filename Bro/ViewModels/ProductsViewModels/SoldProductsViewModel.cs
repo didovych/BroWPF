@@ -15,7 +15,8 @@ namespace Bro.ViewModels
 {
     public class SoldProductsViewModel : ProductsViewModel
     {
-        public SoldProductsViewModel(Context context) : base(context)
+        public SoldProductsViewModel(MainViewModel mainViewModel)
+            : base(mainViewModel.Context)
         {
             DeleteProductCommand = new DelegateCommand(DeleteProduct, () => SelectedProduct != null);
         }
@@ -28,13 +29,11 @@ namespace Bro.ViewModels
             set
             {
                 _selectedProduct = value;
-                SelectedProductID = value.ID;
+                if (value != null) SelectedProductID = value.ID;
                 NotifyPropertyChanged();
                 DeleteProductCommand.RaiseCanExecuteChanged();
             }
         }
-
-        protected override int SelectedProductID { get; set; }
 
         protected override List<ProductViewModel> GetProducts(Context context)
         {
@@ -43,6 +42,11 @@ namespace Bro.ViewModels
                     .Where(x => x.Transactions.OrderBy(y => y.Date).Last().TransactionType.ID == (int)TranType.Sold);
 
             return products.Select(x => new SoldProductViewModel(x)).Cast<ProductViewModel>().ToList();
+        }
+
+        protected override bool Filter(object obj)
+        {
+            return true;
         }
     }
 }

@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Bro.Controls.Dialogs
 {
     /// <summary>
-    /// Interaction logic for SellProductDialog.xaml
+    /// Interaction logic for EditProductDialog.xaml
     /// </summary>
-    public partial class SellOnStockProductDialog : UserControl
+    public partial class EditProductDialog : UserControl
     {
-        public SellOnStockProductDialog()
+        public EditProductDialog()
         {
             InitializeComponent();
         }

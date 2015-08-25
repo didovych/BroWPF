@@ -17,9 +17,9 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="First name"/>
-        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding FirstName}"/>
+        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"/>
         <Label Grid.Row="1" Grid.Column="0" Content="Last name"/>
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding LastName}"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"/>
 
         <Button Grid.Row="2" Grid.Column="0" Content="Ok" Command="{Binding AddRepairerCommand}"/>
         <Button Grid.Row="2" Grid.Column="1" Content="Cancel" IsCancel="True"/>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Bro.ViewModels.Dialogs;
 using BroData;
 using Microsoft.Practices.Prism.Commands;
 
@@ -11,15 +12,20 @@ namespace Bro.ViewModels.ProductsViewModels
 {
     public class ToPawnProductsViewModel : ProductsViewModel
     {
-        public ToPawnProductsViewModel(Context context) : base(context)
+        public ToPawnProductsViewModel(MainViewModel mainViewModel) : base(mainViewModel.Context)
         {
+            _mainViewModel = mainViewModel;
+
             AddProductCommand = new DelegateCommand(AddProduct);
+            CloseAddProductCommand = new DelegateCommand(() => AddProductDialogViewModel = null);
+
             SellProductCommand = new DelegateCommand(SellProduct, () => SelectedProduct != null);
             EditProductCommand = new DelegateCommand(EditProduct, () => SelectedProduct != null);
             DeleteProductCommand = new DelegateCommand(DeleteProduct, () => SelectedProduct != null);
-            SendToOnStockProductCommand = new DelegateCommand(SendToOnStockProduct, () => SelectedProduct != null);
+            SendToOnStockProductCommand = new DelegateCommand(SendToOnStockProduct, () => SelectedProduct != null && SelectedProduct.DateSellTo != null && SelectedProduct.DateSellTo.Value.CompareTo(DateTime.Now) <= 0);
         }
 
+        private readonly MainViewModel _mainViewModel;
         private ToPawnProductViewModel _selectedProduct;
 
         public ToPawnProductViewModel SelectedProduct
@@ -28,7 +34,7 @@ namespace Bro.ViewModels.ProductsViewModels
             set
             {
                 _selectedProduct = value;
-                SelectedProductID = value.ID;
+                if (value != null) SelectedProductID = value.ID;
                 NotifyPropertyChanged();
                 SellProductCommand.RaiseCanExecuteChanged();
                 EditProductCommand.RaiseCanExecuteChanged();
@@ -36,8 +42,6 @@ namespace Bro.ViewModels.ProductsViewModels
                 SendToOnStockProductCommand.RaiseCanExecuteChanged();
             }
         }
-
-        protected override int SelectedProductID { get; set; }
 
         private DelegateCommand _addProductCommand;
 
@@ -51,26 +55,14 @@ namespace Bro.ViewModels.ProductsViewModels
             }
         }
 
-        private DelegateCommand _sellProductCommand;
+        private DelegateCommand _closeAddProductCommand;
 
-        public DelegateCommand SellProductCommand
+        public DelegateCommand CloseAddProductCommand
         {
-            get { return _sellProductCommand; }
+            get { return _closeAddProductCommand; }
             set
             {
-                _sellProductCommand = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private DelegateCommand _editProductCommand;
-
-        public DelegateCommand EditProductCommand
-        {
-            get { return _editProductCommand; }
-            set
-            {
-                _editProductCommand = value;
+                _closeAddProductCommand = value;
                 NotifyPropertyChanged();
             }
         }
@@ -87,25 +79,24 @@ namespace Bro.ViewModels.ProductsViewModels
             }
         }
 
+        private AddToPawnProductDialogViewModel _addProductDialogViewModel;
+
+        public AddToPawnProductDialogViewModel AddProductDialogViewModel
+        {
+            get { return _addProductDialogViewModel; }
+            set
+            {
+                _addProductDialogViewModel = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         /// <summary>
         /// Create new transaction with TransactionType "ToPawn" and add it
         /// </summary>
         public void AddProduct()
         {
-            MessageBox.Show("New product was added!");
-        }
-
-        public void SellProduct()
-        {
-            MessageBox.Show("Selected product was sold!");
-        }
-
-        /// <summary>
-        /// Edit the last "Bought" transaction with SelectedProduct, but disable to edit TransactionType (Onstock product must stay onstock)
-        /// </summary>
-        public void EditProduct()
-        {
-            MessageBox.Show("Selected product was edited!");
+            AddProductDialogViewModel = new AddToPawnProductDialogViewModel(_mainViewModel);
         }
 
         /// <summary>
@@ -113,7 +104,24 @@ namespace Bro.ViewModels.ProductsViewModels
         /// </summary>
         public void SendToOnStockProduct()
         {
-            MessageBox.Show("Selected product was sent to OnStock!");
+            // TODO change operatorID
+            var transaction = new Transaction {ProductID = SelectedProduct.ID, Date = DateTime.Now, TypeID = (int) TranType.Bought, OperatorID = 1, Price = 0};
+
+            try
+            {
+                _mainViewModel.Context.Transactions.Add(transaction);
+                _mainViewModel.Context.SaveChanges();
+
+                MessageBox.Show("Товар поставлен на приход");
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(("Не удалось поставить товар на приход"), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                Logging.WriteToLog("Failed ToPawn -> Bought. " + e.Message);
+            }
+
+            Update();
         }
 
         protected override List<ProductViewModel> GetProducts(Context context)
@@ -127,6 +135,11 @@ namespace Bro.ViewModels.ProductsViewModels
                     .Where(y => y.Origin == TranType.ToPawn)
                     .Cast<ProductViewModel>()
                     .ToList();
+        }
+
+        protected override bool Filter(object obj)
+        {
+            return true;
         }
     }
 }

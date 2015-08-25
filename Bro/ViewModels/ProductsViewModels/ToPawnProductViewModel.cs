@@ -17,7 +17,6 @@ namespace Bro.ViewModels.ProductsViewModels
             if (transactionToPawn != null)
             {
                 DateTake = transactionToPawn.Date;
-                if (transactionToPawn.DateEnd != null) DateEnd = transactionToPawn.DateEnd.Value;
                 Client = new ClientViewModel(transactionToPawn.Contragent.Client);
                 SalesmanTake = new SalesmanViewModel(transactionToPawn.Operator.Salesman);
             }
@@ -31,18 +30,6 @@ namespace Bro.ViewModels.ProductsViewModels
             set
             {
                 _dateTake = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private DateTime _dateEnd;
-
-        public DateTime DateEnd
-        {
-            get { return _dateEnd; }
-            set
-            {
-                _dateEnd = value;
                 NotifyPropertyChanged();
             }
         }

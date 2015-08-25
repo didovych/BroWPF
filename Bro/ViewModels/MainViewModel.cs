@@ -17,16 +17,17 @@ namespace Bro.ViewModels
         {
             _context = new Context();
 
-            SoldProductsViewModel = new SoldProductsViewModel(_context);
+            SoldProductsViewModel = new SoldProductsViewModel(this);
             OnStockProductsViewModel = new OnStockProductsViewModel(this);
-            ToRepairProductsViewModel = new ToRepairProductsViewModel(_context);
-            ToPawnProductsViewModel = new ToPawnProductsViewModel(_context);
+            ToRepairProductsViewModel = new ToRepairProductsViewModel(this);
+            ToPawnProductsViewModel = new ToPawnProductsViewModel(this);
 
             SalesmenViewModel = new SalesmenViewModel(this);
             ClientsViewModel = new ClientsViewModel(this);
             RepairersViewModel = new RepairersViewModel(this);
+            GuardsViewModel = new GuardsViewModel(this);
 
-            CashTransactionsViewModel = new CashTransactionsViewModel(_context);
+            CashTransactionsViewModel = new CashTransactionsViewModel(this);
         }
 
         private Context _context;
@@ -121,6 +122,18 @@ namespace Bro.ViewModels
             set
             {
                 _repairersViewModel = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private GuardsViewModel _guardsViewModel;
+
+        public GuardsViewModel GuardsViewModel
+        {
+            get { return _guardsViewModel; }
+            set
+            {
+                _guardsViewModel = value;
                 NotifyPropertyChanged();
             }
         }
