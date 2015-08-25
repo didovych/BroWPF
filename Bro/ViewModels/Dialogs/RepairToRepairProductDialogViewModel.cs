@@ -67,7 +67,7 @@ namespace Bro.ViewModels.Dialogs
             }
 
             // TODO change operatorID
-            Transaction transaction = new Transaction {ProductID = _productToRepair.ID, Date = DateTime.Now, TypeID = (int) TranType.OnRepair, ContragentID = SelectedRepairer.ID, OperatorID = 1, Price = 0};
+            Transaction transaction = new Transaction {ProductID = _productToRepair.IDs.FirstOrDefault(), Date = DateTime.Now, TypeID = (int) TranType.OnRepair, ContragentID = SelectedRepairer.ID, OperatorID = 1, Price = 0};
 
             try
             {

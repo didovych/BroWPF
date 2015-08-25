@@ -20,8 +20,24 @@ namespace Bro.ViewModels
         {
             _mainViewModel = mainViewModel;
 
+            FromDateFilter = DateTime.Today.AddDays(-14);
+            ThroughDateFilter = DateTime.Today.AddDays(1);
+
+            SalesmanFilter = mainViewModel.Context.Salesmen.ToList();
+            SalesmanFilter.Insert(0, new Salesman { Contragent = new Contragent { LastName = "Any" } });
+            SelectedSalesmanFilter = SalesmanFilter.FirstOrDefault();
+
+            ContragentsFilter = mainViewModel.Context.Salesmen.Select(x => x.Contragent).ToList();
+            ContragentsFilter.AddRange(mainViewModel.Context.Guards.Select(x => x.Contragent).ToList());
+            ContragentsFilter.Insert(0, new Contragent{LastName = "Any"});
+            SelectedContragentFilter = ContragentsFilter.FirstOrDefault();
+
+            TypeFilter = new List<TranType> { TranType.Any, TranType.Cash, TranType.Salary};
+            SelectedTypeFilter = TypeFilter.FirstOrDefault();
+
             CashTransactions = new ObservableCollection<CashTransactionViewModel>(GetCashTransactions(_mainViewModel.Context));
             CashTransactionsView = CollectionViewSource.GetDefaultView(CashTransactions);
+            CashTransactionsView.Filter = Filter;
 
             AddCashTransactionCommand = new DelegateCommand(AddCashTransaction);
             CloseAddDialogCommand = new DelegateCommand(() => AddCashViewModel = null);
@@ -30,6 +46,8 @@ namespace Bro.ViewModels
             ClosePaySalaryDialogCommand = new DelegateCommand(() => PaySalaryViewModel = null);
 
             DeleteCashTransactionCommand = new DelegateCommand(DeleteCashTransaction, () => SelectedCashTransaction != null);
+
+            FilterCommand = new DelegateCommand(CashTransactionsView.Refresh);
         }
 
         private readonly MainViewModel _mainViewModel;
@@ -48,6 +66,106 @@ namespace Bro.ViewModels
             }
         }
 
+        #region Filters
+        private DateTime _fromDateFilter;
+
+        public DateTime FromDateFilter
+        {
+            get { return _fromDateFilter; }
+            set
+            {
+                _fromDateFilter = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private DateTime _throughDateFilter;
+
+        public DateTime ThroughDateFilter
+        {
+            get { return _throughDateFilter; }
+            set
+            {
+                _throughDateFilter = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private List<Salesman> _salesmanFilter;
+
+        public List<Salesman> SalesmanFilter
+        {
+            get { return _salesmanFilter; }
+            set
+            {
+                _salesmanFilter = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private Salesman _selectedSalesmanFilter;
+
+        public Salesman SelectedSalesmanFilter
+        {
+            get { return _selectedSalesmanFilter; }
+            set
+            {
+                _selectedSalesmanFilter = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private List<TranType> _typeFilter;
+
+        public List<TranType> TypeFilter
+        {
+            get { return _typeFilter; }
+            set
+            {
+                _typeFilter = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private TranType _selectedTypeFilter;
+
+        public TranType SelectedTypeFilter
+        {
+            get { return _selectedTypeFilter; }
+            set
+            {
+                _selectedTypeFilter = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private List<Contragent> _contragentsFilter;
+
+        public List<Contragent> ContragentsFilter
+        {
+            get { return _contragentsFilter; }
+            set
+            {
+                _contragentsFilter = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private Contragent _selectedContragentFilter;
+
+        public Contragent SelectedContragentFilter
+        {
+            get { return _selectedContragentFilter; }
+            set
+            {
+                _selectedContragentFilter = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        #endregion
+
+        #region Delegate commands
         private DelegateCommand _deleteCashTransactionCommand;
 
         public DelegateCommand DeleteCashTransactionCommand
@@ -108,6 +226,20 @@ namespace Bro.ViewModels
             }
         }
 
+        private DelegateCommand _filterCommand;
+
+        public DelegateCommand FilterCommand
+        {
+            get { return _filterCommand; }
+            set
+            {
+                _filterCommand = value;
+                NotifyPropertyChanged();
+            }
+        }
+        #endregion
+
+        #region Dialog view models
         private AddCashDialogViewModel _addCashViewModel;
 
         public AddCashDialogViewModel AddCashViewModel
@@ -131,6 +263,7 @@ namespace Bro.ViewModels
                 NotifyPropertyChanged();
             }
         }
+        #endregion
 
         public void Update()
         {
@@ -175,6 +308,7 @@ namespace Bro.ViewModels
             Update();
         }
 
+        #region Transactions
         private ObservableCollection<CashTransactionViewModel> _cashTransactions;
 
         public ObservableCollection<CashTransactionViewModel> CashTransactions
@@ -197,6 +331,21 @@ namespace Bro.ViewModels
                 _cashTransactionsView = value;
                 NotifyPropertyChanged();
             }
+        }
+        #endregion
+
+        private bool Filter(object obj)
+        {
+            var transaction = obj as CashTransactionViewModel;
+
+            if (transaction == null) return false;
+            if (SelectedSalesmanFilter.Contragent.LastName != "Any" &&
+                (transaction.Salesman == null || transaction.Salesman.LastName != SelectedSalesmanFilter.Contragent.LastName)) return false;
+            if (SelectedContragentFilter.LastName != "Any" &&
+                (transaction.Contragent == null || transaction.Contragent.LastName != SelectedContragentFilter.LastName)) return false;
+            if (SelectedTypeFilter != TranType.Any && transaction.CashTranType != SelectedTypeFilter) return false;
+
+            return transaction.Date >= FromDateFilter && transaction.Date <= ThroughDateFilter;
         }
 
         private List<CashTransactionViewModel> GetCashTransactions(Context context)

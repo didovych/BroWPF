@@ -18,13 +18,13 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" Content="First name"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="Имя"/>
         <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"/>
-        <Label Grid.Row="1" Grid.Column="0" Content="Last name"/>
+        <Label Grid.Row="1" Grid.Column="0" Content="Фамилия"/>
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"/>
-        <Label Grid.Row="2" Grid.Column="0" Content="Profit percentage"/>
+        <Label Grid.Row="2" Grid.Column="0" Content="Процент"/>
         <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ProfitPercentage, UpdateSourceTrigger=PropertyChanged}"/>
-        <Label Grid.Row="3" Grid.Column="0" Content="Salary per day"/>
+        <Label Grid.Row="3" Grid.Column="0" Content="Выход"/>
         <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding SalaryPerDay, UpdateSourceTrigger=PropertyChanged}"/>
 
         <Button Grid.Row="4" Grid.Column="0" Content="Ok" Command="{Binding AddSalesmanCommand}"/>

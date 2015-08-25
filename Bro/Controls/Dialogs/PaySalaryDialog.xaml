@@ -17,11 +17,11 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" Content="Employee"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="Работник*"/>
         <ComboBox Grid.Row="0" Grid.Column="1" Text="{Binding Employee}" ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}" DisplayMemberPath="LastName"/>
 
-        <Label Grid.Row="1" Grid.Column="0" Content="Amount"/>
-        <Label Grid.Row="2" Grid.Column="0" Content="Notes"/>
+        <Label Grid.Row="1" Grid.Column="0" Content="Сумма*"/>
+        <Label Grid.Row="2" Grid.Column="0" Content="Примечание"/>
 
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}"/>

@@ -14,27 +14,30 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         
-        <Label Grid.Row="0" Grid.Column="0" Content="Category"/>
-        <Label Grid.Row="1" Grid.Column="0" Content="Model"/>
-        <Label Grid.Row="2" Grid.Column="0" Content="Serial number"/>
-        <Label Grid.Row="3" Grid.Column="0" Content="Notes"/>
-        <Label Grid.Row="4" Grid.Column="0" Content="Price"/>
-        <Label Grid.Row="5" Grid.Column="0" Content="Selling price"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="Категория*"/>
+        <Label Grid.Row="1" Grid.Column="0" Content="Модель*"/>
+        <Label Grid.Row="2" Grid.Column="0" Content="Количество*"/>
+        <Label Grid.Row="3" Grid.Column="0" Content="Серийный номер"/>
+        <Label Grid.Row="4" Grid.Column="0" Content="Цена закупки*"/>
+        <Label Grid.Row="5" Grid.Column="0" Content="Продажная цена"/>
+        <Label Grid.Row="6" Grid.Column="0" Content="Примечание"/>
         
         <ComboBox Grid.Row="0" Grid.Column="1" Text="{Binding Category}" ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}" DisplayMemberPath="Name"/>
         <ComboBox IsEditable="True" Grid.Row="1" Grid.Column="1" Text="{Binding ModelName}" ItemsSource="{Binding Models, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SerialNumber}"/>
-        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Notes}"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Number, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding SerialNumber}"/>
         <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding SellingPrice}"/>
+        <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Notes}"/>
         
-        <Button Grid.Row="6" Grid.Column="0" Content="Ok"  Command="{Binding AddProductCommand}"/>
-        <Button Grid.Row="6" Grid.Column="1" Content="Cancel" IsCancel="True"/>
+        <Button Grid.Row="7" Grid.Column="0" Content="Ok"  Command="{Binding AddProductCommand}"/>
+        <Button Grid.Row="7" Grid.Column="1" Content="Cancel" IsCancel="True"/>
     </Grid>
 </UserControl>

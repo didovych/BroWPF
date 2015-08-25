@@ -16,7 +16,7 @@ namespace Bro.ViewModels
     public class SoldProductsViewModel : ProductsViewModel
     {
         public SoldProductsViewModel(MainViewModel mainViewModel)
-            : base(mainViewModel.Context)
+            : base(mainViewModel)
         {
             DeleteProductCommand = new DelegateCommand(DeleteProduct, () => SelectedProduct != null);
         }
@@ -29,7 +29,7 @@ namespace Bro.ViewModels
             set
             {
                 _selectedProduct = value;
-                if (value != null) SelectedProductID = value.ID;
+                if (value != null) SelectedProductIDs = value.IDs;
                 NotifyPropertyChanged();
                 DeleteProductCommand.RaiseCanExecuteChanged();
             }
@@ -46,7 +46,15 @@ namespace Bro.ViewModels
 
         protected override bool Filter(object obj)
         {
-            return true;
+            var product = obj as SoldProductViewModel;
+
+            if (product == null) return false;
+            if (SelectedCategoryFilter.Name != "Any" && product.CategoryName != SelectedCategoryFilter.Name) return false;
+            if (SelectedSalesmanFilter.Contragent.LastName != "Any" &&
+                product.SalesmanSold.LastName != SelectedSalesmanFilter.Contragent.LastName) return false;
+            if (SelectedOriginFilter != TranType.Any && product.Origin != SelectedOriginFilter) return false;
+
+            return product.DateSold >= FromDateFilter && product.DateSold <= ThroughDateFilter;
         }
     }
 }

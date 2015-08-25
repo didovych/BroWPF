@@ -17,7 +17,7 @@ namespace Bro.ViewModels.ProductsViewModels
 {
     public class OnStockProductsViewModel : ProductsViewModel
     {
-        public OnStockProductsViewModel(MainViewModel model) : base(model.Context)
+        public OnStockProductsViewModel(MainViewModel model) : base(model)
         {
             _mainViewModel = model;
 
@@ -26,10 +26,10 @@ namespace Bro.ViewModels.ProductsViewModels
 
             SellProductCommand = new DelegateCommand(SellProduct, () => SelectedProduct != null && SelectedProduct.Status != TranType.OnRepair);
 
-            RepairProductCommand = new DelegateCommand(RepairProduct, () => SelectedProduct != null && (SelectedProduct.Status == TranType.Bought || SelectedProduct.Status == TranType.Repaired));
+            RepairProductCommand = new DelegateCommand(RepairProduct, () => SelectedProduct != null && (SelectedProduct.IDs.Count == 1) && (SelectedProduct.Status == TranType.Bought || SelectedProduct.Status == TranType.Repaired));
             CloseRepairDialogCommand = new DelegateCommand(() => RepairDialogViewModel = null);
 
-            RepairedProductCommand = new DelegateCommand(RepairedProduct, () => SelectedProduct != null && SelectedProduct.Status == TranType.OnRepair);
+            RepairedProductCommand = new DelegateCommand(RepairedProduct, () => SelectedProduct != null && (SelectedProduct.IDs.Count == 1) && SelectedProduct.Status == TranType.OnRepair);
             CloseRepairedDialogCommand = new DelegateCommand(() => RepairedDialogViewModel = null);
             
             EditProductCommand = new DelegateCommand(EditProduct, () => SelectedProduct != null);
@@ -37,7 +37,10 @@ namespace Bro.ViewModels.ProductsViewModels
             DeleteProductCommand = new DelegateCommand(DeleteProduct, () => SelectedProduct != null);
             
             OnAirProductCommand = new DelegateCommand(OnAirProduct, () => SelectedProduct != null && (SelectedProduct.Status == TranType.Bought || SelectedProduct.Status == TranType.Repaired));
+            CloseOnAirDialogCommand = new DelegateCommand(() => OnAirProductDialogViewModel = null);
+
             FromAirCommand = new DelegateCommand(FromAirProduct, () => SelectedProduct != null && SelectedProduct.Status == TranType.OnAir);
+            CloseFromAirDialogCommand = new DelegateCommand(() => FromAirProductDialogViewModel = null);
         }
 
         private readonly MainViewModel _mainViewModel;
@@ -52,7 +55,7 @@ namespace Bro.ViewModels.ProductsViewModels
                 _selectedProduct = value;
                 NotifyPropertyChanged();
 
-                if (value != null) SelectedProductID = value.ID;
+                if (value != null) SelectedProductIDs = value.IDs;
                 
                 SellProductCommand.RaiseCanExecuteChanged();
                 EditProductCommand.RaiseCanExecuteChanged();
@@ -61,6 +64,18 @@ namespace Bro.ViewModels.ProductsViewModels
                 RepairedProductCommand.RaiseCanExecuteChanged();
                 OnAirProductCommand.RaiseCanExecuteChanged();
                 FromAirCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        private bool _showOnAir;
+
+        public bool ShowOnAir
+        {
+            get { return _showOnAir; }
+            set
+            {
+                _showOnAir = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -98,6 +113,30 @@ namespace Bro.ViewModels.ProductsViewModels
             set
             {
                 _closeRepairedDialogCommand = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private DelegateCommand _closeOnAirDialogCommand;
+
+        public DelegateCommand CloseOnAirDialogCommand
+        {
+            get { return _closeOnAirDialogCommand; }
+            set
+            {
+                _closeOnAirDialogCommand = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private DelegateCommand _closeFromAirDialogCommand;
+
+        public DelegateCommand CloseFromAirDialogCommand
+        {
+            get { return _closeFromAirDialogCommand; }
+            set
+            {
+                _closeFromAirDialogCommand = value;
                 NotifyPropertyChanged();
             }
         }
@@ -201,6 +240,30 @@ namespace Bro.ViewModels.ProductsViewModels
                 NotifyPropertyChanged();
             }
         }
+
+        private OnAirProductDialogViewModel _onAirProductDialogViewModel;
+
+        public OnAirProductDialogViewModel OnAirProductDialogViewModel
+        {
+            get { return _onAirProductDialogViewModel; }
+            set
+            {
+                _onAirProductDialogViewModel = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private FromAirProductDialogViewModel _fromAirProductDialogViewModel;
+
+        public FromAirProductDialogViewModel FromAirProductDialogViewModel
+        {
+            get { return _fromAirProductDialogViewModel; }
+            set
+            {
+                _fromAirProductDialogViewModel = value;
+                NotifyPropertyChanged();
+            }
+        }
         #endregion
 
         #region Methods
@@ -224,46 +287,12 @@ namespace Bro.ViewModels.ProductsViewModels
 
         private void OnAirProduct()
         {
-            //TODO change operatorID
-            Transaction transaction = new Transaction {ProductID = SelectedProduct.ID, Date = DateTime.Now, TypeID = (int) TranType.OnAir, OperatorID = 1};
-
-            try
-            {
-                _mainViewModel.Context.Transactions.Add(transaction);
-                _mainViewModel.Context.SaveChanges();
-
-                MessageBox.Show(("Товар передан на выносную торговлю"), "Success", MessageBoxButton.OK,
-                    MessageBoxImage.Information);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(("Не удалось перевести товар на выносную"), "Error",
-                        MessageBoxButton.OK, MessageBoxImage.Error);
-
-                Logging.WriteToLog("Failed add new  onAir transaction" + e.Message);
-            }
+            OnAirProductDialogViewModel = new OnAirProductDialogViewModel(_mainViewModel);
         }
 
         private void FromAirProduct()
         {
-            //TODO change operatorID
-            Transaction transaction = new Transaction{ProductID = SelectedProduct.ID, Date = DateTime.Now, TypeID = (int) TranType.Bought, OperatorID = 1, Price = 0};
-
-            try
-            {
-                _mainViewModel.Context.Transactions.Add(transaction);
-                _mainViewModel.Context.SaveChanges();
-
-                MessageBox.Show(("Товар переведен на приход"), "Success", MessageBoxButton.OK,
-                    MessageBoxImage.Information);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(("Не удалось забрать товар с выносной"), "Error",
-                        MessageBoxButton.OK, MessageBoxImage.Error);
-
-                Logging.WriteToLog("Failed add new  onAir -> Bought transaction" + e.Message);
-            }
+            FromAirProductDialogViewModel = new FromAirProductDialogViewModel(_mainViewModel);
         }
         #endregion
 
@@ -272,6 +301,8 @@ namespace Bro.ViewModels.ProductsViewModels
             var product = obj as OnStockProductViewModel;
 
             if (product == null) return false;
+            if ((product.Status == TranType.OnAir) != ShowOnAir) return false;
+            if (SelectedCategoryFilter.Name != "Any" && product.CategoryName != SelectedCategoryFilter.Name) return false;
 
             return product.DateBought >= FromDateFilter && product.DateBought <= ThroughDateFilter;
         }
@@ -282,19 +313,19 @@ namespace Bro.ViewModels.ProductsViewModels
                 context.Products.Where(x => x.Transactions.Any()).ToList()
                     .Where(x => x.Transactions.OrderBy(y => y.Date).Last().TransactionType.ID != (int) TranType.Sold);
 
-            //return 
-            //    notSoldProducts.GroupBy(x => new ModelSerialNumberGroup(x))
-            //        .Select(x => new OnStockProductViewModel(x))
-            //          .Where(y => y.Origin == TranType.Bought)
-            //        .Cast<ProductViewModel>()
-            //        .ToList();
-
-
             return
-                notSoldProducts.Select(x => new OnStockProductViewModel(x))
-                    .Where(y => y.Origin == TranType.Bought)
+                notSoldProducts.GroupBy(x => new ModelSerialNumberStatusGroup(x))
+                    .Select(x => new OnStockProductViewModel(x))
+                      .Where(y => y.Origin == TranType.Bought)
                     .Cast<ProductViewModel>()
                     .ToList();
+
+
+            //return
+            //    notSoldProducts.Select(x => new OnStockProductViewModel(x))
+            //        .Where(y => y.Origin == TranType.Bought)
+            //        .Cast<ProductViewModel>()
+            //        .ToList();
         }
     }
 }

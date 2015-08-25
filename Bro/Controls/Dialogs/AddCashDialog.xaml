@@ -16,8 +16,8 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" Content="Amount"/>
-        <Label Grid.Row="1" Grid.Column="0" Content="Notes"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="Сумма*"/>
+        <Label Grid.Row="1" Grid.Column="0" Content="Примечание*"/>
 
         <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}"/>

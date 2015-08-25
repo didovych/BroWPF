@@ -23,11 +23,25 @@ namespace Bro.ViewModels.Dialogs
             SelectedCategory = Categories.FirstOrDefault();
             if (SelectedCategory != null) 
                 Models = SelectedCategory.Models.Select(x => x.Name).ToList();
+            Number = 1;
         }
 
         private readonly MainViewModel _mainViewModel;
 
         public DelegateCommand AddProductCommand { get; set; }
+
+        private int _number;
+
+        public int Number
+        {
+            get { return _number; }
+            set
+            {
+                _number = value;
+                NotifyPropertyChanged();
+                AddProductCommand.RaiseCanExecuteChanged();
+            }
+        }
 
         private string _serialNumber;
 
@@ -137,6 +151,7 @@ namespace Bro.ViewModels.Dialogs
         private bool Validate()
         {
             if (string.IsNullOrEmpty(ModelName)) return false;
+            if (Number < 1) return false;
             if (ModelName.Length > 50)
             {
                 MessageBox.Show(("Название модели не может быть длинее 50 символов"), "Error", MessageBoxButton.OK,
@@ -165,33 +180,49 @@ namespace Bro.ViewModels.Dialogs
             SerialNumber = Trim(SerialNumber);
             Notes = Trim(Notes);
 
-            Product product = new Product {SerialNumber = SerialNumber, Notes = Notes, SellingPrice = SellingPrice};
+            List<Product> products = new List<Product>();
+            for (int i = 0; i < Number; i++)
+                products.Add(new Product
+                {
+                    SerialNumber = SerialNumber, Notes = Notes, SellingPrice = SellingPrice
+                });
 
-            if (Models.Contains(ModelName)) product.Model = GetModelIDByName(ModelName);
+            if (Models.Contains(ModelName))
+                foreach (var product in products)
+                {
+                    product.Model = GetModelIDByName(ModelName);
+                }
 
-            if (!Models.Contains(ModelName) || product.Model == null)
+            if (!Models.Contains(ModelName) || products.FirstOrDefault().Model == null)
             {
                 Model model = new Model {Name = ModelName, CategoryID = SelectedCategory.ID};
 
                 _mainViewModel.Context.Models.Add(model);
 
-                product.Model = model;
+                foreach (var product in products)
+                {
+                    product.Model = model;
+                }
             }
 
-            _mainViewModel.Context.Products.Add(product);
+            _mainViewModel.Context.Products.AddRange(products);
 
-            // TODO fix operatorID
-
-            Transaction transaction = new Transaction
+            
+            List<Transaction> transactions = new List<Transaction>();
+            foreach (var product in products)
             {
-                Product = product,
-                Date = DateTime.Now,
-                TypeID = (int) TranType.Bought,
-                OperatorID = 1,
-                Price = Price
-            };
+                // TODO fix operatorID
+                transactions.Add(new Transaction
+                {
+                    Product = product,
+                    Date = DateTime.Now,
+                    TypeID = (int)TranType.Bought,
+                    OperatorID = 1,
+                    Price = Price
+                });
+            }
 
-            _mainViewModel.Context.Transactions.Add(transaction);
+            _mainViewModel.Context.Transactions.AddRange(transactions);
             try
             {
                 _mainViewModel.Context.SaveChanges();

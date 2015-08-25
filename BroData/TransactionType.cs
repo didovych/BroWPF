@@ -19,7 +19,8 @@ namespace BroData
         ToPawn = 8,
         Cash = 9,
         Salary = 10,
-        OnAir = 11
+        OnAir = 11,
+        Any = 99
     }
 
     [Table("TransactionType")]

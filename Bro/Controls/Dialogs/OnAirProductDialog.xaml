@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Bro.Controls.Dialogs.RepairedOnStockProductDialog"
+﻿<UserControl x:Class="Bro.Controls.Dialogs.OnAirProductDialog"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -14,11 +14,11 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        
-        <Label Grid.Row="0" Grid.Column="0" Content="Цена ремонта"/>
-        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Price, Mode=TwoWay}"/>
 
-        <Button Grid.Row="1" Grid.Column="0" Content="Ok" Command="{Binding RepairedProductCommand, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="Количество"/>
+        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Number, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Button Grid.Row="1" Grid.Column="0" Content="Ok" Command="{Binding OnAirProductCommand}"/>
         <Button Grid.Row="1" Grid.Column="1" Content="Cancel" IsCancel="True"/>
     </Grid>
 </UserControl>

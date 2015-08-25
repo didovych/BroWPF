@@ -7,20 +7,22 @@ using BroData;
 
 namespace Bro.Helpers
 {
-    public class ModelSerialNumberGroup
+    public class ModelSerialNumberStatusGroup
     {
-        public ModelSerialNumberGroup(Product product)
+        public ModelSerialNumberStatusGroup(Product product)
         {
             Model = product.Model;
             SerialNumber = product.SerialNumber;
+            Status = product.Transactions.LastOrDefault() == null ? TranType.Zero : (TranType) product.Transactions.LastOrDefault().TypeID;
         }
 
         public Model Model { get; set; }
         public string SerialNumber { get; set; }
+        public TranType Status { get; set; }
 
         public override bool Equals(object obj)
         {
-            var toCompare = obj as ModelSerialNumberGroup;
+            var toCompare = obj as ModelSerialNumberStatusGroup;
 
             if (toCompare == null) return false;
 
@@ -31,6 +33,7 @@ namespace Bro.Helpers
         {
             var result = (Model == null ? 0 : Model.GetHashCode());
             result += 17*(SerialNumber == null ? 0 : SerialNumber.GetHashCode());
+            result += 17 * Status.GetHashCode();
             return result;
         }
     }

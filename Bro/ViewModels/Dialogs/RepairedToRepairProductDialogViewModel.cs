@@ -53,7 +53,7 @@ namespace Bro.ViewModels.Dialogs
             try
             {
                 lastRepairerID =
-                _mainViewModel.Context.Transactions.OrderBy(x => x.Date).ToList().LastOrDefault(x => x.ProductID == _repairedProduct.ID && x.TypeID == (int) TranType.OnRepair).ContragentID;
+                _mainViewModel.Context.Transactions.OrderBy(x => x.Date).ToList().LastOrDefault(x => x.ProductID == _repairedProduct.IDs.FirstOrDefault() && x.TypeID == (int) TranType.OnRepair).ContragentID;
             }
             catch (Exception e)
             {
@@ -61,7 +61,7 @@ namespace Bro.ViewModels.Dialogs
             }
 
             // TODO change operatorID
-            Transaction transaction = new Transaction {ProductID = _repairedProduct.ID, Date = DateTime.Now, TypeID = (int) TranType.Repaired, ContragentID = lastRepairerID, OperatorID = 1, Price = Price};
+            Transaction transaction = new Transaction { ProductID = _repairedProduct.IDs.FirstOrDefault(), Date = DateTime.Now, TypeID = (int)TranType.Repaired, ContragentID = lastRepairerID, OperatorID = 1, Price = Price };
 
             try
             {

@@ -13,7 +13,7 @@ namespace Bro.ViewModels.ProductsViewModels
     public class ToRepairProductsViewModel : ProductsViewModel
     {
         public ToRepairProductsViewModel(MainViewModel mainViewModel)
-            : base(mainViewModel.Context)
+            : base(mainViewModel)
         {
             _mainViewModel = mainViewModel;
 
@@ -41,7 +41,7 @@ namespace Bro.ViewModels.ProductsViewModels
             {
                 _selectedProduct = value;
                 NotifyPropertyChanged();
-                if (value != null) SelectedProductID = value.ID;
+                if (value != null) SelectedProductIDs = value.IDs;
                 SellProductCommand.RaiseCanExecuteChanged();
                 EditProductCommand.RaiseCanExecuteChanged();
                 DeleteProductCommand.RaiseCanExecuteChanged();

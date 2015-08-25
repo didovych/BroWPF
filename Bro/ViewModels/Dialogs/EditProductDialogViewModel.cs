@@ -13,32 +13,32 @@ namespace Bro.ViewModels.Dialogs
 {
     public class EditProductDialogViewModel : ViewModelBase
     {
-        public EditProductDialogViewModel(Context context, int selectedProductID, ProductsViewModel productsViewModel)
+        public EditProductDialogViewModel(Context context, List<int> selectedProductIDs, ProductsViewModel productsViewModel)
         {
             _context = context;
             _productsViewModel = productsViewModel;
-            _selectedProductID = selectedProductID;
+            _selectedProductIDs = selectedProductIDs;
 
-            var selectedProduct = _context.Products.FirstOrDefault(x => x.ID == selectedProductID);
+            var firstSelectedProduct = _context.Products.FirstOrDefault(x => x.ID == selectedProductIDs.FirstOrDefault());
 
             EditProductCommand = new DelegateCommand(EditProduct, Validate);
 
             Categories = _context.Categories.Include(x => x.Models).ToList();
 
-            SelectedCategory = Categories.FirstOrDefault(x => x.ID == selectedProduct.Model.CategoryID);
+            SelectedCategory = Categories.FirstOrDefault(x => x.ID == firstSelectedProduct.Model.CategoryID);
             if (SelectedCategory != null)
                 Models = SelectedCategory.Models.Select(x => x.Name).ToList();
 
-            ModelName = selectedProduct.Model.Name;
-            SerialNumber = selectedProduct.SerialNumber;
-            Notes = selectedProduct.Notes;
-            SellingPrice = selectedProduct.SellingPrice;
-            DateSellTo = selectedProduct.DateSellTo;
+            ModelName = firstSelectedProduct.Model.Name;
+            SerialNumber = firstSelectedProduct.SerialNumber;
+            Notes = firstSelectedProduct.Notes;
+            SellingPrice = firstSelectedProduct.SellingPrice;
+            DateSellTo = firstSelectedProduct.DateSellTo;
         }
 
         private readonly Context _context;
 
-        private readonly int _selectedProductID;
+        private readonly List<int> _selectedProductIDs;
         private readonly ProductsViewModel _productsViewModel;
 
         public DelegateCommand EditProductCommand { get; set; }
@@ -190,12 +190,16 @@ namespace Bro.ViewModels.Dialogs
 
             try
             {
-                var productRow = _context.Products.FirstOrDefault(x => x.ID == _selectedProductID);
-                productRow.Notes = Notes;
-                productRow.Model = model;
-                productRow.SerialNumber = SerialNumber;
-                productRow.SellingPrice = SellingPrice;
-                productRow.DateSellTo = DateSellTo;
+                var productRows = _context.Products.Where(x => _selectedProductIDs.Contains(x.ID)).ToList();
+
+                foreach (var productRow in productRows)
+                {
+                    productRow.Notes = Notes;
+                    productRow.Model = model;
+                    productRow.SerialNumber = SerialNumber;
+                    productRow.SellingPrice = SellingPrice;
+                    productRow.DateSellTo = DateSellTo;
+                }
 
                 _context.SaveChanges();
             }

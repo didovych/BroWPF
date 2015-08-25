@@ -11,7 +11,7 @@ namespace Bro.ViewModels
     {
         protected ProductViewModel(Product product)
         {
-            IDs = new List<int>(product.ID);
+            IDs = new List<int>{product.ID};
             SerialNumber = product.SerialNumber;
             ModelName = product.Model.Name;
             CategoryName = product.Model.Category.Name;

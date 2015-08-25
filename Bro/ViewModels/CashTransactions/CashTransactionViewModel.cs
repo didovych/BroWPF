@@ -13,7 +13,7 @@ namespace Bro.ViewModels
         {
             ID = transaction.ID;
             Date = transaction.Date;
-            CashTranType = (TranType) transaction.TransactionType.ID;
+            CashTranType = (TranType) transaction.TypeID;
             Salesman = new SalesmanViewModel(transaction.Operator.Salesman);
             if (transaction.Contragent != null) Contragent = new ContragentViewModel(transaction.Contragent);
             if (transaction.Price != null) Price = transaction.Price.Value;

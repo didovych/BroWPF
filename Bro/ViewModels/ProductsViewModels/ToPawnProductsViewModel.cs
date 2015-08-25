@@ -12,7 +12,7 @@ namespace Bro.ViewModels.ProductsViewModels
 {
     public class ToPawnProductsViewModel : ProductsViewModel
     {
-        public ToPawnProductsViewModel(MainViewModel mainViewModel) : base(mainViewModel.Context)
+        public ToPawnProductsViewModel(MainViewModel mainViewModel) : base(mainViewModel)
         {
             _mainViewModel = mainViewModel;
 
@@ -34,7 +34,7 @@ namespace Bro.ViewModels.ProductsViewModels
             set
             {
                 _selectedProduct = value;
-                if (value != null) SelectedProductID = value.ID;
+                if (value != null) SelectedProductIDs = value.IDs;
                 NotifyPropertyChanged();
                 SellProductCommand.RaiseCanExecuteChanged();
                 EditProductCommand.RaiseCanExecuteChanged();
@@ -105,7 +105,7 @@ namespace Bro.ViewModels.ProductsViewModels
         public void SendToOnStockProduct()
         {
             // TODO change operatorID
-            var transaction = new Transaction {ProductID = SelectedProduct.ID, Date = DateTime.Now, TypeID = (int) TranType.Bought, OperatorID = 1, Price = 0};
+            var transaction = new Transaction {ProductID = SelectedProduct.IDs.FirstOrDefault(), Date = DateTime.Now, TypeID = (int) TranType.Bought, OperatorID = 1, Price = 0};
 
             try
             {
@@ -122,6 +122,7 @@ namespace Bro.ViewModels.ProductsViewModels
             }
 
             Update();
+            _mainViewModel.OnStockProductsViewModel.Update();
         }
 
         protected override List<ProductViewModel> GetProducts(Context context)

@@ -68,12 +68,25 @@ namespace Bro.ViewModels.Dialogs
                 _mainViewModel.OnStockProductsViewModel.RepairDialogViewModel = null;
             }
 
-            // TODO change operatorID
-            Transaction transaction = new Transaction {ProductID = _productToRepair.ID, Date = DateTime.Now, TypeID = (int) TranType.OnRepair, ContragentID = SelectedRepairer.ID, OperatorID = 1, Price = 0};
+            List<Transaction> transactions = new List<Transaction>();
+
+            foreach (var id in _productToRepair.IDs)
+            {
+                // TODO change operatorID
+                transactions.Add(new Transaction
+                {
+                    ProductID = id,
+                    Date = DateTime.Now,
+                    TypeID = (int) TranType.OnRepair,
+                    ContragentID = SelectedRepairer.ID,
+                    OperatorID = 1,
+                    Price = 0
+                });
+            }
 
             try
             {
-                _mainViewModel.Context.Transactions.Add(transaction);
+                _mainViewModel.Context.Transactions.AddRange(transactions);
                 _mainViewModel.Context.SaveChanges();
             }
             catch (Exception exception)

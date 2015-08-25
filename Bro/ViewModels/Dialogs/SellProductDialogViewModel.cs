@@ -12,18 +12,18 @@ namespace Bro.ViewModels.Dialogs
 {
     public class SellProductDialogViewModel : ViewModelBase
     {
-        public SellProductDialogViewModel(Context context, int selectedProductID, ProductsViewModel productsViewModel)
+        public SellProductDialogViewModel(MainViewModel mainViewModel, List<int> selectedProductIDs, ProductsViewModel productsViewModel)
         {
-            _context = context;
-            _selectedProductID = selectedProductID;
+            _mainViewModel = mainViewModel;
+            _selectedProductIDs = selectedProductIDs;
             _productsViewModel = productsViewModel;
 
             SellProductCommand = new DelegateCommand(SellProduct, Validate);
         }
 
-        private readonly Context _context;
-        private readonly int _selectedProductID;
-        private ProductsViewModel _productsViewModel;
+        private readonly MainViewModel _mainViewModel;
+        private readonly List<int> _selectedProductIDs;
+        private readonly ProductsViewModel _productsViewModel;
 
         private decimal _price;
 
@@ -46,13 +46,19 @@ namespace Bro.ViewModels.Dialogs
 
         private void SellProduct()
         {
-            // TODO change operatorID
-            Transaction transaction = new Transaction { ProductID = _selectedProductID, Date = DateTime.Now, TypeID = (int)TranType.Sold, OperatorID = 1, Price = Price };
+            Transaction transaction = new Transaction
+            {
+                ProductID = _selectedProductIDs.FirstOrDefault(),
+                Date = DateTime.Now,
+                TypeID = (int)TranType.Sold,
+                OperatorID = 1,
+                Price = Price
+            };
 
             try
             {
-                _context.Transactions.Add(transaction);
-                _context.SaveChanges();
+                _mainViewModel.Context.Transactions.Add(transaction);
+                _mainViewModel.Context.SaveChanges();
             }
             catch (Exception exception)
             {
@@ -63,6 +69,7 @@ namespace Bro.ViewModels.Dialogs
             }
 
             _productsViewModel.Update();
+            _mainViewModel.SoldProductsViewModel.Update();
 
             _productsViewModel.SellProductDialogViewModel = null;
         }

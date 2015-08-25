@@ -140,6 +140,12 @@
     <Compile Include="Controls\Dialogs\EditSalesmanDialog.xaml.cs">
       <DependentUpon>EditSalesmanDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Dialogs\FromAirProductDialog.xaml.cs">
+      <DependentUpon>FromAirProductDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\OnAirProductDialog.xaml.cs">
+      <DependentUpon>OnAirProductDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Dialogs\PaySalaryDialog.xaml.cs">
       <DependentUpon>PaySalaryDialog.xaml</DependentUpon>
     </Compile>
@@ -158,7 +164,7 @@
     <Compile Include="Controls\Dialogs\SellProductDialog.xaml.cs">
       <DependentUpon>SellProductDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\ModelSerialNumberGroup.cs" />
+    <Compile Include="Helpers\ModelSerialNumberStatusGroup.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="ViewModels\CashTransactions\CashTransactionsViewModel.cs" />
     <Compile Include="ViewModels\CashTransactions\CashTransactionViewModel.cs" />
@@ -179,6 +185,8 @@
     <Compile Include="ViewModels\Dialogs\EditProductDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\EditRepairerDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\EditSalesmanDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\FromAirProductDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\OnAirProductDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\PaySalaryDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\RepairedOnStockProductDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\RepairedToRepairProductDialogViewModel.cs" />
@@ -247,6 +255,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Dialogs\EditSalesmanDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\FromAirProductDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\OnAirProductDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

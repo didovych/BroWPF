@@ -6,6 +6,8 @@
     <Grid>
         <StackPanel>
             <dialogControl:Dialog Content="{Binding Path=OnStockProductsViewModel.AddDialogViewModel}" Title="Add product" CancelCommand="{Binding OnStockProductsViewModel.CloseAddDialogCommand}"/>
+            <dialogControl:Dialog Content="{Binding Path=OnStockProductsViewModel.OnAirProductDialogViewModel}" Title="On air product" CancelCommand="{Binding OnStockProductsViewModel.CloseOnAirDialogCommand}"/>
+            <dialogControl:Dialog Content="{Binding Path=OnStockProductsViewModel.FromAirProductDialogViewModel}" Title="From air product" CancelCommand="{Binding OnStockProductsViewModel.CloseFromAirDialogCommand}"/>
             <dialogControl:Dialog Content="{Binding Path=ToRepairProductsViewModel.AddDialogViewModel}" Title="Add product" CancelCommand="{Binding ToRepairProductsViewModel.CloseAddDialogCommand}"/>
             <dialogControl:Dialog Content="{Binding Path=OnStockProductsViewModel.RepairDialogViewModel}" Title="Repair product" CancelCommand="{Binding OnStockProductsViewModel.CloseRepairDialogCommand}"/>
             <dialogControl:Dialog Content="{Binding Path=ToRepairProductsViewModel.RepairDialogViewModel}" Title="Repair product" CancelCommand="{Binding ToRepairProductsViewModel.CloseRepairDialogCommand}"/>
@@ -33,35 +35,10 @@
             <dialogControl:Dialog Content="{Binding Path=CashTransactionsViewModel.PaySalaryViewModel}" Title="Pay Salary" CancelCommand="{Binding CashTransactionsViewModel.ClosePaySalaryDialogCommand}"/>
         </StackPanel>
         <TabControl>
-            <TabItem Header="Products">
+            <TabItem Header="Товар">
                 <TabControl>
-                    <TabItem Header="Sold">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="50"/>
-                            </Grid.RowDefinitions>
-                            <DataGrid ItemsSource="{Binding SoldProductsViewModel.ProductsView}" SelectedItem="{Binding SoldProductsViewModel.SelectedProduct, Mode=TwoWay}" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Binding="{Binding CategoryName}" Header="Category" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding ModelName}" Header="Model" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding SerialNumber}" Header="Serial number" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding Origin}" Header="Origin" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding DateSold}" Header="Date sold" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding SalesmanSold.FirstName}" Header="Salesman sold" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding MoneySpentForProduct}" Header="Price bought" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding PriceSold}" Header="Price sold" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding Profit}" Header="Profit" IsReadOnly="True"/>
-                                </DataGrid.Columns>
-                            </DataGrid>
 
-                            <StackPanel Orientation="Horizontal" Grid.Row="1">
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Delete" Command="{Binding SoldProductsViewModel.DeleteProductCommand}"/>
-                            </StackPanel>
-                        </Grid>
-                    </TabItem>
-
-                    <TabItem Header="On stock">
+                    <TabItem Header="Приход">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="50"/>
@@ -70,41 +47,45 @@
                             </Grid.RowDefinitions>
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <Label Content="from"/>
+                                <Label Content="С"/>
                                 <DatePicker SelectedDate="{Binding OnStockProductsViewModel.FromDateFilter}" DisplayDateEnd="{Binding OnStockProductsViewModel.ThroughDateFilter}" />
-                                <Label Content="through"/>
+                                <Label Content="По"/>
                                 <DatePicker SelectedDate="{Binding OnStockProductsViewModel.ThroughDateFilter}" DisplayDateStart="{Binding OnStockProductsViewModel.FromDateFilter}"/>
-                                <Button Content="Filter" Command="{Binding OnStockProductsViewModel.FilterCommand}"/>
+                                <Label Content="Категория"/>
+                                <ComboBox ItemsSource="{Binding OnStockProductsViewModel.CategoryFilter}" SelectedItem="{Binding OnStockProductsViewModel.SelectedCategoryFilter}" DisplayMemberPath="Name"/>
+                                <CheckBox Content="На выносной" IsChecked="{Binding OnStockProductsViewModel.ShowOnAir}"/>
+                                <Button Content="Фильтровать" Command="{Binding OnStockProductsViewModel.FilterCommand}"/>
                             </StackPanel>
                             
                             <DataGrid Grid.Row="1" ItemsSource="{Binding OnStockProductsViewModel.ProductsView}" SelectedItem="{Binding OnStockProductsViewModel.SelectedProduct, Mode=TwoWay}" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Binding="{Binding CategoryName}" Header="Category" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding ModelName}" Header="Model" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding SerialNumber}" Header="Serial number" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding DateBought}" Header="Date bought" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding SalesmanBought.FirstName}" Header="Salesman bought" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding MoneySpentForProduct}" Header="Price" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding SellingPrice}" Header="Selling price" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding Status}" Header="Status" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding Notes}" Header="Notes" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding CategoryName}" Header="Категория" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding ModelName}" Header="Модель" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding IDs.Count}" Header="Количество" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding SerialNumber}" Header="Серийный номер" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding DateBought}" Header="Дата покупки" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding SalesmanBought.LastName}" Header="Продавец" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding MoneySpentForProduct}" Header="Цена закупки" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding SellingPrice}" Header="Продажная цена" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding Status}" Header="Статус" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding Notes}" Header="Примечание" IsReadOnly="True"/>
                                 </DataGrid.Columns>
                             </DataGrid>
 
                             <StackPanel Orientation="Horizontal" Grid.Row="2">
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Add" Command="{Binding OnStockProductsViewModel.AddProductCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Sell" Command="{Binding OnStockProductsViewModel.SellProductCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Edit" Command="{Binding OnStockProductsViewModel.EditProductCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Delete" Command="{Binding OnStockProductsViewModel.DeleteProductCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Repair" Command="{Binding OnStockProductsViewModel.RepairProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Добавить" Command="{Binding OnStockProductsViewModel.AddProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Продать" Command="{Binding OnStockProductsViewModel.SellProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Редактировать" Command="{Binding OnStockProductsViewModel.EditProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Command="{Binding OnStockProductsViewModel.DeleteProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="На ремонт" Command="{Binding OnStockProductsViewModel.RepairProductCommand}"/>
                                 <Button Width="70" Height="30" Margin="20,0,0,0" Content="Сделанно" Command="{Binding OnStockProductsViewModel.RepairedProductCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="On air" Command="{Binding OnStockProductsViewModel.OnAirProductCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="From air" Command="{Binding OnStockProductsViewModel.FromAirCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="На выносную" Command="{Binding OnStockProductsViewModel.OnAirProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="С выносной" Command="{Binding OnStockProductsViewModel.FromAirCommand}"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>
 
-                    <TabItem Header="To repair">
+                    <TabItem Header="Ремонт">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
@@ -112,30 +93,29 @@
                             </Grid.RowDefinitions>
                             <DataGrid ItemsSource="{Binding ToRepairProductsViewModel.ProductsView}" SelectedItem="{Binding ToRepairProductsViewModel.SelectedProduct, Mode=TwoWay}" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Binding="{Binding CategoryName}" Header="Category" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding ModelName}" Header="Model" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding SerialNumber}" Header="Serial number" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding LastTransactionDate}" Header="Last transaction date" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding LastTransactionSalesman.FirstName}" Header="Last transaction salesman" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding CurrentRepairer.FirstName}" Header="Current repairer" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding Status}" Header="Status" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding MoneySpentForProduct}" Header="Money spent" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding Notes}" Header="Notes" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding CategoryName}" Header="Категория" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding ModelName}" Header="Модель" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding SerialNumber}" Header="Серийный номер" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding LastTransactionDate}" Header="Дата последней операции" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding CurrentRepairer.LastName}" Header="Мастер" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding Status}" Header="Статус" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding MoneySpentForProduct}" Header="Потрачено денег" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding Notes}" Header="Примечание" IsReadOnly="True"/>
                                 </DataGrid.Columns>
                             </DataGrid>
 
                             <StackPanel Orientation="Horizontal" Grid.Row="1">
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Add" Command="{Binding ToRepairProductsViewModel.AddProductCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Sell" Command="{Binding ToRepairProductsViewModel.SellProductCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Edit" Command="{Binding ToRepairProductsViewModel.EditProductCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Delete" Command="{Binding ToRepairProductsViewModel.DeleteProductCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Repair" Command="{Binding ToRepairProductsViewModel.RepairProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Добавить" Command="{Binding ToRepairProductsViewModel.AddProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Вернуть" Command="{Binding ToRepairProductsViewModel.SellProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Редактировать" Command="{Binding ToRepairProductsViewModel.EditProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Command="{Binding ToRepairProductsViewModel.DeleteProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="На ремонт" Command="{Binding ToRepairProductsViewModel.RepairProductCommand}"/>
                                 <Button Width="70" Height="30" Margin="20,0,0,0" Content="Сделанно" Command="{Binding ToRepairProductsViewModel.TakeProductFromRepairerCommand}"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>
 
-                    <TabItem Header="To pawn">
+                    <TabItem Header="Залог">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
@@ -143,33 +123,118 @@
                             </Grid.RowDefinitions>
                             <DataGrid ItemsSource="{Binding ToPawnProductsViewModel.ProductsView}" SelectedItem="{Binding ToPawnProductsViewModel.SelectedProduct, Mode=TwoWay}" SelectionMode="Single" SelectionUnit="FullRow"  AutoGenerateColumns="False" Grid.ColumnSpan="2">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Binding="{Binding CategoryName}" Header="Category" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding ModelName}" Header="Model" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding SerialNumber}" Header="Serial number" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding Client.FirstName}" Header="Client" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding SalesmanTake.FirstName}" Header="Salesman take" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding DateTake}" Header="Date take" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding DateSellTo}" Header="Date end" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding MoneySpentForProduct}" Header="Price" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding SellingPrice}" Header="Sell to" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding Notes}" Header="Notes" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding CategoryName}" Header="Категория" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding ModelName}" Header="Модель" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding SerialNumber}" Header="Серийный номер" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding Client.LastName}" Header="Клиент" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding SalesmanTake.FirstName}" Header="Продавец" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding DateTake}" Header="Дата взяли" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding DateSellTo}" Header="Дата вернуть" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding MoneySpentForProduct}" Header="Цена" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding SellingPrice}" Header="Цена возврата" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding Notes}" Header="Примечание" IsReadOnly="True"/>
                                 </DataGrid.Columns>
                             </DataGrid>
 
                             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2">
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Add" Command="{Binding ToPawnProductsViewModel.AddProductCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Sell" Command="{Binding ToPawnProductsViewModel.SellProductCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Edit" Command="{Binding ToPawnProductsViewModel.EditProductCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Delete" Command="{Binding ToPawnProductsViewModel.DeleteProductCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="To OnStock" Command="{Binding ToPawnProductsViewModel.SendToOnStockProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Добавить" Command="{Binding ToPawnProductsViewModel.AddProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Вернуть" Command="{Binding ToPawnProductsViewModel.SellProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Редактировать" Command="{Binding ToPawnProductsViewModel.EditProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Command="{Binding ToPawnProductsViewModel.DeleteProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="На приход" Command="{Binding ToPawnProductsViewModel.SendToOnStockProductCommand}"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>
+
+                    <TabItem Header="Проданный">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="50"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Label Content="С"/>
+                                <DatePicker SelectedDate="{Binding SoldProductsViewModel.FromDateFilter}" DisplayDateEnd="{Binding SoldProductsViewModel.ThroughDateFilter}" />
+                                <Label Content="По"/>
+                                <DatePicker SelectedDate="{Binding SoldProductsViewModel.ThroughDateFilter}" DisplayDateStart="{Binding SoldProductsViewModel.FromDateFilter}"/>
+                                <Label Content="Категория"/>
+                                <ComboBox ItemsSource="{Binding SoldProductsViewModel.CategoryFilter}" SelectedItem="{Binding SoldProductsViewModel.SelectedCategoryFilter}" DisplayMemberPath="Name"/>
+                                <Label Content="Origin"/>
+                                <ComboBox ItemsSource="{Binding SoldProductsViewModel.OriginFilter}" SelectedItem="{Binding SoldProductsViewModel.SelectedOriginFilter}"/>
+                                <Label Content="Продавец"/>
+                                <ComboBox ItemsSource="{Binding SoldProductsViewModel.SalesmanFilter}" SelectedItem="{Binding SoldProductsViewModel.SelectedSalesmanFilter}" DisplayMemberPath="Contragent.LastName"/>
+                                <Button Content="Фильтровать" Command="{Binding SoldProductsViewModel.FilterCommand}"/>
+                            </StackPanel>
+
+                            <DataGrid Grid.Row="1" ItemsSource="{Binding SoldProductsViewModel.ProductsView}" SelectedItem="{Binding SoldProductsViewModel.SelectedProduct, Mode=TwoWay}" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding CategoryName}" Header="Категория" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding ModelName}" Header="Модель" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding SerialNumber}" Header="Серийный номер" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding Origin}" Header="Origin" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding DateSold}" Header="Дата продажи" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding SalesmanSold.FirstName}" Header="Продавец" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding MoneySpentForProduct}" Header="Цена закупки" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding PriceSold}" Header="Цена продажи" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding Profit}" Header="Прибыль" IsReadOnly="True"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <StackPanel Orientation="Horizontal" Grid.Row="2">
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Command="{Binding SoldProductsViewModel.DeleteProductCommand}"/>
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+
                 </TabControl>
             </TabItem>
-            <TabItem Header="Contragents" Margin="-2,-2,-2,2">
+
+            <TabItem Header="Денежные операции">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Label Content="С"/>
+                        <DatePicker SelectedDate="{Binding CashTransactionsViewModel.FromDateFilter}" DisplayDateEnd="{Binding CashTransactionsViewModel.ThroughDateFilter}" />
+                        <Label Content="По"/>
+                        <DatePicker SelectedDate="{Binding CashTransactionsViewModel.ThroughDateFilter}" DisplayDateStart="{Binding CashTransactionsViewModel.FromDateFilter}"/>
+                        <Label Content="Тип"/>
+                        <ComboBox ItemsSource="{Binding CashTransactionsViewModel.TypeFilter}" SelectedItem="{Binding CashTransactionsViewModel.SelectedTypeFilter}"/>
+                        <Label Content="Продавец"/>
+                        <ComboBox ItemsSource="{Binding CashTransactionsViewModel.SalesmanFilter}" SelectedItem="{Binding CashTransactionsViewModel.SelectedSalesmanFilter}" DisplayMemberPath="Contragent.LastName"/>
+                        <Label Content="Работник"/>
+                        <ComboBox ItemsSource="{Binding CashTransactionsViewModel.ContragentsFilter}" SelectedItem="{Binding CashTransactionsViewModel.SelectedContragentFilter}" DisplayMemberPath="LastName"/>
+                        <Button Content="Фильтровать" Command="{Binding CashTransactionsViewModel.FilterCommand}"/>
+                    </StackPanel>
+
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding CashTransactionsViewModel.CashTransactionsView}" SelectedItem="{Binding CashTransactionsViewModel.SelectedCashTransaction, Mode=TwoWay}" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Date}" Header="Дата" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding CashTranType}" Header="Тип" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding Salesman.LastName}" Header="Продавец" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding Price}" Header="Сумма" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding Contragent.LastName}" Header="Работник" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding Notes}" Header="Примечание" IsReadOnly="True"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2">
+                        <Button Width="70" Height="30" Margin="20,0,0,0" Content="Новая" Command="{Binding CashTransactionsViewModel.AddCashTransactionCommand}"/>
+                        <Button Width="70" Height="30" Margin="20,0,0,0" Content="Зарплата" Command="{Binding CashTransactionsViewModel.PaySalaryCommand}"/>
+                        <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Command="{Binding CashTransactionsViewModel.DeleteCashTransactionCommand}"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Люди" Margin="-2,-2,-2,2">
                 <TabControl>
-                    <TabItem Header="Salesmen">
+                    <TabItem Header="Продавцы">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
@@ -177,22 +242,22 @@
                             </Grid.RowDefinitions>
                             <DataGrid ItemsSource="{Binding SalesmenViewModel.ContragentsView}" SelectedItem="{Binding SalesmenViewModel.SelectedContragent}" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Binding="{Binding FirstName}" Header="First name" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding LastName}" Header="Last name" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding ProfitPercentage}" Header="Profit percentage" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding SalaryPerDay}" Header="Salary per day" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding FirstName}" Header="Имя" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding LastName}" Header="Фамилия" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding ProfitPercentage}" Header="Процент" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding SalaryPerDay}" Header="Выход" IsReadOnly="True"/>
                                 </DataGrid.Columns>
                             </DataGrid>
 
                             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2">
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Add" Command="{Binding SalesmenViewModel.AddContragentCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Edit" Command="{Binding SalesmenViewModel.EditContragentCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Delete" Command="{Binding SalesmenViewModel.DeleteContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Добавить" Command="{Binding SalesmenViewModel.AddContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Редактировать" Command="{Binding SalesmenViewModel.EditContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Command="{Binding SalesmenViewModel.DeleteContragentCommand}"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>
 
-                    <TabItem Header="Clients">
+                    <TabItem Header="Клиенты">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
@@ -200,19 +265,19 @@
                             </Grid.RowDefinitions>
                             <DataGrid ItemsSource="{Binding ClientsViewModel.ContragentsView}" SelectedItem="{Binding ClientsViewModel.SelectedContragent, Mode=TwoWay}" SelectionUnit="FullRow" SelectionMode="Single" AutoGenerateColumns="False">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Binding="{Binding FirstName}" Header="First name" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding LastName}" Header="Last name" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding FirstName}" Header="Имя" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding LastName}" Header="Фамилия" IsReadOnly="True"/>
                                 </DataGrid.Columns>
                             </DataGrid>
 
                             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2">
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Edit" Command="{Binding ClientsViewModel.EditContragentCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Delete" Command="{Binding ClientsViewModel.DeleteContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Редактировать" Command="{Binding ClientsViewModel.EditContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Command="{Binding ClientsViewModel.DeleteContragentCommand}"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>
 
-                    <TabItem Header="Repairers">
+                    <TabItem Header="Мастера">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
@@ -220,20 +285,20 @@
                             </Grid.RowDefinitions>
                             <DataGrid ItemsSource="{Binding RepairersViewModel.ContragentsView}" SelectedItem="{Binding RepairersViewModel.SelectedContragent, Mode=TwoWay}" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Binding="{Binding FirstName}" Header="First name" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding LastName}" Header="Last name" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding FirstName}" Header="Имя" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding LastName}" Header="Фамилия" IsReadOnly="True"/>
                                 </DataGrid.Columns>
                             </DataGrid>
 
                             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2">
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Add" Command="{Binding RepairersViewModel.AddContragentCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Edit" Command="{Binding RepairersViewModel.EditContragentCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Delete" Command="{Binding RepairersViewModel.DeleteContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Добавить" Command="{Binding RepairersViewModel.AddContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Редактировать" Command="{Binding RepairersViewModel.EditContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Command="{Binding RepairersViewModel.DeleteContragentCommand}"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>
 
-                    <TabItem Header="Guards">
+                    <TabItem Header="Охранники">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
@@ -241,44 +306,21 @@
                             </Grid.RowDefinitions>
                             <DataGrid ItemsSource="{Binding GuardsViewModel.ContragentsView}" SelectedItem="{Binding GuardsViewModel.SelectedContragent, Mode=TwoWay}" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Binding="{Binding FirstName}" Header="First name" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding LastName}" Header="Last name" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding FirstName}" Header="Имя" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding LastName}" Header="Фамилия" IsReadOnly="True"/>
                                 </DataGrid.Columns>
                             </DataGrid>
 
                             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2">
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Add" Command="{Binding GuardsViewModel.AddContragentCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Edit" Command="{Binding GuardsViewModel.EditContragentCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Delete" Command="{Binding GuardsViewModel.DeleteContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Добавить" Command="{Binding GuardsViewModel.AddContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Редактировать" Command="{Binding GuardsViewModel.EditContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Command="{Binding GuardsViewModel.DeleteContragentCommand}"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>
                 </TabControl>
             </TabItem>
-            <TabItem Header="Cash transactions">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="50"/>
-                    </Grid.RowDefinitions>
-                    <DataGrid ItemsSource="{Binding CashTransactionsViewModel.CashTransactionsView}" SelectedItem="{Binding CashTransactionsViewModel.SelectedCashTransaction, Mode=TwoWay}" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Date}" Header="Date" IsReadOnly="True"/>
-                            <DataGridTextColumn Binding="{Binding CashTranType}" Header="Type" IsReadOnly="True"/>
-                            <DataGridTextColumn Binding="{Binding Salesman.FirstName}" Header="Salesman" IsReadOnly="True"/>
-                            <DataGridTextColumn Binding="{Binding Price}" Header="Price" IsReadOnly="True"/>
-                            <DataGridTextColumn Binding="{Binding Contragent.LastName}" Header="Employee" IsReadOnly="True"/>
-                            <DataGridTextColumn Binding="{Binding Notes}" Header="Notes" IsReadOnly="True"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-
-                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2">
-                        <Button Width="70" Height="30" Margin="20,0,0,0" Content="New cash tran" Command="{Binding CashTransactionsViewModel.AddCashTransactionCommand}"/>
-                        <Button Width="70" Height="30" Margin="20,0,0,0" Content="Pay salary" Command="{Binding CashTransactionsViewModel.PaySalaryCommand}"/>
-                        <Button Width="70" Height="30" Margin="20,0,0,0" Content="Delete" Command="{Binding CashTransactionsViewModel.DeleteCashTransactionCommand}"/>
-                    </StackPanel>
-                </Grid>
-            </TabItem>
+            
         </TabControl>
 
     </Grid>

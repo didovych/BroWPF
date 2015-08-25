@@ -16,9 +16,9 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" Content="First name"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="Имя"/>
         <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"/>
-        <Label Grid.Row="1" Grid.Column="0" Content="Last name"/>
+        <Label Grid.Row="1" Grid.Column="0" Content="Фамилия"/>
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"/>
 
         <Button Grid.Row="2" Grid.Column="0" Content="Ok" Command="{Binding AddGuardCommand}"/>

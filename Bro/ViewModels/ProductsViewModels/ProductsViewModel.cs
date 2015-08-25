@@ -17,14 +17,25 @@ namespace Bro.ViewModels
 {
     public abstract class ProductsViewModel : ViewModelBase
     {
-        protected ProductsViewModel(Context context)
+        protected ProductsViewModel(MainViewModel mainViewModel)
         {
-            Context = context;
+            MainViewModel = mainViewModel;
 
             FromDateFilter = DateTime.Today.AddDays(-14);
             ThroughDateFilter = DateTime.Today.AddDays(1);
 
-            Products = new ObservableCollection<ProductViewModel>(GetProducts(context));
+            CategoryFilter = mainViewModel.Context.Categories.ToList();
+            CategoryFilter.Insert(0, new Category{Name = "Any"});
+            SelectedCategoryFilter = CategoryFilter.FirstOrDefault();
+
+            SalesmanFilter = mainViewModel.Context.Salesmen.ToList();
+            SalesmanFilter.Insert(0, new Salesman{Contragent = new Contragent{LastName = "Any"}});
+            SelectedSalesmanFilter = SalesmanFilter.FirstOrDefault();
+
+            OriginFilter = new List<TranType>{TranType.Any, TranType.Bought, TranType.ToRepair, TranType.ToPawn};
+            SelectedOriginFilter = OriginFilter.FirstOrDefault();
+
+            Products = new ObservableCollection<ProductViewModel>(GetProducts(MainViewModel.Context));
             ProductsView = CollectionViewSource.GetDefaultView(Products);
             ProductsView.Filter = Filter;
             
@@ -34,9 +45,9 @@ namespace Bro.ViewModels
             FilterCommand = new DelegateCommand(ProductsView.Refresh);
         }
 
-        protected Context Context { get; set; }
+        protected MainViewModel MainViewModel { get; set; }
 
-        protected int? SelectedProductID { get; set; }
+        protected List<int> SelectedProductIDs { get; set; }
 
         private DelegateCommand _sellProductCommand;
 
@@ -135,9 +146,6 @@ namespace Bro.ViewModels
             }
         }
 
-
-
-
         #region products
         private ObservableCollection<ProductViewModel> _products;
 
@@ -162,7 +170,9 @@ namespace Bro.ViewModels
                 NotifyPropertyChanged();
             }
         }
+        #endregion
 
+#region Filters
         private DateTime _fromDateFilter;
 
         public DateTime FromDateFilter
@@ -187,12 +197,84 @@ namespace Bro.ViewModels
             }
         }
 
-        #endregion
+        private List<Category> _categoryFilter;
+
+        public List<Category> CategoryFilter
+        {
+            get { return _categoryFilter; }
+            set
+            {
+                _categoryFilter = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private Category _selectedCategoryFilter;
+
+        public Category SelectedCategoryFilter
+        {
+            get { return _selectedCategoryFilter; }
+            set
+            {
+                _selectedCategoryFilter = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private List<Salesman> _salesmanFilter;
+
+        public List<Salesman> SalesmanFilter
+        {
+            get { return _salesmanFilter; }
+            set
+            {
+                _salesmanFilter = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private Salesman _selectedSalesmanFilter;
+
+        public Salesman SelectedSalesmanFilter
+        {
+            get { return _selectedSalesmanFilter; }
+            set
+            {
+                _selectedSalesmanFilter = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private List<TranType> _originFilter;
+
+        public List<TranType> OriginFilter
+        {
+            get { return _originFilter; }
+            set
+            {
+                _originFilter = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private TranType _selectedOriginFilter;
+
+        public TranType SelectedOriginFilter
+        {
+            get { return _selectedOriginFilter; }
+            set
+            {
+                _selectedOriginFilter = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+#endregion
 
         public void Update()
         {
             Products.Clear();
-            Products.AddRange(GetProducts(Context));
+            Products.AddRange(GetProducts(MainViewModel.Context));
         }
 
         /// <summary>
@@ -205,19 +287,22 @@ namespace Bro.ViewModels
             if (answer != MessageBoxResult.Yes) return;
 
             var transactionsToDelete =
-                Context.Transactions.Where(x => x.ProductID == SelectedProductID).ToList();
+                MainViewModel.Context.Transactions.Where(x => x.ProductID != null && SelectedProductIDs.Contains(x.ProductID.Value)).ToList();
 
             foreach (var transaction in transactionsToDelete)
             {
-                Context.Transactions.Remove(transaction);
+                MainViewModel.Context.Transactions.Remove(transaction);
             }
 
-            var productToDelete = Context.Products.ToList()
-                .LastOrDefault(x => x.ID == SelectedProductID);
+            var productsToDelete = MainViewModel.Context.Products.ToList()
+                .Where(x => SelectedProductIDs.Contains(x.ID)).ToList();
 
-            Context.Products.Remove(productToDelete);
+            foreach (var productToDelete in productsToDelete)
+            {
+                MainViewModel.Context.Products.Remove(productToDelete);
+            }
 
-            Context.SaveChanges();
+            MainViewModel.Context.SaveChanges();
 
             MessageBox.Show("Товар удален", "Confirmation", MessageBoxButton.OK);
 
@@ -226,14 +311,14 @@ namespace Bro.ViewModels
 
         protected void EditProduct()
         {
-            if (SelectedProductID != null)
-                EditProductDialogViewModel = new EditProductDialogViewModel(Context, SelectedProductID.Value, this);
+            if (SelectedProductIDs == null) return;
+            EditProductDialogViewModel = new EditProductDialogViewModel(MainViewModel.Context, SelectedProductIDs, this);
         }
 
         protected void SellProduct()
         {
-            if (SelectedProductID != null)
-                SellProductDialogViewModel = new SellProductDialogViewModel(Context, SelectedProductID.Value, this);
+            if (SelectedProductIDs == null) return;
+            SellProductDialogViewModel = new SellProductDialogViewModel(MainViewModel, SelectedProductIDs, this);
         }
 
         protected abstract List<ProductViewModel> GetProducts(Context context);
