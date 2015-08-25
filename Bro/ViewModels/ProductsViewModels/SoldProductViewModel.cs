@@ -13,7 +13,7 @@ namespace Bro.ViewModels
         {
             var ordered = product.Transactions.OrderBy(x => x.Date);
 
-            var transactionSold = ordered.LastOrDefault(x => x.TransactionType.ID == (int)TranType.Sold);
+            var transactionSold = ordered.LastOrDefault(x => x.TypeID == (int)TranType.Sold);
             if (transactionSold != null)
             {
                 if (transactionSold.Price != null) PriceSold = transactionSold.Price.Value;

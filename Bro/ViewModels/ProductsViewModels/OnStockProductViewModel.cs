@@ -16,7 +16,7 @@ namespace Bro.ViewModels.ProductsViewModels
         //{
         //    var orderedTransactions = product.Transactions.OrderBy(x => x.Date);
 
-        //    var transactionBought = orderedTransactions.LastOrDefault(x => x.TransactionType.ID == (int) TranType.Bought);
+        //    var transactionBought = orderedTransactions.LastOrDefault(x => x.TypeID == (int) TranType.Bought);
         //    if (transactionBought != null)
         //    {
         //        DateBought = transactionBought.Date;
@@ -41,7 +41,7 @@ namespace Bro.ViewModels.ProductsViewModels
             var orderedTransactions = firstProduct.Transactions.OrderBy(x => x.Date);
 
             var transactionBought =
-                orderedTransactions.LastOrDefault(x => x.TransactionType.ID == (int) TranType.Bought);
+                orderedTransactions.LastOrDefault(x => x.TypeID == (int) TranType.Bought);
             if (transactionBought != null)
             {
                 DateBought = transactionBought.Date;

@@ -26,15 +26,15 @@ namespace Bro.ViewModels
 
             foreach (var transaction in orderedTransactions)
             {
-                if (transaction.TransactionType.ID != (int)TranType.Bought && transaction.TransactionType.ID != (int)TranType.Repaired &&
-                    transaction.TransactionType.ID != (int)TranType.ToPawn && transaction.TransactionType.ID != (int)TranType.ToRepair) continue;
+                if (transaction.TypeID != (int)TranType.Bought && transaction.TypeID != (int)TranType.Repaired &&
+                    transaction.TypeID != (int)TranType.ToPawn && transaction.TypeID != (int)TranType.ToRepair) continue;
 
-                if (transaction.TransactionType.ID != (int)TranType.ToRepair && transaction.Price != null) MoneySpentForProduct += transaction.Price.Value;
+                if (transaction.TypeID != (int)TranType.ToRepair && transaction.Price != null) MoneySpentForProduct += transaction.Price.Value;
 
-                if (transaction.TransactionType.ID != (int)TranType.Repaired) Origin = (TranType)transaction.TransactionType.ID;
+                if (transaction.TypeID != (int)TranType.Repaired) Origin = (TranType)transaction.TypeID;
             }
 
-            Status = orderedTransactions.LastOrDefault() == null ? TranType.Zero : (TranType) orderedTransactions.LastOrDefault().TransactionType.ID;
+            Status = orderedTransactions.LastOrDefault() == null ? TranType.Zero : (TranType) orderedTransactions.LastOrDefault().TypeID;
         }
 
         private List<int> _ids;

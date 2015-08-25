@@ -352,7 +352,7 @@ namespace Bro.ViewModels
         {
             return
                 context.Transactions.Where(
-                    x => x.TransactionType.ID == (int) TranType.Cash || x.TransactionType.ID == (int) TranType.Salary).ToList()
+                    x => x.TypeID == (int) TranType.Cash || x.TypeID == (int) TranType.Salary).ToList()
                     .Select(x => new CashTransactionViewModel(x)).ToList();
         }
     }

@@ -13,7 +13,7 @@ namespace Bro.ViewModels.ProductsViewModels
         {
             var orderedTransactions = product.Transactions.OrderBy(x => x.Date);
 
-            var transactionToPawn = orderedTransactions.LastOrDefault(x => x.TransactionType.ID == (int)TranType.ToPawn);
+            var transactionToPawn = orderedTransactions.LastOrDefault(x => x.TypeID == (int)TranType.ToPawn);
             if (transactionToPawn != null)
             {
                 DateTake = transactionToPawn.Date;

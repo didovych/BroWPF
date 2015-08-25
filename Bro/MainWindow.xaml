@@ -127,7 +127,7 @@
                                     <DataGridTextColumn Binding="{Binding ModelName}" Header="Модель" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding SerialNumber}" Header="Серийный номер" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding Client.LastName}" Header="Клиент" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding SalesmanTake.FirstName}" Header="Продавец" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding SalesmanTake.LastName}" Header="Продавец" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding DateTake}" Header="Дата взяли" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding DateSellTo}" Header="Дата вернуть" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding MoneySpentForProduct}" Header="Цена" IsReadOnly="True"/>
@@ -232,7 +232,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Люди" Margin="-2,-2,-2,2">
+            <TabItem Header="Люди">
                 <TabControl>
                     <TabItem Header="Продавцы">
                         <Grid>

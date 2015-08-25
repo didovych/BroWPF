@@ -39,7 +39,7 @@ namespace Bro.ViewModels
         {
             var products =
                 context.Products.Where(x => x.Transactions.Any()).ToList()
-                    .Where(x => x.Transactions.OrderBy(y => y.Date).Last().TransactionType.ID == (int)TranType.Sold);
+                    .Where(x => x.Transactions.OrderBy(y => y.Date).Last().TypeID == (int)TranType.Sold);
 
             return products.Select(x => new SoldProductViewModel(x)).Cast<ProductViewModel>().ToList();
         }
