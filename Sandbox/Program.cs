@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bro.ViewModels;
+using Bro.ViewModels.MobileTransactions;
 using BroData;
 
 namespace Sandbox
@@ -14,11 +15,9 @@ namespace Sandbox
         {
             using (var context = new Context())
             {
-                int? lastRepairerID = null;
-                lastRepairerID =
-                context.Transactions.OrderBy(x => x.Date).ToList().LastOrDefault(x => x.ProductID == 15 && x.TypeID == (int)TranType.OnRepair).ContragentID;
+                var operators = context.MobileOperators;//.Select(x => new MobileOperatorViewModel(x)).ToList();
 
-                Console.WriteLine(lastRepairerID);
+                Console.WriteLine(operators.ToList().Select(x => new MobileOperatorViewModel(x)).ToList().Count + "");
 
                 Console.ReadLine();
             }

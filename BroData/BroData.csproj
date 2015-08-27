@@ -49,6 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Guard.cs" />
+    <Compile Include="MobileOperator.cs" />
+    <Compile Include="MobileTransaction.cs" />
     <Compile Include="Transaction.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="Client.cs" />

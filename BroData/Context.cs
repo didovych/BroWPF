@@ -22,11 +22,17 @@ namespace BroData
         public virtual DbSet<Salesman> Salesmen { get; set; }
         public virtual DbSet<Guard> Guards { get; set; }
         public virtual DbSet<TransactionType> TransactionTypes { get; set; }
+        public virtual DbSet<MobileTransaction> MobileTransactions { get; set; }
+        public virtual DbSet<MobileOperator> MobileOperators { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Transaction>()
                 .Property(e => e.Price)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<MobileTransaction>()
+                .Property(e => e.CreditSum)
                 .HasPrecision(18, 0);
 
             modelBuilder.Entity<TransactionType>()
@@ -38,6 +44,11 @@ namespace BroData
             modelBuilder.Entity<Category>()
                 .HasMany(e => e.Models)
                 .WithRequired(e => e.Category)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<MobileOperator>()
+                .HasMany(e => e.MobileTransactions)
+                .WithRequired(e => e.MobileOperator)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Contragent>()
@@ -67,6 +78,10 @@ namespace BroData
             modelBuilder.Entity<Contragent>()
                 .HasOptional(e => e.Guard)
                 .WithRequired(e => e.Contragent);
+
+            modelBuilder.Entity<Transaction>()
+                .HasOptional(e => e.MobileTransaction)
+                .WithRequired(e => e.Transaction);
 
             modelBuilder.Entity<Model>()
                 .HasMany(e => e.Products)

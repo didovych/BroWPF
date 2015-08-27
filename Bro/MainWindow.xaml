@@ -33,6 +33,10 @@
 
             <dialogControl:Dialog Content="{Binding Path=CashTransactionsViewModel.AddCashViewModel}" Title="Add cash" CancelCommand="{Binding CashTransactionsViewModel.CloseAddDialogCommand}"/>
             <dialogControl:Dialog Content="{Binding Path=CashTransactionsViewModel.PaySalaryViewModel}" Title="Pay Salary" CancelCommand="{Binding CashTransactionsViewModel.ClosePaySalaryDialogCommand}"/>
+            
+            <dialogControl:Dialog Content="{Binding Path=MobileOperatorsViewModel.AddDialogViewModel}" Title="Add operator" CancelCommand="{Binding MobileOperatorsViewModel.CloseAddDialogCommand}"/>
+            <dialogControl:Dialog Content="{Binding Path=MobileTransactionsViewModel.AddDialogViewModel}" Title="Пополнение" CancelCommand="{Binding MobileTransactionsViewModel.CloseAddDialogCommand}"/>
+
         </StackPanel>
         <TabControl>
             <TabItem Header="Товар">
@@ -230,6 +234,68 @@
                         <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Command="{Binding CashTransactionsViewModel.DeleteCashTransactionCommand}"/>
                     </StackPanel>
                 </Grid>
+            </TabItem>
+
+            <TabItem Header="Пополнения">
+                <TabControl>
+                    <TabItem Header="Операции">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="50"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Label Content="С"/>
+                                <DatePicker SelectedDate="{Binding MobileTransactionsViewModel.FromDateFilter}" DisplayDateEnd="{Binding MobileTransactionsViewModel.ThroughDateFilter}" />
+                                <Label Content="По"/>
+                                <DatePicker SelectedDate="{Binding MobileTransactionsViewModel.ThroughDateFilter}" DisplayDateStart="{Binding MobileTransactionsViewModel.FromDateFilter}"/>
+                                <Label Content="Продавец"/>
+                                <ComboBox ItemsSource="{Binding MobileTransactionsViewModel.SalesmanFilter}" SelectedItem="{Binding MobileTransactionsViewModel.SelectedSalesmanFilter}" DisplayMemberPath="Contragent.LastName"/>
+                                <Label Content="Клиент"/>
+                                <ComboBox ItemsSource="{Binding MobileTransactionsViewModel.ClientsFilter}" SelectedItem="{Binding MobileTransactionsViewModel.SelectedClientFilter}" DisplayMemberPath="LastName"/>
+                                <Button Content="Фильтровать" Command="{Binding MobileTransactionsViewModel.FilterCommand}"/>
+                            </StackPanel>
+
+                            <DataGrid Grid.Row="1" ItemsSource="{Binding MobileTransactionsViewModel.MobileTransactionsView}" SelectedItem="{Binding MobileTransactionsViewModel.SelectedTransaction, Mode=TwoWay}" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding MobileOperator.Name}" Header="Оператор" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding CreditSum}" Header="Сумма пополнения" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding Price}" Header="Цена" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding Client.LastName}" Header="Клиент" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding Date}" Header="Дата" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding Salesman.LastName}" Header="Продавец" IsReadOnly="True"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <StackPanel Orientation="Horizontal" Grid.Row="2">
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Добавить" Command="{Binding MobileTransactionsViewModel.AddCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Command="{Binding MobileTransactionsViewModel.DeleteCommand}"/>
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+                    
+                    <TabItem Header="Операторы">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="50"/>
+                            </Grid.RowDefinitions>
+
+                            <DataGrid ItemsSource="{Binding MobileOperatorsViewModel.MobileOperatorsView}" SelectedItem="{Binding MobileOperatorsViewModel.SelectedOperator, Mode=TwoWay}" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding Name}" Header="Название" IsReadOnly="True"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <StackPanel Orientation="Horizontal" Grid.Row="1">
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Добавить" Command="{Binding MobileOperatorsViewModel.AddCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Command="{Binding MobileOperatorsViewModel.DeleteCommand}"/>
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
             </TabItem>
 
             <TabItem Header="Люди">

@@ -29,7 +29,7 @@
         <Label Grid.Row="5" Grid.Column="0" Content="Продажная цена"/>
         <Label Grid.Row="6" Grid.Column="0" Content="Примечание"/>
         
-        <ComboBox Grid.Row="0" Grid.Column="1" Text="{Binding Category}" ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}" DisplayMemberPath="Name"/>
+        <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}" DisplayMemberPath="Name"/>
         <ComboBox IsEditable="True" Grid.Row="1" Grid.Column="1" Text="{Binding ModelName}" ItemsSource="{Binding Models, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Number, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding SerialNumber}"/>

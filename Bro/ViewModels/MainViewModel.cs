@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using Bro.ViewModels.Dialogs;
+using Bro.ViewModels.MobileTransactions;
 using Bro.ViewModels.ProductsViewModels;
 using BroData;
 using Microsoft.Practices.Prism.Commands;
@@ -28,6 +29,9 @@ namespace Bro.ViewModels
             GuardsViewModel = new GuardsViewModel(this);
 
             CashTransactionsViewModel = new CashTransactionsViewModel(this);
+
+            MobileOperatorsViewModel = new MobileOperatorsViewModel(this);
+            MobileTransactionsViewModel = new MobileTransactionsViewModel(this);
         }
 
         private Context _context;
@@ -150,6 +154,28 @@ namespace Bro.ViewModels
             }
         }
 
-    
+        private MobileOperatorsViewModel _mobileOperatorsViewModel;
+
+        public MobileOperatorsViewModel MobileOperatorsViewModel
+        {
+            get { return _mobileOperatorsViewModel; }
+            set
+            {
+                _mobileOperatorsViewModel = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private MobileTransactionsViewModel _mobileTransactionsViewModel;
+
+        public MobileTransactionsViewModel MobileTransactionsViewModel
+        {
+            get { return _mobileTransactionsViewModel; }
+            set
+            {
+                _mobileTransactionsViewModel = value;
+                NotifyPropertyChanged();
+            }
+        }
     }
 }

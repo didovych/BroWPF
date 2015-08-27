@@ -20,6 +20,7 @@ namespace BroData
         Cash = 9,
         Salary = 10,
         OnAir = 11,
+        TopUp = 12,
         Any = 99
     }
 

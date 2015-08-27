@@ -33,5 +33,7 @@ namespace BroData
         public string Notes { get; set; }
 
         public virtual TransactionType TransactionType { get; set; }
+
+        public virtual MobileTransaction MobileTransaction { get; set; }
     }
 }

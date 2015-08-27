@@ -1,5 +1,5 @@
-﻿2. Add "phone deposits"
+﻿НЕ додавати клієнта, якщо такий вже є
 
-Client passport delete
+Серійний номер isEnable binding to number==1
 
-dont ask repeirer
+Group products: add selling price?

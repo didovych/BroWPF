@@ -110,6 +110,12 @@
     <Compile Include="Controls\Dialogs\AddGuardDialog.xaml.cs">
       <DependentUpon>AddGuardDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Dialogs\AddMobileOperatorDialog.xaml.cs">
+      <DependentUpon>AddMobileOperatorDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\AddMobileTransactionDialog.xaml.cs">
+      <DependentUpon>AddMobileTransactionDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Dialogs\AddOnStockProductDialog.xaml.cs">
       <DependentUpon>AddOnStockProductDialog.xaml</DependentUpon>
     </Compile>
@@ -175,6 +181,8 @@
     <Compile Include="ViewModels\ContragentsViewModels\GuardViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\AddCashDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\AddGuardDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\AddMobileOperatorDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\AddMobileTransactionDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\AddOnStockProductDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\AddRepairerDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\AddSalesmanDialogViewModel.cs" />
@@ -194,6 +202,10 @@
     <Compile Include="ViewModels\Dialogs\RepairToRepairProductDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\SellProductDialogViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\MobileTransactions\MobileOperatorsViewModel.cs" />
+    <Compile Include="ViewModels\MobileTransactions\MobileOperatorViewModel.cs" />
+    <Compile Include="ViewModels\MobileTransactions\MobileTransactionsViewModel.cs" />
+    <Compile Include="ViewModels\MobileTransactions\MobileTransactionViewModel.cs" />
     <Compile Include="ViewModels\ProductsViewModels\OnStockProductsViewModel.cs" />
     <Compile Include="ViewModels\ProductsViewModels\OnStockProductViewModel.cs" />
     <Compile Include="ViewModels\ProductsViewModels\ProductsViewModel.cs" />
@@ -215,6 +227,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Dialogs\AddGuardDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\AddMobileOperatorDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\AddMobileTransactionDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
