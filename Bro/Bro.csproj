@@ -170,10 +170,13 @@
     <Compile Include="Controls\Dialogs\SellProductDialog.xaml.cs">
       <DependentUpon>SellProductDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\ModelSerialNumberStatusGroup.cs" />
+    <Compile Include="Controls\Dialogs\ShowAllTransactionsDialog.xaml.cs">
+      <DependentUpon>ShowAllTransactionsDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\ModelSerialNumberStatusPriceBoughtGroup.cs" />
     <Compile Include="Logging.cs" />
-    <Compile Include="ViewModels\CashTransactions\CashTransactionsViewModel.cs" />
-    <Compile Include="ViewModels\CashTransactions\CashTransactionViewModel.cs" />
+    <Compile Include="ViewModels\Transactions\CashTransactionsViewModel.cs" />
+    <Compile Include="ViewModels\Transactions\CashTransactionViewModel.cs" />
     <Compile Include="ViewModels\ContragentsViewModels\ClientsViewModel.cs" />
     <Compile Include="ViewModels\ContragentsViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\ContragentsViewModels\ContragentsViewModel.cs" />
@@ -201,6 +204,7 @@
     <Compile Include="ViewModels\Dialogs\RepairOnStockProductDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\RepairToRepairProductDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\SellProductDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\ShowAllTransactionsDialogViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MobileTransactions\MobileOperatorsViewModel.cs" />
     <Compile Include="ViewModels\MobileTransactions\MobileOperatorViewModel.cs" />
@@ -221,6 +225,7 @@
     <Compile Include="ViewModels\ProductsViewModels\ToPawnProductViewModel.cs" />
     <Compile Include="ViewModels\ProductsViewModels\ToRepairProductsViewModel.cs" />
     <Compile Include="ViewModels\ProductsViewModels\ToRepairProductViewModel.cs" />
+    <Compile Include="ViewModels\Transactions\TransactionViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Page Include="Controls\Dialogs\AddCashDialog.xaml">
       <SubType>Designer</SubType>
@@ -307,6 +312,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Dialogs\SellProductDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\ShowAllTransactionsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

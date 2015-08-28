@@ -23,6 +23,11 @@
             <dialogControl:Dialog Content="{Binding Path=ToPawnProductsViewModel.EditProductDialogViewModel}" Title="Edit product" CancelCommand="{Binding ToPawnProductsViewModel.CloseEditProductDialogCommand}"/>
             <dialogControl:Dialog Content="{Binding Path=ToRepairProductsViewModel.EditProductDialogViewModel}" Title="Edit product" CancelCommand="{Binding ToRepairProductsViewModel.CloseEditProductDialogCommand}"/>
 
+            <dialogControl:Dialog Content="{Binding Path=OnStockProductsViewModel.ShowAllTransactionsDialogViewModel}" Title="All transactions" CancelCommand="{Binding OnStockProductsViewModel.CloseShowAllTransactionsDialogCommand}"/>
+            <dialogControl:Dialog Content="{Binding Path=ToRepairProductsViewModel.ShowAllTransactionsDialogViewModel}" Title="All transactions" CancelCommand="{Binding ToRepairProductsViewModel.CloseShowAllTransactionsDialogCommand}"/>
+            <dialogControl:Dialog Content="{Binding Path=ToPawnProductsViewModel.ShowAllTransactionsDialogViewModel}" Title="All transactions" CancelCommand="{Binding ToPawnProductsViewModel.CloseShowAllTransactionsDialogCommand}"/>
+            <dialogControl:Dialog Content="{Binding Path=SoldProductsViewModel.ShowAllTransactionsDialogViewModel}" Title="All transactions" CancelCommand="{Binding SoldProductsViewModel.CloseShowAllTransactionsDialogCommand}"/>
+            
             <dialogControl:Dialog Content="{Binding Path=SalesmenViewModel.AddSalesmanDialogViewModel}" Title="Add salesman" CancelCommand="{Binding SalesmenViewModel.CloseAddSalesmanDialogCommand}"/>
             <dialogControl:Dialog Content="{Binding Path=GuardsViewModel.AddGuardDialogViewModel}" Title="Add guard" CancelCommand="{Binding GuardsViewModel.CloseAddGuardDialogCommand}"/>
             <dialogControl:Dialog Content="{Binding Path=RepairersViewModel.AddRepairerDialogViewModel}" Title="Add repairer" CancelCommand="{Binding RepairersViewModel.CloseAddRepairerDialogCommand}"/>
@@ -62,6 +67,9 @@
                             </StackPanel>
                             
                             <DataGrid Grid.Row="1" ItemsSource="{Binding OnStockProductsViewModel.ProductsView}" SelectedItem="{Binding OnStockProductsViewModel.SelectedProduct, Mode=TwoWay}" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False">
+                                <DataGrid.InputBindings>
+                                    <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OnStockProductsViewModel.ShowAllTransactionsCommand}"/>
+                                </DataGrid.InputBindings>
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Binding="{Binding CategoryName}" Header="Категория" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding ModelName}" Header="Модель" IsReadOnly="True"/>
@@ -96,6 +104,9 @@
                                 <RowDefinition Height="50"/>
                             </Grid.RowDefinitions>
                             <DataGrid ItemsSource="{Binding ToRepairProductsViewModel.ProductsView}" SelectedItem="{Binding ToRepairProductsViewModel.SelectedProduct, Mode=TwoWay}" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False">
+                                <DataGrid.InputBindings>
+                                    <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ToRepairProductsViewModel.ShowAllTransactionsCommand}"/>
+                                </DataGrid.InputBindings>
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Binding="{Binding CategoryName}" Header="Категория" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding ModelName}" Header="Модель" IsReadOnly="True"/>
@@ -126,6 +137,9 @@
                                 <RowDefinition Height="50"/>
                             </Grid.RowDefinitions>
                             <DataGrid ItemsSource="{Binding ToPawnProductsViewModel.ProductsView}" SelectedItem="{Binding ToPawnProductsViewModel.SelectedProduct, Mode=TwoWay}" SelectionMode="Single" SelectionUnit="FullRow"  AutoGenerateColumns="False" Grid.ColumnSpan="2">
+                                <DataGrid.InputBindings>
+                                    <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ToPawnProductsViewModel.ShowAllTransactionsCommand}"/>
+                                </DataGrid.InputBindings>
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Binding="{Binding CategoryName}" Header="Категория" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding ModelName}" Header="Модель" IsReadOnly="True"/>
@@ -173,6 +187,9 @@
                             </StackPanel>
 
                             <DataGrid Grid.Row="1" ItemsSource="{Binding SoldProductsViewModel.ProductsView}" SelectedItem="{Binding SoldProductsViewModel.SelectedProduct, Mode=TwoWay}" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False">
+                                <DataGrid.InputBindings>
+                                    <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding SoldProductsViewModel.ShowAllTransactionsCommand}"/>
+                                </DataGrid.InputBindings>
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Binding="{Binding CategoryName}" Header="Категория" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding ModelName}" Header="Модель" IsReadOnly="True"/>

@@ -30,7 +30,7 @@ namespace Bro.ViewModels.ProductsViewModels
         //    }
         //}
 
-        public OnStockProductViewModel(IGrouping<ModelSerialNumberStatusGroup, Product> products)
+        public OnStockProductViewModel(IGrouping<ModelSerialNumberStatusPriceBoughtGroup, Product> products)
             : base(products.FirstOrDefault())
         {
             IDs = products.Select(x => x.ID).ToList();

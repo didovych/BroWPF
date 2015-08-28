@@ -42,6 +42,9 @@ namespace Bro.ViewModels
             CloseSellProductDialog = new DelegateCommand(() => SellProductDialogViewModel = null);
             CloseEditProductDialogCommand = new DelegateCommand(() => EditProductDialogViewModel = null);
 
+            ShowAllTransactionsCommand = new DelegateCommand(ShowAllTransactions);
+            CloseShowAllTransactionsDialogCommand = new DelegateCommand(() => ShowAllTransactionsDialogViewModel = null);
+
             FilterCommand = new DelegateCommand(ProductsView.Refresh);
         }
 
@@ -49,6 +52,7 @@ namespace Bro.ViewModels
 
         protected List<int> SelectedProductIDs { get; set; }
 
+        #region Delegate commands
         private DelegateCommand _sellProductCommand;
 
         public DelegateCommand SellProductCommand
@@ -97,6 +101,29 @@ namespace Bro.ViewModels
             }
         }
 
+        private DelegateCommand _showAllTransactionsCommand;
+
+        public DelegateCommand ShowAllTransactionsCommand
+        {
+            get { return _showAllTransactionsCommand; }
+            set
+            {
+                _showAllTransactionsCommand = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private DelegateCommand _closeShowAllTransactionsDialogCommand;
+
+        public DelegateCommand CloseShowAllTransactionsDialogCommand
+        {
+            get { return _closeShowAllTransactionsDialogCommand; }
+            set
+            {
+                _closeShowAllTransactionsDialogCommand = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private DelegateCommand _filterCommand;
 
@@ -121,6 +148,7 @@ namespace Bro.ViewModels
                 NotifyPropertyChanged();
             }
         }
+        #endregion
 
         private SellProductDialogViewModel _sellProductDialogViewModel;
 
@@ -142,6 +170,18 @@ namespace Bro.ViewModels
             set
             {
                 _editProductDialogViewModel = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private ShowAllTransactionsDialogViewModel _showAllTransactionsDialogViewModel;
+
+        public ShowAllTransactionsDialogViewModel ShowAllTransactionsDialogViewModel
+        {
+            get { return _showAllTransactionsDialogViewModel; }
+            set
+            {
+                _showAllTransactionsDialogViewModel = value;
                 NotifyPropertyChanged();
             }
         }
@@ -319,6 +359,12 @@ namespace Bro.ViewModels
         {
             if (SelectedProductIDs == null) return;
             SellProductDialogViewModel = new SellProductDialogViewModel(MainViewModel, SelectedProductIDs, this);
+        }
+
+        protected void ShowAllTransactions()
+        {
+            if (SelectedProductIDs == null) return;
+            ShowAllTransactionsDialogViewModel = new ShowAllTransactionsDialogViewModel(MainViewModel.Context, SelectedProductIDs, this);
         }
 
         protected abstract List<ProductViewModel> GetProducts(Context context);

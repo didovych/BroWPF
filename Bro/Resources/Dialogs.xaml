@@ -44,6 +44,9 @@
     <DataTemplate DataType="{x:Type dialogs:AddToPawnProductDialogViewModel}">
         <dialogs1:AddToPawnProductDialog/>
     </DataTemplate>
+    <DataTemplate DataType="{x:Type dialogs:ShowAllTransactionsDialogViewModel}">
+        <dialogs1:ShowAllTransactionsDialog/>
+    </DataTemplate>
     
     <DataTemplate DataType="{x:Type dialogs:AddSalesmanDialogViewModel}">
         <dialogs1:AddSalesmanDialog/>

@@ -314,7 +314,7 @@ namespace Bro.ViewModels.ProductsViewModels
                     .Where(x => x.Transactions.OrderBy(y => y.Date).Last().TypeID != (int) TranType.Sold);
 
             return
-                notSoldProducts.GroupBy(x => new ModelSerialNumberStatusGroup(x))
+                notSoldProducts.GroupBy(x => new ModelSerialNumberStatusPriceBoughtGroup(x))
                     .Select(x => new OnStockProductViewModel(x))
                       .Where(y => y.Origin == TranType.Bought)
                     .Cast<ProductViewModel>()
