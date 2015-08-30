@@ -27,9 +27,11 @@ namespace Bro.ViewModels.MobileTransactions
             SalesmanFilter.Insert(0, new Salesman { Contragent = new Contragent { LastName = "Any" } });
             SelectedSalesmanFilter = SalesmanFilter.FirstOrDefault();
 
-            ClientsFilter = mainViewModel.Context.Clients.ToList().Select(x => x.Contragent).ToList();
-            ClientsFilter.Insert(0, new Contragent { LastName = "Any" });
-            SelectedClientFilter = ClientsFilter.FirstOrDefault();
+            //ClientsFilter = mainViewModel.Context.Clients.ToList().Select(x => x.Contragent).ToList();
+            //ClientsFilter.Insert(0, new Contragent { LastName = "Any" });
+            //SelectedClientFilter = ClientsFilter.FirstOrDefault();
+
+            ClientsFilter = mainViewModel.Context.Clients.ToList().Select(x => x.Contragent.LastName).ToList();
 
             MobileTransactions = new ObservableCollection<MobileTransactionViewModel>(GetMobileTransactions(mainViewModel.Context));
             MobileTransactionsView = CollectionViewSource.GetDefaultView(MobileTransactions);
@@ -119,9 +121,9 @@ namespace Bro.ViewModels.MobileTransactions
             }
         }
 
-        private List<Contragent> _clientsFilter;
+        private List<string> _clientsFilter;
 
-        public List<Contragent> ClientsFilter
+        public List<string> ClientsFilter
         {
             get { return _clientsFilter; }
             set
@@ -131,17 +133,42 @@ namespace Bro.ViewModels.MobileTransactions
             }
         }
 
-        private Contragent _selectedClientFilter;
+        private string _selectedClientFilter;
 
-        public Contragent SelectedClientFilter
+        public string SelectedClientFilter
         {
             get { return _selectedClientFilter; }
             set
             {
                 _selectedClientFilter = value;
                 NotifyPropertyChanged();
+                MobileTransactionsView.Refresh();
             }
         }
+
+        //private List<Contragent> _clientsFilter;
+
+        //public List<Contragent> ClientsFilter
+        //{
+        //    get { return _clientsFilter; }
+        //    set
+        //    {
+        //        _clientsFilter = value;
+        //        NotifyPropertyChanged();
+        //    }
+        //}
+
+        //private Contragent _selectedClientFilter;
+
+        //public Contragent SelectedClientFilter
+        //{
+        //    get { return _selectedClientFilter; }
+        //    set
+        //    {
+        //        _selectedClientFilter = value;
+        //        NotifyPropertyChanged();
+        //    }
+        //}
 
         #endregion
 
@@ -238,6 +265,7 @@ namespace Bro.ViewModels.MobileTransactions
 
             try
             {
+                if (transactionToDelete.Price != null) _mainViewModel.CashInHand -= transactionToDelete.Price.Value;
                 _mainViewModel.Context.Transactions.Remove(transactionToDelete);
                 _mainViewModel.Context.SaveChanges();
 
@@ -265,8 +293,12 @@ namespace Bro.ViewModels.MobileTransactions
             if (transaction == null) return false;
             if (SelectedSalesmanFilter.Contragent.LastName != "Any" &&
                 (transaction.Salesman == null || transaction.Salesman.LastName != SelectedSalesmanFilter.Contragent.LastName)) return false;
-            if (SelectedClientFilter.LastName != "Any" &&
-                (transaction.Client == null || transaction.Client.LastName != SelectedClientFilter.LastName)) return false;
+            //if (SelectedClientFilter.LastName != "Any" &&
+            //    (transaction.Client == null || transaction.Client.LastName != SelectedClientFilter.LastName)) return false;
+
+            if (!string.IsNullOrEmpty(SelectedClientFilter) &&
+                (transaction.Client == null || !transaction.Client.LastName.ToLower().Contains(SelectedClientFilter.ToLower())))
+                return false;
 
             return transaction.Date >= FromDateFilter && transaction.Date <= ThroughDateFilter;
         }

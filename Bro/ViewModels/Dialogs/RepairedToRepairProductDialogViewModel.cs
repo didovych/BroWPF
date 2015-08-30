@@ -77,6 +77,8 @@ namespace Bro.ViewModels.Dialogs
             }
 
             _mainViewModel.ToRepairProductsViewModel.Update();
+            _mainViewModel.CashInHand -= Price;
+            _mainViewModel.ProductsValue += Price;
 
             _mainViewModel.ToRepairProductsViewModel.RepairedDialogViewModel = null;
         }

@@ -33,7 +33,7 @@ namespace Bro.ViewModels.ProductsViewModels
             CloseRepairedDialogCommand = new DelegateCommand(() => RepairedDialogViewModel = null);
             
             EditProductCommand = new DelegateCommand(EditProduct, () => SelectedProduct != null);
-
+            
             DeleteProductCommand = new DelegateCommand(DeleteProduct, () => SelectedProduct != null);
             
             OnAirProductCommand = new DelegateCommand(OnAirProduct, () => SelectedProduct != null && (SelectedProduct.Status == TranType.Bought || SelectedProduct.Status == TranType.Repaired));
@@ -41,6 +41,13 @@ namespace Bro.ViewModels.ProductsViewModels
 
             FromAirCommand = new DelegateCommand(FromAirProduct, () => SelectedProduct != null && SelectedProduct.Status == TranType.OnAir);
             CloseFromAirDialogCommand = new DelegateCommand(() => FromAirProductDialogViewModel = null);
+
+            WriteOffProductCommand = new DelegateCommand(WriteOffProduct, () => SelectedProduct != null);
+
+            ClearSerialNumberFilterCommand = new DelegateCommand(() => SerialNumberFilter = "");
+            ClearModelFilterCommand = new DelegateCommand(() => ModelFilter = "");
+
+            FromDateFilter = new DateTime(2015, 8, 1);
         }
 
         private readonly MainViewModel _mainViewModel;
@@ -64,6 +71,7 @@ namespace Bro.ViewModels.ProductsViewModels
                 RepairedProductCommand.RaiseCanExecuteChanged();
                 OnAirProductCommand.RaiseCanExecuteChanged();
                 FromAirCommand.RaiseCanExecuteChanged();
+                WriteOffProductCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -202,6 +210,42 @@ namespace Bro.ViewModels.ProductsViewModels
             }
         }
 
+        private DelegateCommand _writeOffProductCommand;
+
+        public DelegateCommand WriteOffProductCommand
+        {
+            get { return _writeOffProductCommand; }
+            set
+            {
+                _writeOffProductCommand = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private DelegateCommand _clearSerialNumberFilterCommand;
+
+        public DelegateCommand ClearSerialNumberFilterCommand
+        {
+            get { return _clearSerialNumberFilterCommand; }
+            set
+            {
+                _clearSerialNumberFilterCommand = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private DelegateCommand _clearModelFilterCommand;
+
+        public DelegateCommand ClearModelFilterCommand
+        {
+            get { return _clearModelFilterCommand; }
+            set
+            {
+                _clearModelFilterCommand = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region Dialog view models
@@ -294,13 +338,56 @@ namespace Bro.ViewModels.ProductsViewModels
         {
             FromAirProductDialogViewModel = new FromAirProductDialogViewModel(_mainViewModel);
         }
+
+        private void WriteOffProduct()
+        {
+            if (SelectedProduct == null) return;
+
+            MessageBoxResult answer = MessageBox.Show("Списать выбранный товар?", "Question", MessageBoxButton.YesNo);
+
+            if (answer != MessageBoxResult.Yes) return;
+
+            foreach (var id in SelectedProduct.IDs)
+            {
+                //TODO change operatorID
+                Transaction transaction = new Transaction
+                {
+                    ProductID = id,
+                    Date = DateTime.Now,
+                    TypeID = (int) TranType.Sold,
+                    OperatorID = 1,
+                    Price = 0
+                };
+                _mainViewModel.Context.Transactions.Add(transaction);
+            }
+
+            try
+            {
+                var productToWriteOff =
+                    Products.FirstOrDefault(x => x.IDs.Contains(SelectedProduct.IDs.FirstOrDefault()));
+                if (productToWriteOff != null) _mainViewModel.ProductsValue -= productToWriteOff.MoneySpentForProduct*SelectedProduct.IDs.Count;
+                _mainViewModel.Context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(("Не удалось списать товар"), "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+
+                Logging.WriteToLog("Failed write off product. " + e.InnerException.Message);
+            }
+
+            Update();
+            _mainViewModel.SoldProductsViewModel.Update();
+        }
         #endregion
 
         protected override bool Filter(object obj)
         {
-            var product = obj as OnStockProductViewModel;
+            if (!base.Filter(obj)) return false;
 
+            var product = obj as OnStockProductViewModel;
             if (product == null) return false;
+
             if ((product.Status == TranType.OnAir) != ShowOnAir) return false;
             if (SelectedCategoryFilter.Name != "Any" && product.CategoryName != SelectedCategoryFilter.Name) return false;
 

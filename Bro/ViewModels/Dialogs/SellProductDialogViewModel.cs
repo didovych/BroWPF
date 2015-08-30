@@ -50,7 +50,7 @@ namespace Bro.ViewModels.Dialogs
             {
                 ProductID = _selectedProductIDs.FirstOrDefault(),
                 Date = DateTime.Now,
-                TypeID = (int)TranType.Sold,
+                TypeID = (int) TranType.Sold,
                 OperatorID = 1,
                 Price = Price
             };
@@ -67,6 +67,12 @@ namespace Bro.ViewModels.Dialogs
 
                 Logging.WriteToLog("Failed to sell OnStock product. " + exception.Message);
             }
+
+
+            _mainViewModel.CashInHand += Price;
+            var productToSell = _productsViewModel.Products.FirstOrDefault(
+                x => x.IDs.FirstOrDefault() == _selectedProductIDs.FirstOrDefault());
+            if (productToSell != null) _mainViewModel.ProductsValue -= productToSell.MoneySpentForProduct;
 
             _productsViewModel.Update();
             _mainViewModel.SoldProductsViewModel.Update();

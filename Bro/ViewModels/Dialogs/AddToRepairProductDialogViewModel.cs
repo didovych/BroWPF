@@ -54,6 +54,45 @@ namespace Bro.ViewModels.Dialogs
             }
         }
 
+        private decimal? _sellingPrice;
+
+        public decimal? SellingPrice
+        {
+            get { return _sellingPrice; }
+            set
+            {
+                _sellingPrice = value;
+                NotifyPropertyChanged();
+                AddProductCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        private string _firstName;
+
+        public string FirstName
+        {
+            get { return _firstName; }
+            set
+            {
+                _firstName = value;
+                NotifyPropertyChanged();
+                AddProductCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        private string _lastName;
+
+        public string LastName
+        {
+            get { return _lastName; }
+            set
+            {
+                _lastName = value;
+                NotifyPropertyChanged();
+                AddProductCommand.RaiseCanExecuteChanged();
+            }
+        }
+
         private string _notes;
 
         public string Notes
@@ -108,6 +147,8 @@ namespace Bro.ViewModels.Dialogs
         private bool Validate()
         {
             if (string.IsNullOrEmpty(ModelName)) return false;
+            if (string.IsNullOrEmpty(FirstName)) return false;
+            if (string.IsNullOrEmpty(LastName)) return false;
             if (ModelName.Length > 50)
             {
                 MessageBox.Show(("Название модели не может быть длинее 50 символов"), "Error", MessageBoxButton.OK,
@@ -133,10 +174,12 @@ namespace Bro.ViewModels.Dialogs
         private void AddProduct()
         {
             ModelName = Trim(ModelName);
+            FirstName = Trim(FirstName);
+            LastName = Trim(LastName);
             SerialNumber = Trim(SerialNumber);
             Notes = Trim(Notes);
 
-            Product product = new Product {SerialNumber = SerialNumber, Notes = Notes};
+            Product product = new Product {SerialNumber = SerialNumber, SellingPrice = SellingPrice, Notes = Notes};
 
             if (Models.Contains(ModelName)) product.Model = GetModelIDByName(ModelName);
 
@@ -151,6 +194,25 @@ namespace Bro.ViewModels.Dialogs
 
             _mainViewModel.Context.Products.Add(product);
 
+            var client = _mainViewModel.Context.Clients.FirstOrDefault(
+                x => x.Contragent.FirstName == FirstName && x.Contragent.LastName == LastName);
+
+            if (client == null)
+            {
+                var contragent = new Contragent
+                {
+                    LastName = LastName,
+                    FirstName = FirstName
+                };
+
+                client = new Client
+                {
+                    Contragent = contragent
+                };
+
+                _mainViewModel.Context.Clients.Add(client);
+            }
+
             // TODO fix operatorID
 
             Transaction transaction = new Transaction
@@ -159,6 +221,8 @@ namespace Bro.ViewModels.Dialogs
                 Date = DateTime.Now,
                 TypeID = (int) TranType.ToRepair,
                 OperatorID = 1,
+                Contragent = client.Contragent,
+                Price = 0
             };
 
             _mainViewModel.Context.Transactions.Add(transaction);

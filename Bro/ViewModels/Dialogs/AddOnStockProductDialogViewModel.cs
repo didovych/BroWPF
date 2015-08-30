@@ -226,6 +226,8 @@ namespace Bro.ViewModels.Dialogs
             try
             {
                 _mainViewModel.Context.SaveChanges();
+                _mainViewModel.CashInHand -= Price * products.Count;
+                _mainViewModel.ProductsValue += Price * products.Count;
             }
             catch (Exception e)
             {

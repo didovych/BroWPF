@@ -173,6 +173,7 @@
     <Compile Include="Controls\Dialogs\ShowAllTransactionsDialog.xaml.cs">
       <DependentUpon>ShowAllTransactionsDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\TransactionTypeConverter.cs" />
     <Compile Include="Helpers\ModelSerialNumberStatusPriceBoughtGroup.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="ViewModels\Transactions\CashTransactionsViewModel.cs" />
@@ -331,6 +332,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Resources\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\Dialogs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

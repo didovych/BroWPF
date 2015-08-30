@@ -17,10 +17,13 @@ namespace BroData
         OnRepair = 5,
         Repaired = 6,
         ToPawn = 8,
-        Cash = 9,
+        CashIn = 9,
         Salary = 10,
         OnAir = 11,
         TopUp = 12,
+        CashOut = 13,
+        Coffee = 14,
+
         Any = 99
     }
 

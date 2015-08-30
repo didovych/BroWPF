@@ -18,6 +18,8 @@ namespace Bro.ViewModels
         {
             _context = new Context();
 
+            UpdateCashInHand();
+
             SoldProductsViewModel = new SoldProductsViewModel(this);
             OnStockProductsViewModel = new OnStockProductsViewModel(this);
             ToRepairProductsViewModel = new ToRepairProductsViewModel(this);
@@ -42,6 +44,30 @@ namespace Bro.ViewModels
             set
             {
                 _context = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private decimal _cashInHand;
+
+        public decimal CashInHand
+        {
+            get { return _cashInHand; }
+            set
+            {
+                _cashInHand = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private decimal _productsValue;
+
+        public decimal ProductsValue
+        {
+            get { return _productsValue; }
+            set
+            {
+                _productsValue = value;
                 NotifyPropertyChanged();
             }
         }
@@ -176,6 +202,124 @@ namespace Bro.ViewModels
                 _mobileTransactionsViewModel = value;
                 NotifyPropertyChanged();
             }
+        }
+
+        public void UpdateCashInHand()
+        {
+            CashInHand = 0;
+            ProductsValue = 0;
+
+            List<Transaction> cashTransactions =
+                Context.Transactions.Where(
+                    x =>
+                        x.TypeID == (int) TranType.CashIn || x.TypeID == (int) TranType.CashOut ||
+                        x.TypeID == (int) TranType.Salary || x.TypeID == (int) TranType.TopUp ||
+                        x.TypeID == (int) TranType.Coffee).ToList();
+
+            List<Transaction> soldProductsTransactions = Context.Products.Where(x => x.Transactions.Any()).ToList().
+                Where(x => x.Transactions.OrderBy(y => y.Date).Last().TypeID == (int) TranType.Sold)
+                .ToList()
+                .SelectMany(x => x.Transactions)
+                .ToList();
+
+            List<Transaction> notSoldProductsTransactions = Context.Products.Where(x => x.Transactions.Any()).ToList().
+                Where(x => x.Transactions.OrderBy(y => y.Date).Last().TypeID != (int)TranType.Sold)
+                .ToList()
+                .SelectMany(x => x.Transactions)
+                .ToList();
+
+            foreach (var transaction in cashTransactions)
+            {
+                if (transaction.Price == null) continue;
+
+                switch (transaction.TypeID)
+                {
+                    case (int) TranType.CashIn:
+                        CashInHand += transaction.Price.Value;
+                        break;
+                    case (int)TranType.CashOut:
+                        CashInHand -= transaction.Price.Value;
+                        break;
+                    case (int)TranType.Salary:
+                        CashInHand -= transaction.Price.Value;
+                        break;
+                    case (int)TranType.Coffee:
+                        CashInHand += transaction.Price.Value;
+                        break;
+                    case (int)TranType.TopUp:
+                        CashInHand += transaction.Price.Value;
+                        break;
+                }
+            }
+
+            foreach (var transaction in soldProductsTransactions)
+            {
+                if (transaction.Price == null) continue;
+
+                switch (transaction.TypeID)
+                {
+                    case (int)TranType.Sold:
+                        CashInHand += transaction.Price.Value;
+                        break;
+                    case (int)TranType.Bought:
+                        CashInHand -= transaction.Price.Value;
+                        break;
+                    case (int)TranType.Repaired:
+                        CashInHand -= transaction.Price.Value;
+                        break;
+                    case (int)TranType.ToPawn:
+                        CashInHand -= transaction.Price.Value;
+                        break;
+                }
+            }
+
+            foreach (var transaction in notSoldProductsTransactions)
+            {
+                if (transaction.Price == null) continue;
+
+                CashInHand -= transaction.Price.Value;
+                ProductsValue += transaction.Price.Value;
+            }
+
+            //foreach (var transaction in allTransactions)
+            //{
+            //    if (transaction.Price == null) continue;
+
+            //    switch (transaction.TypeID)
+            //    {
+            //        case (int)TranType.Sold:
+            //            CashInHand += transaction.Price.Value;
+            //            break;
+            //        case (int)TranType.Bought:
+            //            CashInHand -= transaction.Price.Value;
+            //            ProductsValue += transaction.Price.Value;
+            //            break;
+            //        case (int)TranType.Repaired:
+            //            CashInHand -= transaction.Price.Value;
+            //            break;
+            //        case (int)TranType.ToPawn:
+            //            CashInHand -= transaction.Price.Value;
+            //            ProductsValue += transaction.Price.Value;
+            //            break;
+            //        case (int)TranType.CashOut:
+            //            CashInHand -= transaction.Price.Value;
+            //            break;
+            //        case (int)TranType.CashIn:
+            //            CashInHand += transaction.Price.Value;
+            //            break;
+            //        case (int) TranType.Coffee:
+            //            CashInHand += transaction.Price.Value;
+            //            break;
+            //        case (int)TranType.Salary:
+            //            CashInHand -= transaction.Price.Value;
+            //            break;
+            //        case (int)TranType.TopUp:
+            //            CashInHand += transaction.Price.Value;
+            //            break;
+            //        default:
+            //            break;
+            //    }
+            //}
         }
     }
 }

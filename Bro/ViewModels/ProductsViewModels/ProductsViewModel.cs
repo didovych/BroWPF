@@ -309,6 +309,32 @@ namespace Bro.ViewModels
             }
         }
 
+        private string _serialNumberFilter;
+
+        public string SerialNumberFilter
+        {
+            get { return _serialNumberFilter; }
+            set
+            {
+                _serialNumberFilter = value;
+                NotifyPropertyChanged();
+                ProductsView.Refresh();
+            }
+        }
+
+        private string _modelFilter;
+
+        public string ModelFilter
+        {
+            get { return _modelFilter; }
+            set
+            {
+                _modelFilter = value;
+                NotifyPropertyChanged();
+                ProductsView.Refresh();
+            }
+        }
+
 #endregion
 
         public void Update()
@@ -326,6 +352,8 @@ namespace Bro.ViewModels
 
             if (answer != MessageBoxResult.Yes) return;
 
+            
+
             var transactionsToDelete =
                 MainViewModel.Context.Transactions.Where(x => x.ProductID != null && SelectedProductIDs.Contains(x.ProductID.Value)).ToList();
 
@@ -342,7 +370,20 @@ namespace Bro.ViewModels
                 MainViewModel.Context.Products.Remove(productToDelete);
             }
 
-            MainViewModel.Context.SaveChanges();
+            try
+            {
+                MainViewModel.Context.SaveChanges();
+
+                //Update CashInHand and Products value
+                MainViewModel.UpdateCashInHand();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(("Не удалось удалить товар"), "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+
+                Logging.WriteToLog("Failed delete product. " + e.InnerException.Message);
+            }
 
             MessageBox.Show("Товар удален", "Confirmation", MessageBoxButton.OK);
 
@@ -368,6 +409,16 @@ namespace Bro.ViewModels
         }
 
         protected abstract List<ProductViewModel> GetProducts(Context context);
-        protected abstract bool Filter(object obj);
+
+        protected virtual bool Filter(object obj)
+        {
+            var product = obj as ProductViewModel;
+
+            if (product == null) return false;
+            if (!string.IsNullOrEmpty(ModelFilter) &&
+                (product.ModelName == null || !product.ModelName.ToLower().Contains(ModelFilter.ToLower())))
+                return false;
+            return (string.IsNullOrEmpty(SerialNumberFilter) || (product.SerialNumber != null && product.SerialNumber.ToLower().Contains(SerialNumberFilter)));
+        }
     }
 }

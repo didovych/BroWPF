@@ -2,8 +2,14 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:dialogControl="clr-namespace:DialogControl;assembly=DialogControl"
-        Title="MainWindow" Height="350" Width="800" DataContext="{StaticResource MainViewModel}">
+        Title="MainWindow" Height="400
+        " Width="800" DataContext="{StaticResource MainViewModel}">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
         <StackPanel>
             <dialogControl:Dialog Content="{Binding Path=OnStockProductsViewModel.AddDialogViewModel}" Title="Add product" CancelCommand="{Binding OnStockProductsViewModel.CloseAddDialogCommand}"/>
             <dialogControl:Dialog Content="{Binding Path=OnStockProductsViewModel.OnAirProductDialogViewModel}" Title="On air product" CancelCommand="{Binding OnStockProductsViewModel.CloseOnAirDialogCommand}"/>
@@ -43,7 +49,7 @@
             <dialogControl:Dialog Content="{Binding Path=MobileTransactionsViewModel.AddDialogViewModel}" Title="Пополнение" CancelCommand="{Binding MobileTransactionsViewModel.CloseAddDialogCommand}"/>
 
         </StackPanel>
-        <TabControl>
+        <TabControl Grid.Row="1">
             <TabItem Header="Товар">
                 <TabControl>
 
@@ -56,6 +62,12 @@
                             </Grid.RowDefinitions>
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Label Content="Серийный номер"/>
+                                <TextBox Text="{Binding OnStockProductsViewModel.SerialNumberFilter, UpdateSourceTrigger=PropertyChanged}" Width="75"/>
+                                <Button Width="30" Content="X" Command="{Binding OnStockProductsViewModel.ClearSerialNumberFilterCommand}"/>
+                                <Label Content="Модель"/>
+                                <TextBox Text="{Binding OnStockProductsViewModel.ModelFilter, UpdateSourceTrigger=PropertyChanged}" Width="75"/>
+                                <Button Width="30" Content="X" Command="{Binding OnStockProductsViewModel.ClearModelFilterCommand}"/>
                                 <Label Content="С"/>
                                 <DatePicker SelectedDate="{Binding OnStockProductsViewModel.FromDateFilter}" DisplayDateEnd="{Binding OnStockProductsViewModel.ThroughDateFilter}" />
                                 <Label Content="По"/>
@@ -79,7 +91,7 @@
                                     <DataGridTextColumn Binding="{Binding SalesmanBought.LastName}" Header="Продавец" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding MoneySpentForProduct}" Header="Цена закупки" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding SellingPrice}" Header="Продажная цена" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding Status}" Header="Статус" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding Status, Converter={StaticResource TransactionTypeConverter}, Mode=OneWay}" Header="Статус" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding Notes}" Header="Примечание" IsReadOnly="True"/>
                                 </DataGrid.Columns>
                             </DataGrid>
@@ -87,6 +99,7 @@
                             <StackPanel Orientation="Horizontal" Grid.Row="2">
                                 <Button Width="70" Height="30" Margin="20,0,0,0" Content="Добавить" Command="{Binding OnStockProductsViewModel.AddProductCommand}"/>
                                 <Button Width="70" Height="30" Margin="20,0,0,0" Content="Продать" Command="{Binding OnStockProductsViewModel.SellProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Списать" Command="{Binding OnStockProductsViewModel.WriteOffProductCommand}"/>
                                 <Button Width="70" Height="30" Margin="20,0,0,0" Content="Редактировать" Command="{Binding OnStockProductsViewModel.EditProductCommand}"/>
                                 <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Command="{Binding OnStockProductsViewModel.DeleteProductCommand}"/>
                                 <Button Width="70" Height="30" Margin="20,0,0,0" Content="На ремонт" Command="{Binding OnStockProductsViewModel.RepairProductCommand}"/>
@@ -111,10 +124,12 @@
                                     <DataGridTextColumn Binding="{Binding CategoryName}" Header="Категория" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding ModelName}" Header="Модель" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding SerialNumber}" Header="Серийный номер" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding Client.LastName}" Header="Клиент" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding LastTransactionDate}" Header="Дата последней операции" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding CurrentRepairer.LastName}" Header="Мастер" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding Status}" Header="Статус" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding Status, Converter={StaticResource TransactionTypeConverter}, Mode=OneWay}" Header="Статус" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding MoneySpentForProduct}" Header="Потрачено денег" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding SellingPrice}" Header="Цена возврата" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding Notes}" Header="Примечание" IsReadOnly="True"/>
                                 </DataGrid.Columns>
                             </DataGrid>
@@ -173,6 +188,12 @@
                             </Grid.RowDefinitions>
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Label Content="Серийный номер"/>
+                                <TextBox Text="{Binding SoldProductsViewModel.SerialNumberFilter, UpdateSourceTrigger=PropertyChanged}" Width="75"/>
+                                <Button Width="30" Content="X" Command="{Binding SoldProductsViewModel.ClearSerialNumberFilterCommand}"/>
+                                <Label Content="Модель"/>
+                                <TextBox Text="{Binding SoldProductsViewModel.ModelFilter, UpdateSourceTrigger=PropertyChanged}" Width="75"/>
+                                <Button Width="30" Content="X" Command="{Binding SoldProductsViewModel.ClearModelFilterCommand}"/>
                                 <Label Content="С"/>
                                 <DatePicker SelectedDate="{Binding SoldProductsViewModel.FromDateFilter}" DisplayDateEnd="{Binding SoldProductsViewModel.ThroughDateFilter}" />
                                 <Label Content="По"/>
@@ -194,7 +215,7 @@
                                     <DataGridTextColumn Binding="{Binding CategoryName}" Header="Категория" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding ModelName}" Header="Модель" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding SerialNumber}" Header="Серийный номер" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding Origin}" Header="Origin" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding Origin, Converter={StaticResource TransactionTypeConverter}, Mode=OneWay}" Header="Происхождение" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding DateSold}" Header="Дата продажи" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding SalesmanSold.FirstName}" Header="Продавец" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding MoneySpentForProduct}" Header="Цена закупки" IsReadOnly="True"/>
@@ -226,7 +247,13 @@
                         <Label Content="По"/>
                         <DatePicker SelectedDate="{Binding CashTransactionsViewModel.ThroughDateFilter}" DisplayDateStart="{Binding CashTransactionsViewModel.FromDateFilter}"/>
                         <Label Content="Тип"/>
-                        <ComboBox ItemsSource="{Binding CashTransactionsViewModel.TypeFilter}" SelectedItem="{Binding CashTransactionsViewModel.SelectedTypeFilter}"/>
+                        <ComboBox ItemsSource="{Binding CashTransactionsViewModel.TypeFilter}" SelectedItem="{Binding CashTransactionsViewModel.SelectedTypeFilter}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Converter={StaticResource TransactionTypeConverter}}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                            </ComboBox>
                         <Label Content="Продавец"/>
                         <ComboBox ItemsSource="{Binding CashTransactionsViewModel.SalesmanFilter}" SelectedItem="{Binding CashTransactionsViewModel.SelectedSalesmanFilter}" DisplayMemberPath="Contragent.LastName"/>
                         <Label Content="Работник"/>
@@ -237,7 +264,7 @@
                     <DataGrid Grid.Row="1" ItemsSource="{Binding CashTransactionsViewModel.CashTransactionsView}" SelectedItem="{Binding CashTransactionsViewModel.SelectedCashTransaction, Mode=TwoWay}" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Date}" Header="Дата" IsReadOnly="True"/>
-                            <DataGridTextColumn Binding="{Binding CashTranType}" Header="Тип" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding CashTranType, Converter={StaticResource TransactionTypeConverter}, Mode=OneWay}" Header="Тип" IsReadOnly="True"/>
                             <DataGridTextColumn Binding="{Binding Salesman.LastName}" Header="Продавец" IsReadOnly="True"/>
                             <DataGridTextColumn Binding="{Binding Price}" Header="Сумма" IsReadOnly="True"/>
                             <DataGridTextColumn Binding="{Binding Contragent.LastName}" Header="Работник" IsReadOnly="True"/>
@@ -271,7 +298,7 @@
                                 <Label Content="Продавец"/>
                                 <ComboBox ItemsSource="{Binding MobileTransactionsViewModel.SalesmanFilter}" SelectedItem="{Binding MobileTransactionsViewModel.SelectedSalesmanFilter}" DisplayMemberPath="Contragent.LastName"/>
                                 <Label Content="Клиент"/>
-                                <ComboBox ItemsSource="{Binding MobileTransactionsViewModel.ClientsFilter}" SelectedItem="{Binding MobileTransactionsViewModel.SelectedClientFilter}" DisplayMemberPath="LastName"/>
+                                <ComboBox IsEditable="True" ItemsSource="{Binding MobileTransactionsViewModel.ClientsFilter}" Text="{Binding MobileTransactionsViewModel.SelectedClientFilter}" Width="70"/>
                                 <Button Content="Фильтровать" Command="{Binding MobileTransactionsViewModel.FilterCommand}"/>
                             </StackPanel>
 
@@ -405,6 +432,12 @@
             </TabItem>
             
         </TabControl>
-
+        
+        <StackPanel Orientation="Horizontal" Grid.Row="2">
+            <Label Width="70" Height="30" Margin="20, 0" Content="Касса:"/>
+            <TextBox Width="70" Height="30" Text="{Binding CashInHand}"/>
+            <Label Width="70" Height="30" Margin="20, 0" Content="Товар:"/>
+            <TextBox Width="70" Height="30" Text="{Binding ProductsValue}"/>
+        </StackPanel>
     </Grid>
 </Window>

@@ -18,7 +18,8 @@ namespace Bro.Helpers
             SerialNumber = product.SerialNumber;
 
             var orderedTransactions = product.Transactions.OrderBy(x => x.Date);
-            Status = orderedTransactions.LastOrDefault() == null ? TranType.Zero : (TranType)orderedTransactions.LastOrDefault().TypeID;
+
+            Status = !orderedTransactions.Any() ? TranType.Zero : (TranType)orderedTransactions.LastOrDefault().TypeID;
             PriceBought = orderedTransactions.FirstOrDefault(x => x.TypeID == (int) TranType.Bought) == null
                 ? null
                 : orderedTransactions.FirstOrDefault(x => x.TypeID == (int)TranType.Bought).Price;
@@ -44,7 +45,7 @@ namespace Bro.Helpers
             var result = (Model == null ? 0 : Model.GetHashCode());
             result += 17*(SerialNumber == null ? 0 : SerialNumber.GetHashCode());
             result += 17*17 * Status.GetHashCode();
-            result += PriceBought == null ? 0 : 17*17*17*(int)PriceBought;
+            result += PriceBought == null ? 0 : 17*17*17*(int)Math.Min(int.MaxValue, PriceBought.Value);
             return result;
         }
     }

@@ -30,8 +30,8 @@
         <Label Grid.Row="3" Grid.Column="0" Content="Цена*"/>
         <Label Grid.Row="4" Grid.Column="0" Content="Цена возврата"/>
         <Label Grid.Row="5" Grid.Column="0" Content="Дата возврата*"/>
-        <Label Grid.Row="6" Grid.Column="0" Content="Имя клиента*"/>
-        <Label Grid.Row="7" Grid.Column="0" Content="Фамилия клиента*"/>
+        <Label Grid.Row="6" Grid.Column="0" Content="Фамилия клиента*"/>
+        <Label Grid.Row="7" Grid.Column="0" Content="Имя клиента*"/>
         <Label Grid.Row="8" Grid.Column="0" Content="Примечание"/>
 
         <ComboBox Grid.Row="0" Grid.Column="1" Text="{Binding Category}" ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}" DisplayMemberPath="Name"/>
@@ -40,8 +40,8 @@
         <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding SellingPrice, UpdateSourceTrigger=PropertyChanged}"/>
         <DatePicker Grid.Row="5" Grid.Column="1" SelectedDate="{Binding EndDate, UpdateSourceTrigger=PropertyChanged}" DisplayDateStart="{x:Static system:DateTime.Now}"/>
-        <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding ClientFirstName, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding ClientLastName, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding ClientLastName, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding ClientFirstName, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Notes}"/>
 
         <Button Grid.Row="9" Grid.Column="0" Content="Ok"  Command="{Binding AddProductCommand}"/>

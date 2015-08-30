@@ -16,9 +16,39 @@ namespace Bro.ViewModels.Dialogs
             _mainViewModel = mainViewModel;
 
             AddCashCommand = new DelegateCommand(AddCash, Validate);
+
+            Types = new List<string>{"Взять деньги", "Положить деньги", "Кофе/чай"};
+            SelectedType = Types.First();
         }
 
         private readonly MainViewModel _mainViewModel;
+
+        private List<string> _types;
+
+        public List<string> Types
+        {
+            get { return _types; }
+            set
+            {
+                _types = value;
+                NotifyPropertyChanged();
+                AddCashCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        private string _selectedType;
+
+        public string SelectedType
+        {
+            get { return _selectedType; }
+            set
+            {
+                _selectedType = value;
+                NotifyPropertyChanged();
+                AddCashCommand.RaiseCanExecuteChanged();
+                if (value == "Кофе/чай") Amount = 4;
+            }
+        }
 
         private decimal _amount;
 
@@ -60,16 +90,33 @@ namespace Bro.ViewModels.Dialogs
 
         private bool Validate()
         {
-            if (Amount < 0) return false;
-            if (string.IsNullOrEmpty(Notes)) return false;
+            if (Amount <= 0) return false;
+            if (SelectedType != "Кофе/чай" && string.IsNullOrEmpty(Notes)) return false;
 
             return true;
         }
 
         private void AddCash()
         {
+            int typeID = (int) TranType.Zero;
+            switch (SelectedType)
+            {
+                case "Взять деньги":
+                    typeID = (int) TranType.CashOut;
+                    _mainViewModel.CashInHand -= Amount;
+                    break;
+                case "Положить деньги":
+                    typeID = (int) TranType.CashIn;
+                    _mainViewModel.CashInHand += Amount;
+                    break;
+                case "Кофе/чай":
+                    typeID = (int) TranType.Coffee;
+                    _mainViewModel.CashInHand += Amount;
+                    break;
+            }
+
             //TODO change operatorID
-            var transaction = new Transaction {Date = DateTime.Now, Price = Amount, TypeID = (int) TranType.Cash, OperatorID = 1, Notes = Notes};
+            var transaction = new Transaction {Date = DateTime.Now, Price = Amount, TypeID = typeID, OperatorID = 1, Notes = Notes};
 
             _mainViewModel.Context.Transactions.Add(transaction);
             try
@@ -84,6 +131,7 @@ namespace Bro.ViewModels.Dialogs
             }
 
             _mainViewModel.CashTransactionsViewModel.Update();
+
             _mainViewModel.CashTransactionsViewModel.AddCashViewModel = null;
         }
     }

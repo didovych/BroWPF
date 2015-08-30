@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using Bro.Converters;
 using Bro.ViewModels.Dialogs;
 using BroData;
 using Microsoft.Practices.Prism;
@@ -32,7 +33,7 @@ namespace Bro.ViewModels
             ContragentsFilter.Insert(0, new Contragent{LastName = "Any"});
             SelectedContragentFilter = ContragentsFilter.FirstOrDefault();
 
-            TypeFilter = new List<TranType> { TranType.Any, TranType.Cash, TranType.Salary};
+            TypeFilter = new List<TranType> {TranType.Any, TranType.CashIn, TranType.CashOut, TranType.Coffee, TranType.Salary};
             SelectedTypeFilter = TypeFilter.FirstOrDefault();
 
             CashTransactions = new ObservableCollection<CashTransactionViewModel>(GetCashTransactions(_mainViewModel.Context));
@@ -306,6 +307,7 @@ namespace Bro.ViewModels
             }
 
             Update();
+            _mainViewModel.UpdateCashInHand();
         }
 
         #region Transactions
@@ -352,7 +354,7 @@ namespace Bro.ViewModels
         {
             return
                 context.Transactions.Where(
-                    x => x.TypeID == (int) TranType.Cash || x.TypeID == (int) TranType.Salary).ToList()
+                    x => x.TypeID == (int)TranType.CashIn || x.TypeID == (int)TranType.CashOut || x.TypeID == (int)TranType.Coffee || x.TypeID == (int)TranType.Salary).ToList()
                     .Select(x => new CashTransactionViewModel(x)).ToList();
         }
     }

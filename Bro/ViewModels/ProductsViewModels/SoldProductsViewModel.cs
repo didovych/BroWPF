@@ -19,6 +19,9 @@ namespace Bro.ViewModels
             : base(mainViewModel)
         {
             DeleteProductCommand = new DelegateCommand(DeleteProduct, () => SelectedProduct != null);
+
+            ClearSerialNumberFilterCommand = new DelegateCommand(() => SerialNumberFilter = "");
+            ClearModelFilterCommand = new DelegateCommand(() => ModelFilter = "");
         }
 
         private SoldProductViewModel _selectedProduct;
@@ -35,6 +38,30 @@ namespace Bro.ViewModels
             }
         }
 
+        private DelegateCommand _clearSerialNumberFilterCommand;
+
+        public DelegateCommand ClearSerialNumberFilterCommand
+        {
+            get { return _clearSerialNumberFilterCommand; }
+            set
+            {
+                _clearSerialNumberFilterCommand = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private DelegateCommand _clearModelFilterCommand;
+
+        public DelegateCommand ClearModelFilterCommand
+        {
+            get { return _clearModelFilterCommand; }
+            set
+            {
+                _clearModelFilterCommand = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         protected override List<ProductViewModel> GetProducts(Context context)
         {
             var products =
@@ -46,9 +73,11 @@ namespace Bro.ViewModels
 
         protected override bool Filter(object obj)
         {
-            var product = obj as SoldProductViewModel;
+            if (!base.Filter(obj)) return false;
 
+            var product = obj as SoldProductViewModel;
             if (product == null) return false;
+
             if (SelectedCategoryFilter.Name != "Any" && product.CategoryName != SelectedCategoryFilter.Name) return false;
             if (SelectedSalesmanFilter.Contragent.LastName != "Any" &&
                 product.SalesmanSold.LastName != SelectedSalesmanFilter.Contragent.LastName) return false;

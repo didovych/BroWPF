@@ -10,19 +10,22 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" Content="Сумма*"/>
-        <Label Grid.Row="1" Grid.Column="0" Content="Примечание*"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="Тип"/>
+        <Label Grid.Row="1" Grid.Column="0" Content="Сумма*"/>
+        <Label Grid.Row="2" Grid.Column="0" Content="Примечание*"/>
 
-        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}"/>
+        <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Types}" SelectedItem="{Binding SelectedType}"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Button Grid.Row="2" Grid.Column="0" Content="Ok"  Command="{Binding AddCashCommand}"/>
-        <Button Grid.Row="2" Grid.Column="1" Content="Cancel" IsCancel="True"/>
+        <Button Grid.Row="3" Grid.Column="0" Content="Ok"  Command="{Binding AddCashCommand}"/>
+        <Button Grid.Row="3" Grid.Column="1" Content="Cancel" IsCancel="True"/>
     </Grid>
 </UserControl>

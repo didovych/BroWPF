@@ -13,6 +13,12 @@ namespace Bro.ViewModels.ProductsViewModels
         {
             var orderedTransactions = product.Transactions.OrderBy(x => x.Date);
 
+            var firstToRepairTransaction = orderedTransactions.FirstOrDefault(x => x.TypeID == (int) TranType.ToRepair);
+            if (firstToRepairTransaction != null && firstToRepairTransaction.Contragent != null && firstToRepairTransaction.Contragent.Client != null)
+            {
+                Client = new ClientViewModel(firstToRepairTransaction.Contragent.Client);
+            }
+
             var lastTransaction = orderedTransactions.LastOrDefault();
             if (lastTransaction != null)
             {
@@ -55,6 +61,18 @@ namespace Bro.ViewModels.ProductsViewModels
             set
             {
                 _lastTransactionSalesman = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private ClientViewModel _client;
+
+        public ClientViewModel Client
+        {
+            get { return _client; }
+            set
+            {
+                _client = value;
                 NotifyPropertyChanged();
             }
         }

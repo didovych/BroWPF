@@ -144,20 +144,26 @@ namespace Bro.ViewModels.Dialogs
             FirstName = Trim(FirstName);
             if (!string.IsNullOrEmpty(LastName) && !string.IsNullOrEmpty(FirstName))
             {
-                Contragent contragent = new Contragent
+                var client =_mainViewModel.Context.Clients.FirstOrDefault(
+                    x => x.Contragent.FirstName == FirstName && x.Contragent.LastName == LastName);
+
+                if (client == null)
                 {
-                    LastName = LastName,
-                    FirstName = FirstName
-                };
+                    var contragent = new Contragent
+                    {
+                        LastName = LastName,
+                        FirstName = FirstName
+                    };
 
-                var client = new Client
-                {
-                    Contragent = contragent
-                };
+                    client = new Client
+                    {
+                        Contragent = contragent
+                    };
 
-                _mainViewModel.Context.Clients.Add(client);
+                    _mainViewModel.Context.Clients.Add(client);
+                }
 
-                transaction.Contragent = contragent;
+                transaction.Contragent = client.Contragent;
             }
 
             MobileTransaction mobileTransaction = new MobileTransaction
@@ -180,6 +186,8 @@ namespace Bro.ViewModels.Dialogs
             }
 
             _mainViewModel.MobileTransactionsViewModel.Update();
+            _mainViewModel.CashInHand += Price;
+
             _mainViewModel.MobileTransactionsViewModel.AddDialogViewModel = null;
         }
     }

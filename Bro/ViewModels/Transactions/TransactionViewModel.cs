@@ -26,7 +26,7 @@ namespace Bro.ViewModels
             }
 
             if (transaction.Operator != null) Salesman = new SalesmanViewModel(transaction.Operator.Salesman);
-            if (transaction.Contragent != null) ContragentLastName = transaction.Contragent.LastName;
+            if (transaction.Contragent != null) ContragentLastName = new ContragentViewModel(transaction.Contragent);
         }
 
         private int _id;
@@ -137,9 +137,9 @@ namespace Bro.ViewModels
             }
         }
 
-        private string _contragentLastName;
+        private ContragentViewModel _contragentLastName;
 
-        public string ContragentLastName
+        public ContragentViewModel ContragentLastName
         {
             get { return _contragentLastName; }
             set

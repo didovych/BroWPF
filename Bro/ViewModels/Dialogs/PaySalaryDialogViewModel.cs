@@ -116,6 +116,7 @@ namespace Bro.ViewModels.Dialogs
             }
 
             _mainViewModel.CashTransactionsViewModel.Update();
+            _mainViewModel.CashInHand -= Amount;
             _mainViewModel.CashTransactionsViewModel.PaySalaryViewModel = null;
         }
     }
