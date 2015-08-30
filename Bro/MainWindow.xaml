@@ -316,6 +316,8 @@
                             <StackPanel Orientation="Horizontal" Grid.Row="2">
                                 <Button Width="70" Height="30" Margin="20,0,0,0" Content="Добавить" Command="{Binding MobileTransactionsViewModel.AddCommand}"/>
                                 <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Command="{Binding MobileTransactionsViewModel.DeleteCommand}"/>
+                                <Label  Width="70" Height="30" Margin="20,0,0,0" Content="Price sum:"/>
+                                <Label  Width="70" Height="30" Margin="20,0,0,0" Content="{Binding MobileTransactionsViewModel.PriceSum, Mode=TwoWay}"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>
@@ -435,9 +437,9 @@
         
         <StackPanel Orientation="Horizontal" Grid.Row="2">
             <Label Width="70" Height="30" Margin="20, 0" Content="Касса:"/>
-            <TextBox Width="70" Height="30" Text="{Binding CashInHand}"/>
+            <Label Width="70" Height="30" Content="{Binding CashInHand}"/>
             <Label Width="70" Height="30" Margin="20, 0" Content="Товар:"/>
-            <TextBox Width="70" Height="30" Text="{Binding ProductsValue}"/>
+            <Label Width="70" Height="30" Content="{Binding ProductsValue}"/>
         </StackPanel>
     </Grid>
 </Window>

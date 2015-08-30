@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bro.Helpers;
 using Bro.ViewModels;
 using Bro.ViewModels.MobileTransactions;
+using Bro.ViewModels.Transactions;
 using BroData;
 
 namespace Sandbox
@@ -13,12 +15,15 @@ namespace Sandbox
     {
         private static void Main(string[] args)
         {
-            using (var context = new Context())
+            Context context = new Context();
+
+            using (context)
             {
-                var operators = context.MobileOperators;//.Select(x => new MobileOperatorViewModel(x)).ToList();
+                ExcelExport excel = new ExcelExport();
 
-                Console.WriteLine(operators.ToList().Select(x => new MobileOperatorViewModel(x)).ToList().Count + "");
+                excel.SalesmanReport("E:\\report.xlsx", 1, DateTime.MinValue, DateTime.MaxValue, context);
 
+                Console.WriteLine("DONE");
                 Console.ReadLine();
             }
         }

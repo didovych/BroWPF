@@ -59,6 +59,9 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="EPPlus">
+      <HintPath>..\packages\EPPlus.4.0.4\lib\net20\EPPlus.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism.Composition">
       <HintPath>..\packages\Prism.Composition.5.0.0\lib\NET45\Microsoft.Practices.Prism.Composition.dll</HintPath>
       <Private>True</Private>
@@ -174,7 +177,9 @@
       <DependentUpon>ShowAllTransactionsDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\TransactionTypeConverter.cs" />
+    <Compile Include="Helpers\ExcelExport.cs" />
     <Compile Include="Helpers\ModelSerialNumberStatusPriceBoughtGroup.cs" />
+    <Compile Include="Helpers\ReportHelper.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="ViewModels\Transactions\CashTransactionsViewModel.cs" />
     <Compile Include="ViewModels\Transactions\CashTransactionViewModel.cs" />
@@ -226,6 +231,7 @@
     <Compile Include="ViewModels\ProductsViewModels\ToPawnProductViewModel.cs" />
     <Compile Include="ViewModels\ProductsViewModels\ToRepairProductsViewModel.cs" />
     <Compile Include="ViewModels\ProductsViewModels\ToRepairProductViewModel.cs" />
+    <Compile Include="ViewModels\Transactions\SoldTransactionViewModel.cs" />
     <Compile Include="ViewModels\Transactions\TransactionViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Page Include="Controls\Dialogs\AddCashDialog.xaml">

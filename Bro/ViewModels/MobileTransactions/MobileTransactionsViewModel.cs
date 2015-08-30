@@ -45,7 +45,7 @@ namespace Bro.ViewModels.MobileTransactions
             FilterCommand = new DelegateCommand(MobileTransactionsView.Refresh);
         }
 
-        private MainViewModel _mainViewModel;
+        private readonly MainViewModel _mainViewModel;
 
         private MobileTransactionViewModel _selectedTransaction;
 
@@ -68,6 +68,18 @@ namespace Bro.ViewModels.MobileTransactions
             set
             {
                 _addDialogViewModel = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private decimal _priceSum;
+
+        public decimal PriceSum
+        {
+            get { return _priceSum; }
+            set
+            {
+                _priceSum = value;
                 NotifyPropertyChanged();
             }
         }

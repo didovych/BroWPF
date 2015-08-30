@@ -9,6 +9,10 @@ namespace Bro.ViewModels.MobileTransactions
 {
     public class MobileTransactionViewModel: ViewModelBase
     {
+        public MobileTransactionViewModel()
+        {
+        }
+
         public MobileTransactionViewModel(MobileTransaction mobileTransaction)
         {
             ID = mobileTransaction.ID;
