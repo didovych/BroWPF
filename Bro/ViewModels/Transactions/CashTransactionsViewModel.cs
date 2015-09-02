@@ -67,6 +67,18 @@ namespace Bro.ViewModels
             }
         }
 
+        private decimal _viewedTransactionsSum;
+
+        public decimal ViewedTransactionsSum
+        {
+            get { return _viewedTransactionsSum; }
+            set
+            {
+                _viewedTransactionsSum = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         #region Filters
         private DateTime _fromDateFilter;
 
@@ -347,7 +359,10 @@ namespace Bro.ViewModels
                 (transaction.Contragent == null || transaction.Contragent.LastName != SelectedContragentFilter.LastName)) return false;
             if (SelectedTypeFilter != TranType.Any && transaction.CashTranType != SelectedTypeFilter) return false;
 
-            return transaction.Date >= FromDateFilter && transaction.Date <= ThroughDateFilter;
+            if (transaction.Date < FromDateFilter || transaction.Date > ThroughDateFilter) return false;
+
+            ViewedTransactionsSum += transaction.Price;
+            return true;
         }
 
         private List<CashTransactionViewModel> GetCashTransactions(Context context)

@@ -17,7 +17,7 @@ namespace Bro.Helpers
         {
             return
                 context.Transactions.Where(
-                    x => x.Date >= fromDate && x.Date <= throughDate && x.TypeID == (int)TranType.Sold).OrderBy(x => x.Date)
+                    x => x.Date >= fromDate && x.Date <= throughDate && x.TypeID == (int)TranType.Sold && x.ProductID != null).OrderBy(x => x.Product.Model.Category.Name).ThenBy(x => x.Date)
                     .ToList()
                     .Select(x => new SoldTransactionViewModel(x))
                     .ToList();
@@ -37,7 +37,7 @@ namespace Bro.Helpers
         {
             return
                 context.Transactions.Where(
-                    x => x.Date >= fromDate && x.Date <= throughDate && x.TypeID == (int)TranType.Salary).OrderBy(x => x.Date)
+                    x => x.Date >= fromDate && x.Date <= throughDate && x.TypeID == (int)TranType.Salary).OrderBy(x => x.ContragentID).ThenBy(x => x.Date)
                     .ToList()
                     .Select(x => new CashTransactionViewModel(x))
                     .ToList();
@@ -76,7 +76,7 @@ namespace Bro.Helpers
         {
             return
                 context.MobileTransactions.Where(
-                    x => x.Transaction.Date >= fromDate && x.Transaction.Date <= throughDate)
+                    x => x.Transaction.Date >= fromDate && x.Transaction.Date <= throughDate).OrderBy(x => x.MobileOperatorID).ThenBy(x => x.Transaction.Date)
                     .ToList()
                     .Select(x => new MobileTransactionViewModel(x))
                     .ToList();

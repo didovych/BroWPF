@@ -21,10 +21,9 @@ namespace Sandbox
             {
                 ExcelExport excel = new ExcelExport();
 
-                excel.SalesmanReport("E:\\report.xlsx", 1, DateTime.MinValue, DateTime.MaxValue, context);
+                excel.GeneralReport("E:\\report.xlsx", DateTime.MinValue, DateTime.MaxValue, context);
 
                 Console.WriteLine("DONE");
-                Console.ReadLine();
             }
         }
     }

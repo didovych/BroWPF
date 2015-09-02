@@ -22,6 +22,7 @@ namespace Bro.ViewModels.MobileTransactions
             if (mobileTransaction.Transaction.Contragent != null) Client = new ContragentViewModel(mobileTransaction.Transaction.Contragent);
             Salesman = new SalesmanViewModel(mobileTransaction.Transaction.Operator.Salesman);
             Date = mobileTransaction.Transaction.Date;
+            Profit = Price - CreditSum;
         }
 
         private int _id;
@@ -68,6 +69,18 @@ namespace Bro.ViewModels.MobileTransactions
             set
             {
                 _price = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private decimal _profit;
+
+        public decimal Profit
+        {
+            get { return _profit; }
+            set
+            {
+                _profit = value;
                 NotifyPropertyChanged();
             }
         }
