@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Bro.Services;
 using Bro.ViewModels.ProductsViewModels;
 using BroData;
 using Microsoft.Practices.Prism.Commands;
@@ -60,8 +61,7 @@ namespace Bro.ViewModels.Dialogs
                 Logging.WriteToLog("Failed take lastRepairerID");
             }
 
-            // TODO change operatorID
-            Transaction transaction = new Transaction { ProductID = _repairedProduct.IDs.FirstOrDefault(), Date = DateTime.Now, TypeID = (int)TranType.Repaired, ContragentID = lastRepairerID, OperatorID = 1, Price = Price };
+            Transaction transaction = new Transaction { ProductID = _repairedProduct.IDs.FirstOrDefault(), Date = DateTime.Now, TypeID = (int)TranType.Repaired, ContragentID = lastRepairerID, OperatorID = OperatorManager.Instance.CurrentUserID, Price = Price };
 
             try
             {

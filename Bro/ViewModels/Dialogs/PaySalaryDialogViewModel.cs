@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Bro.Services;
 using BroData;
 using Microsoft.Practices.Prism.Commands;
 
@@ -100,8 +101,7 @@ namespace Bro.ViewModels.Dialogs
         {
             if (SelectedEmployee == null) _mainViewModel.CashTransactionsViewModel.PaySalaryViewModel = null;
 
-            //TODO change operatorID
-            var transaction = new Transaction {Date = DateTime.Now, Price = Amount, TypeID = (int) TranType.Salary, ContragentID = SelectedEmployee.ID, OperatorID = 1, Notes = Notes};
+            var transaction = new Transaction {Date = DateTime.Now, Price = Amount, TypeID = (int) TranType.Salary, ContragentID = SelectedEmployee.ID, OperatorID = OperatorManager.Instance.CurrentUserID, Notes = Notes};
 
             _mainViewModel.Context.Transactions.Add(transaction);
             try

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Bro.Services;
 using Bro.ViewModels.ProductsViewModels;
 using BroData;
 using Microsoft.Practices.Prism.Commands;
@@ -51,7 +52,7 @@ namespace Bro.ViewModels.Dialogs
                 ProductID = _selectedProductIDs.FirstOrDefault(),
                 Date = DateTime.Now,
                 TypeID = (int) TranType.Sold,
-                OperatorID = 1,
+                OperatorID = OperatorManager.Instance.CurrentUserID,
                 Price = Price
             };
 

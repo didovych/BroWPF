@@ -22,6 +22,7 @@ namespace Bro.ViewModels.Dialogs
 
             FirstName = _salesmanToEdit.FirstName;
             LastName = _salesmanToEdit.LastName;
+            Login = _salesmanToEdit.Login;
             ProfitPercentage = _salesmanToEdit.ProfitPercentage;
             SalaryPerDay = _salesmanToEdit.SalaryPerDay;
         }
@@ -80,12 +81,26 @@ namespace Bro.ViewModels.Dialogs
             }
         }
 
+        private string _login;
+
+        public string Login
+        {
+            get { return _login; }
+            set
+            {
+                _login = value;
+                NotifyPropertyChanged();
+                EditSalesmanCommand.RaiseCanExecuteChanged();
+            }
+        }
+
         public DelegateCommand EditSalesmanCommand { get; set; }
 
         private bool Validate()
         {
             if (string.IsNullOrEmpty(FirstName)) return false;
             if (string.IsNullOrEmpty(LastName)) return false;
+            if (string.IsNullOrEmpty(Login)) return false;
 
             return true;
         }
@@ -94,6 +109,7 @@ namespace Bro.ViewModels.Dialogs
         {
             FirstName = Trim(FirstName);
             LastName = Trim(LastName);
+            Login = Trim(Login);
 
             if (_salesmanToEdit == null)
             {
@@ -108,6 +124,7 @@ namespace Bro.ViewModels.Dialogs
                 var salesmanRow = _mainViewModel.Context.Salesmen.FirstOrDefault(x => x.ID == _salesmanToEdit.ID);
                 salesmanRow.ProfitPercentage = ProfitPercentage;
                 salesmanRow.SalaryPerDay = SalaryPerDay;
+                salesmanRow.Login = Login;
                 salesmanRow.Contragent.FirstName = FirstName;
                 salesmanRow.Contragent.LastName = LastName;
 

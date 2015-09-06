@@ -9,6 +9,8 @@
                 <ResourceDictionary Source="Resources/ViewModels.xaml"/>
                 <ResourceDictionary Source="Resources/Dialogs.xaml"/>
                 <ResourceDictionary Source="Resources/Converters.xaml"/>
+                <ResourceDictionary Source="Resources/Buttons.xaml"/>
+                <ResourceDictionary Source="Resources/StackPanels.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

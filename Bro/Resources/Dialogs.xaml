@@ -15,10 +15,10 @@
         <dialogs1:AddOnStockProductDialog/>
     </DataTemplate>
     <DataTemplate DataType="{x:Type dialogs:OnAirProductDialogViewModel}">
-        <dialogs1:OnAirProductDialog/>
+        <dialogs1:OnAirProductDialog Height="100" Width="200"/>
     </DataTemplate>
     <DataTemplate DataType="{x:Type dialogs:FromAirProductDialogViewModel}">
-        <dialogs1:FromAirProductDialog/>
+        <dialogs1:FromAirProductDialog Height="100" Width="200"/>
     </DataTemplate>
     <DataTemplate DataType="{x:Type dialogs:AddToRepairProductDialogViewModel}">
         <dialogs1:AddToRepairProductDialog/>
@@ -27,19 +27,19 @@
         <dialogs1:EditProductDialog/>
     </DataTemplate>
     <DataTemplate DataType="{x:Type dialogs:RepairOnStockProductDialogViewModel}">
-        <dialogs1:RepairOnStockProductDialog/>
+        <dialogs1:RepairOnStockProductDialog Height="100" Width="200"/>
     </DataTemplate>
     <DataTemplate DataType="{x:Type dialogs:RepairToRepairProductDialogViewModel}">
-        <dialogs1:RepairToRepairProductDialog/>
+        <dialogs1:RepairToRepairProductDialog Height="100" Width="200"/>
     </DataTemplate>
     <DataTemplate DataType="{x:Type dialogs:RepairedOnStockProductDialogViewModel}">
-        <dialogs1:RepairedOnStockProductDialog/>
+        <dialogs1:RepairedOnStockProductDialog Height="100" Width="200"/>
     </DataTemplate>
     <DataTemplate DataType="{x:Type dialogs:RepairedToRepairProductDialogViewModel}">
-        <dialogs1:RepairedToRepairProductDialog/>
+        <dialogs1:RepairedToRepairProductDialog Height="100" Width="200"/>
     </DataTemplate>
     <DataTemplate DataType="{x:Type dialogs:SellProductDialogViewModel}">
-        <dialogs1:SellProductDialog/>
+        <dialogs1:SellProductDialog Height="100" Width="200"/>
     </DataTemplate>
     <DataTemplate DataType="{x:Type dialogs:AddToPawnProductDialogViewModel}">
         <dialogs1:AddToPawnProductDialog/>
@@ -52,13 +52,13 @@
         <dialogs1:AddSalesmanDialog/>
     </DataTemplate>
     <DataTemplate DataType="{x:Type dialogs:AddGuardDialogViewModel}">
-        <dialogs1:AddGuardDialog/>
+        <dialogs1:AddGuardDialog Height="100" Width="200"/>
     </DataTemplate>
     <DataTemplate DataType="{x:Type dialogs:AddRepairerDialogViewModel}">
-        <dialogs1:AddRepairerDialog/>
+        <dialogs1:AddRepairerDialog Height="100" Width="200"/>
     </DataTemplate>
     <DataTemplate DataType="{x:Type dialogs:EditSalesmanDialogViewModel}">
-        <dialogs1:EditSalesmanDialog/>
+        <dialogs1:EditSalesmanDialog />
     </DataTemplate>
     <DataTemplate DataType="{x:Type dialogs:EditRepairerDialogViewModel}">
         <dialogs1:EditRepairerDialog/>
@@ -78,9 +78,9 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type dialogs:AddMobileOperatorDialogViewModel}">
-        <dialogs1:AddMobileOperatorDialog/>
+        <dialogs1:AddMobileOperatorDialog Height="100" Width="200"/>
     </DataTemplate>
     <DataTemplate DataType="{x:Type dialogs:AddMobileTransactionDialogViewModel}">
-        <dialogs1:AddMobileTransactionDialog/>
+        <dialogs1:AddMobileTransactionDialog Width="300"/>
     </DataTemplate>
 </ResourceDictionary>

@@ -70,12 +70,26 @@ namespace Bro.ViewModels.Dialogs
             }
         }
 
+        private string _login;
+
+        public string Login
+        {
+            get { return _login; }
+            set
+            {
+                _login = value;
+                NotifyPropertyChanged();
+                AddSalesmanCommand.RaiseCanExecuteChanged();
+            }
+        }
+
         public DelegateCommand AddSalesmanCommand { get; set; }
 
         private bool Validate()
         {
             if (string.IsNullOrEmpty(FirstName)) return false;
             if (string.IsNullOrEmpty(LastName)) return false;
+            if (string.IsNullOrEmpty(Login)) return false;
 
             return true;
         }
@@ -86,7 +100,7 @@ namespace Bro.ViewModels.Dialogs
             LastName = Trim(LastName);
 
             Contragent contragent = new Contragent{FirstName = FirstName, LastName = LastName};
-            Salesman salesman = new Salesman {ProfitPercentage = ProfitPercentage, SalaryPerDay = SalaryPerDay, Contragent = contragent};
+            Salesman salesman = new Salesman {ProfitPercentage = ProfitPercentage, SalaryPerDay = SalaryPerDay, Login = Login, Contragent = contragent};
 
             try
             {

@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using Bro.Helpers;
+using Bro.Services;
 using Bro.ViewModels.Dialogs;
 using BroData;
 using Microsoft.Practices.Prism.Commands;
@@ -47,7 +48,7 @@ namespace Bro.ViewModels.ProductsViewModels
             ClearSerialNumberFilterCommand = new DelegateCommand(() => SerialNumberFilter = "");
             ClearModelFilterCommand = new DelegateCommand(() => ModelFilter = "");
 
-            FromDateFilter = new DateTime(2015, 8, 1);
+            FromDateFilter = new DateTime(2015, 9, 1);
         }
 
         private readonly MainViewModel _mainViewModel;
@@ -349,13 +350,12 @@ namespace Bro.ViewModels.ProductsViewModels
 
             foreach (var id in SelectedProduct.IDs)
             {
-                //TODO change operatorID
                 Transaction transaction = new Transaction
                 {
                     ProductID = id,
                     Date = DateTime.Now,
                     TypeID = (int) TranType.Sold,
-                    OperatorID = 1,
+                    OperatorID = OperatorManager.Instance.CurrentUserID,
                     Price = 0
                 };
                 _mainViewModel.Context.Transactions.Add(transaction);

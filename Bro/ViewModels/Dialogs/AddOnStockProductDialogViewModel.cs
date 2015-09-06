@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Windows;
+using Bro.Services;
 using BroData;
 using Microsoft.Practices.Prism.Commands;
 
@@ -211,13 +212,12 @@ namespace Bro.ViewModels.Dialogs
             List<Transaction> transactions = new List<Transaction>();
             foreach (var product in products)
             {
-                // TODO fix operatorID
                 transactions.Add(new Transaction
                 {
                     Product = product,
                     Date = DateTime.Now,
                     TypeID = (int)TranType.Bought,
-                    OperatorID = 1,
+                    OperatorID = OperatorManager.Instance.CurrentUserID,
                     Price = Price
                 });
             }

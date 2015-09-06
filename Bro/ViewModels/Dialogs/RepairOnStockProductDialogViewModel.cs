@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Windows;
+using Bro.Services;
 using Bro.ViewModels.ProductsViewModels;
 using BroData;
 using Microsoft.Practices.Prism.Commands;
@@ -72,14 +73,13 @@ namespace Bro.ViewModels.Dialogs
 
             foreach (var id in _productToRepair.IDs)
             {
-                // TODO change operatorID
                 transactions.Add(new Transaction
                 {
                     ProductID = id,
                     Date = DateTime.Now,
                     TypeID = (int) TranType.OnRepair,
                     ContragentID = SelectedRepairer.ID,
-                    OperatorID = 1,
+                    OperatorID = OperatorManager.Instance.CurrentUserID,
                     Price = 0
                 });
             }

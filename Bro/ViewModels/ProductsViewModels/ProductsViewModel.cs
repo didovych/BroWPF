@@ -352,8 +352,6 @@ namespace Bro.ViewModels
 
             if (answer != MessageBoxResult.Yes) return;
 
-            
-
             var transactionsToDelete =
                 MainViewModel.Context.Transactions.Where(x => x.ProductID != null && SelectedProductIDs.Contains(x.ProductID.Value)).ToList();
 

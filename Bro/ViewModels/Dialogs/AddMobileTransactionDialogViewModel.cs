@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Bro.Services;
 using BroData;
 using Microsoft.Practices.Prism.Commands;
 
@@ -136,7 +137,7 @@ namespace Bro.ViewModels.Dialogs
             {
                 Date = DateTime.Now,
                 TypeID = (int) TranType.TopUp,
-                OperatorID = 1,
+                OperatorID = OperatorManager.Instance.CurrentUserID,
                 Price = Price
             };
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Bro.Services;
 using Bro.ViewModels.Dialogs;
 using BroData;
 using Microsoft.Practices.Prism.Commands;
@@ -104,8 +105,11 @@ namespace Bro.ViewModels.ProductsViewModels
         /// </summary>
         public void SendToOnStockProduct()
         {
-            // TODO change operatorID
-            var transaction = new Transaction {ProductID = SelectedProduct.IDs.FirstOrDefault(), Date = DateTime.Now, TypeID = (int) TranType.Bought, OperatorID = 1, Price = 0};
+            MessageBoxResult answer = MessageBox.Show("Перенести выбранный товар на приход?", "Question", MessageBoxButton.YesNo);
+
+            if (answer != MessageBoxResult.Yes) return;
+
+            var transaction = new Transaction {ProductID = SelectedProduct.IDs.FirstOrDefault(), Date = DateTime.Now, TypeID = (int) TranType.Bought, OperatorID = OperatorManager.Instance.CurrentUserID, Price = 0};
 
             try
             {

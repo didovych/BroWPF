@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Bro.Services;
 using BroData;
 using Microsoft.Practices.Prism.Commands;
 
@@ -213,14 +214,12 @@ namespace Bro.ViewModels.Dialogs
                 _mainViewModel.Context.Clients.Add(client);
             }
 
-            // TODO fix operatorID
-
             Transaction transaction = new Transaction
             {
                 Product = product,
                 Date = DateTime.Now,
                 TypeID = (int) TranType.ToRepair,
-                OperatorID = 1,
+                OperatorID = OperatorManager.Instance.CurrentUserID,
                 Contragent = client.Contragent,
                 Price = 0
             };

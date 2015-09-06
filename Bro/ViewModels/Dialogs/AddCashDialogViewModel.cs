@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Bro.Services;
 using BroData;
 using Microsoft.Practices.Prism.Commands;
 
@@ -115,8 +116,7 @@ namespace Bro.ViewModels.Dialogs
                     break;
             }
 
-            //TODO change operatorID
-            var transaction = new Transaction {Date = DateTime.Now, Price = Amount, TypeID = typeID, OperatorID = 1, Notes = Notes};
+            var transaction = new Transaction {Date = DateTime.Now, Price = Amount, TypeID = typeID, OperatorID = OperatorManager.Instance.CurrentUserID, Notes = Notes};
 
             _mainViewModel.Context.Transactions.Add(transaction);
             try

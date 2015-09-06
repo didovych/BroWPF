@@ -12,6 +12,7 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
@@ -26,8 +27,10 @@
         <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ProfitPercentage, UpdateSourceTrigger=PropertyChanged}"/>
         <Label Grid.Row="3" Grid.Column="0" Content="Выход"/>
         <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding SalaryPerDay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Grid.Row="4" Grid.Column="0" Content="Логин"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Button Grid.Row="4" Grid.Column="0" Content="Ok" Command="{Binding EditSalesmanCommand}"/>
-        <Button Grid.Row="4" Grid.Column="1" Content="Cancel" IsCancel="True"/>
+        <Button Grid.Row="5" Grid.Column="0" Content="Ok" Command="{Binding EditSalesmanCommand}"/>
+        <Button Grid.Row="5" Grid.Column="1" Content="Cancel" IsCancel="True"/>
     </Grid>
 </UserControl>

@@ -1,3 +1,5 @@
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
+
 namespace BroData
 {
     using System;
@@ -14,6 +16,9 @@ namespace BroData
         public int ProfitPercentage { get; set; }
 
         public int SalaryPerDay { get; set; }
+
+        [Required, MaxLength(50)]
+        public string Login { get; set; }
 
         public virtual Contragent Contragent { get; set; }
     }

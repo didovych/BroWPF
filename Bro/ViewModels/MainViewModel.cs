@@ -5,6 +5,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using Bro.Services;
 using Bro.ViewModels.Dialogs;
 using Bro.ViewModels.MobileTransactions;
 using Bro.ViewModels.ProductsViewModels;
@@ -38,9 +39,7 @@ namespace Bro.ViewModels
 
             ReportsViewModel = new ReportsViewModel(_context);
 
-            WindowsIdentity user = WindowsIdentity.GetCurrent();
-            WindowsPrincipal principal = new WindowsPrincipal(user);
-            IsUserAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
+            IsUserAdmin = OperatorManager.Instance.IsUserAdmin;
         }
 
         private Context _context;

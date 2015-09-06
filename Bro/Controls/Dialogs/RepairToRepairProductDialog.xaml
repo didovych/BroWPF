@@ -15,8 +15,8 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" Content="Мастер"/>
-        <ComboBox Grid.Row="0" Grid.Column="1" Text="{Binding Repairer}" ItemsSource="{Binding Repairers}" SelectedItem="{Binding SelectedRepairer}" DisplayMemberPath="Contragent.LastName"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="Мастер" VerticalContentAlignment="Center"/>
+        <ComboBox Grid.Row="0" Grid.Column="1" VerticalContentAlignment="Center" Text="{Binding Repairer}" ItemsSource="{Binding Repairers}" SelectedItem="{Binding SelectedRepairer}" DisplayMemberPath="Contragent.LastName"/>
 
         <Button Grid.Row="1" Grid.Column="0" Content="Ok" IsDefault="True" Command="{Binding RepairProductCommand}"/>
         <Button Grid.Row="1" Grid.Column="1" Content="Cancel" IsCancel="True"/>

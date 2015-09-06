@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:dialogControl="clr-namespace:DialogControl;assembly=DialogControl"
-        Title="Bro" Height="400
+        Title="Bro" Height="600
         " Width="1000" DataContext="{StaticResource MainViewModel}">
     <Grid>
         <Grid.RowDefinitions>
@@ -101,13 +101,13 @@
                             </DataGrid>
 
                             <StackPanel Orientation="Vertical" Grid.Row="2">
-                                <StackPanel Orientation="Horizontal" Height="50">
-                                    <Button  Width="70" Height="30" Margin="20,0,0,0" Content="Новый товар"  Background="Aquamarine" FontSize="10" Command="{Binding OnStockProductsViewModel.AddProductCommand}"/>
-                                    <Button Width="70" Height="30" Margin="20,0,0,0" Content="Редактировать" FontSize="9" Command="{Binding OnStockProductsViewModel.EditProductCommand}"/>
-                                    <Button Width="70" Height="30" Margin="20,0,0,0" Content="Продать" Command="{Binding OnStockProductsViewModel.SellProductCommand}"/>
-                                    <Button Width="70" Height="30" Margin="20,0,0,0" Content="Списать" Command="{Binding OnStockProductsViewModel.WriteOffProductCommand}"/>
-                                    <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Background="Crimson" Command="{Binding OnStockProductsViewModel.DeleteProductCommand}" Visibility="{Binding IsUserAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                    <Label Height="30" HorizontalAlignment="Right" Content="Сумма закупки:"/>
+                                <StackPanel Orientation="Horizontal" Height="50" Style="{StaticResource ControlStackPanel}">
+                                    <Button Style="{StaticResource AddButton}" Content="Новый товар" FontSize="10" Command="{Binding OnStockProductsViewModel.AddProductCommand}"/>
+                                    <Button Content="Редактировать" Background="CornflowerBlue" FontSize="9" Command="{Binding OnStockProductsViewModel.EditProductCommand}"/>
+                                    <Button Content="Продать" Background="LightYellow" Command="{Binding OnStockProductsViewModel.SellProductCommand}"/>
+                                    <Button Content="Списать" Background="IndianRed" Command="{Binding OnStockProductsViewModel.WriteOffProductCommand}"/>
+                                    <Button Content="Удалить" Background="Crimson" Command="{Binding OnStockProductsViewModel.DeleteProductCommand}" Visibility="{Binding IsUserAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                    <Label Height="30" Margin="20,0,0,0" HorizontalAlignment="Right" Content="Сумма закупки:"/>
                                     <Label Height="30" VerticalContentAlignment="Center" HorizontalAlignment="Right">
                                         <Label.Content>
                                             <MultiBinding Converter="{StaticResource SumConverter}">
@@ -117,11 +117,11 @@
                                         </Label.Content>
                                     </Label>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Height="50">
-                                    <Button Width="70" Height="30" Margin="20,0,0,0" Content="На ремонт" Command="{Binding OnStockProductsViewModel.RepairProductCommand}"/>
-                                    <Button Width="70" Height="30" Margin="20,0,0,0" Content="Сделанно" Command="{Binding OnStockProductsViewModel.RepairedProductCommand}"/>
-                                    <Button Width="70" Height="30" Margin="20,0,0,0" Content="На выносную" Command="{Binding OnStockProductsViewModel.OnAirProductCommand}"/>
-                                    <Button Width="70" Height="30" Margin="20,0,0,0" Content="С выносной" Command="{Binding OnStockProductsViewModel.FromAirCommand}"/>
+                                <StackPanel Orientation="Horizontal" Height="50" Style="{StaticResource ControlStackPanel}">
+                                    <Button Content="На ремонт" Background="Aqua" Command="{Binding OnStockProductsViewModel.RepairProductCommand}"/>
+                                    <Button Content="Сделанно" Background="Aqua" Command="{Binding OnStockProductsViewModel.RepairedProductCommand}"/>
+                                    <Button Content="На выносную" Background="Bisque" FontSize="10" Command="{Binding OnStockProductsViewModel.OnAirProductCommand}"/>
+                                    <Button Content="С выносной" Background="Bisque" Command="{Binding OnStockProductsViewModel.FromAirCommand}"/>
                                     
                                 </StackPanel>
                             </StackPanel>
@@ -154,11 +154,11 @@
 
                             <StackPanel Orientation="Horizontal" Grid.Row="1">
                                 <Button Width="70" Height="30" Margin="20,0,0,0" Content="Новый товар" Background="Aquamarine" FontSize="10" Command="{Binding ToRepairProductsViewModel.AddProductCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Редактировать" FontSize="9" Command="{Binding ToRepairProductsViewModel.EditProductCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Вернуть" Command="{Binding ToRepairProductsViewModel.SellProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Редактировать" Background="CornflowerBlue" FontSize="9" Command="{Binding ToRepairProductsViewModel.EditProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Вернуть" Background="LightYellow" Command="{Binding ToRepairProductsViewModel.SellProductCommand}"/>
                                 <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Background="Crimson" Command="{Binding ToRepairProductsViewModel.DeleteProductCommand}" Visibility="{Binding IsUserAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="На ремонт" Command="{Binding ToRepairProductsViewModel.RepairProductCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Сделанно" Command="{Binding ToRepairProductsViewModel.TakeProductFromRepairerCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="На ремонт" Background="Aqua" Command="{Binding ToRepairProductsViewModel.RepairProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Сделанно" Background="Aqua" Command="{Binding ToRepairProductsViewModel.TakeProductFromRepairerCommand}"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>
@@ -188,11 +188,11 @@
                             </DataGrid>
 
                             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2">
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Новый товар" FontSize="10" Command="{Binding ToPawnProductsViewModel.AddProductCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Редактировать" FontSize="9" Command="{Binding ToPawnProductsViewModel.EditProductCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Вернуть" Command="{Binding ToPawnProductsViewModel.SellProductCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Command="{Binding ToPawnProductsViewModel.DeleteProductCommand}" Visibility="{Binding IsUserAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="На приход" Command="{Binding ToPawnProductsViewModel.SendToOnStockProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Новый товар" Background="Aquamarine" FontSize="10" Command="{Binding ToPawnProductsViewModel.AddProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Редактировать" Background="CornflowerBlue" FontSize="9" Command="{Binding ToPawnProductsViewModel.EditProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Вернуть" Background="LightYellow" Command="{Binding ToPawnProductsViewModel.SellProductCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Background="Crimson" Command="{Binding ToPawnProductsViewModel.DeleteProductCommand}" Visibility="{Binding IsUserAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="На приход" Background="Aqua" Command="{Binding ToPawnProductsViewModel.SendToOnStockProductCommand}"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>
@@ -245,7 +245,7 @@
                                     <DataGridTextColumn Binding="{Binding SerialNumber}" Header="Серийный номер" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding Origin, Converter={StaticResource TransactionTypeConverter}}" Header="Происхождение" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding DateSold, StringFormat={}{0:dd.MM.yyyy HH:mm} }" Header="Дата продажи" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding SalesmanSold.FirstName}" Header="Продавец" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding SalesmanSold.LastName}" Header="Продавец" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding MoneySpentForProduct}" Header="Цена закупки" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding PriceSold}" Header="Цена продажи" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding Profit}" Header="Прибыль" IsReadOnly="True"/>
@@ -253,7 +253,7 @@
                             </DataGrid>
 
                             <StackPanel Orientation="Horizontal" Grid.Row="2">
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Command="{Binding SoldProductsViewModel.DeleteProductCommand}" Visibility="{Binding IsUserAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Background="Crimson" Command="{Binding SoldProductsViewModel.DeleteProductCommand}" Visibility="{Binding IsUserAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                                 <Label Height="30" Margin="20,0,0,0" Content="Сумма продаж:"/>
                                 <Label VerticalContentAlignment="Center">
                                     <Label.Content>
@@ -310,9 +310,9 @@
                     </DataGrid>
 
                     <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2">
-                        <Button Width="70" Height="30" Margin="20,0,0,0" Content="Новая" Command="{Binding CashTransactionsViewModel.AddCashTransactionCommand}"/>
-                        <Button Width="70" Height="30" Margin="20,0,0,0" Content="Зарплата" Command="{Binding CashTransactionsViewModel.PaySalaryCommand}"/>
-                        <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Command="{Binding CashTransactionsViewModel.DeleteCashTransactionCommand}" Visibility="{Binding IsUserAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        <Button Width="70" Height="30" Margin="20,0,0,0" Content="Новая" Background="Aquamarine" Command="{Binding CashTransactionsViewModel.AddCashTransactionCommand}"/>
+                        <Button Width="70" Height="30" Margin="20,0,0,0" Content="Зарплата" Background="CornflowerBlue" Command="{Binding CashTransactionsViewModel.PaySalaryCommand}"/>
+                        <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Background="Crimson" Command="{Binding CashTransactionsViewModel.DeleteCashTransactionCommand}" Visibility="{Binding IsUserAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                         <Label Height="30" Margin="20,0,0,0" Content="Сумма:"/>
                         <Label VerticalContentAlignment="Center">
                             <Label.Content>
@@ -360,8 +360,8 @@
                             </DataGrid>
 
                             <StackPanel Orientation="Horizontal" Grid.Row="2">
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Добавить" Command="{Binding MobileTransactionsViewModel.AddCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Command="{Binding MobileTransactionsViewModel.DeleteCommand}" Visibility="{Binding IsUserAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Новое" Background="Aquamarine" Command="{Binding MobileTransactionsViewModel.AddCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Background="Crimson" Command="{Binding MobileTransactionsViewModel.DeleteCommand}" Visibility="{Binding IsUserAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                                 <Label  Height="30" Margin="20,0,0,0" Content="Сумма:"/>
                                 <Label VerticalContentAlignment="Center">
                                     <Label.Content>
@@ -389,8 +389,8 @@
                             </DataGrid>
 
                             <StackPanel Orientation="Horizontal" Grid.Row="1">
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Добавить" Command="{Binding MobileOperatorsViewModel.AddCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Command="{Binding MobileOperatorsViewModel.DeleteCommand}" Visibility="{Binding IsUserAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Добавить" Background="Aquamarine" Command="{Binding MobileOperatorsViewModel.AddCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Background="Crimson" Command="{Binding MobileOperatorsViewModel.DeleteCommand}" Visibility="{Binding IsUserAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>
@@ -411,13 +411,14 @@
                                     <DataGridTextColumn Binding="{Binding LastName}" Header="Фамилия" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding ProfitPercentage}" Header="Процент" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding SalaryPerDay}" Header="Выход" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding Login}" Header="Логин" IsReadOnly="True"/>
                                 </DataGrid.Columns>
                             </DataGrid>
 
                             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2">
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Добавить" Command="{Binding SalesmenViewModel.AddContragentCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Редактировать" Command="{Binding SalesmenViewModel.EditContragentCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Command="{Binding SalesmenViewModel.DeleteContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Добавить" Background="Aquamarine" Command="{Binding SalesmenViewModel.AddContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Редактировать" Background="Aqua" FontSize="9" Command="{Binding SalesmenViewModel.EditContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Background="Crimson" Command="{Binding SalesmenViewModel.DeleteContragentCommand}"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>
@@ -436,8 +437,8 @@
                             </DataGrid>
 
                             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2">
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Редактировать" Command="{Binding ClientsViewModel.EditContragentCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Command="{Binding ClientsViewModel.DeleteContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Редактировать" Background="Aqua" FontSize="9" Command="{Binding ClientsViewModel.EditContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Background="Crimson" Command="{Binding ClientsViewModel.DeleteContragentCommand}"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>
@@ -456,9 +457,9 @@
                             </DataGrid>
 
                             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2">
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Добавить" Command="{Binding RepairersViewModel.AddContragentCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Редактировать" Command="{Binding RepairersViewModel.EditContragentCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Command="{Binding RepairersViewModel.DeleteContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Добавить" Background="Aquamarine" Command="{Binding RepairersViewModel.AddContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Редактировать" Background="Aqua" FontSize="9" Command="{Binding RepairersViewModel.EditContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Background="Crimson" Command="{Binding RepairersViewModel.DeleteContragentCommand}"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>
@@ -477,9 +478,9 @@
                             </DataGrid>
 
                             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2">
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Добавить" Command="{Binding GuardsViewModel.AddContragentCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Редактировать" Command="{Binding GuardsViewModel.EditContragentCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Command="{Binding GuardsViewModel.DeleteContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Добавить" Background="Aquamarine" Command="{Binding GuardsViewModel.AddContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Редактировать" FontSize="9" Background="Aqua" Command="{Binding GuardsViewModel.EditContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Background="Crimson" Command="{Binding GuardsViewModel.DeleteContragentCommand}"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>
