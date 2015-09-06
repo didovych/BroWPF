@@ -176,11 +176,14 @@
     <Compile Include="Controls\Dialogs\ShowAllTransactionsDialog.xaml.cs">
       <DependentUpon>ShowAllTransactionsDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\SumConverter.cs" />
     <Compile Include="Converters\TransactionTypeConverter.cs" />
     <Compile Include="Helpers\ExcelExport.cs" />
     <Compile Include="Helpers\ModelSerialNumberStatusPriceBoughtGroup.cs" />
     <Compile Include="Helpers\ReportHelper.cs" />
+    <Compile Include="IPriceModel.cs" />
     <Compile Include="Logging.cs" />
+    <Compile Include="ViewModels\ReportsViewModel.cs" />
     <Compile Include="ViewModels\Transactions\CashTransactionsViewModel.cs" />
     <Compile Include="ViewModels\Transactions\CashTransactionViewModel.cs" />
     <Compile Include="ViewModels\ContragentsViewModels\ClientsViewModel.cs" />

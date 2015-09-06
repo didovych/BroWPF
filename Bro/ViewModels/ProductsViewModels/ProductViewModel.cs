@@ -7,7 +7,7 @@ using BroData;
 
 namespace Bro.ViewModels
 {
-    public abstract class ProductViewModel : ViewModelBase
+    public abstract class ProductViewModel : ViewModelBase, IPriceModel
     {
         protected ProductViewModel(Product product)
         {
@@ -23,6 +23,8 @@ namespace Bro.ViewModels
             MoneySpentForProduct = 0;
 
             var orderedTransactions = product.Transactions.OrderBy(x => x.Date);
+
+            if (orderedTransactions.FirstOrDefault() != null && orderedTransactions.FirstOrDefault().Operator != null) SalesmanBought = new SalesmanViewModel(orderedTransactions.FirstOrDefault().Operator.Salesman);
 
             foreach (var transaction in orderedTransactions)
             {
@@ -159,5 +161,19 @@ namespace Bro.ViewModels
                 NotifyPropertyChanged();
             }
         }
+
+        private SalesmanViewModel _salesmanBought;
+
+        public SalesmanViewModel SalesmanBought
+        {
+            get { return _salesmanBought; }
+            set
+            {
+                _salesmanBought = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public decimal Price { get { return MoneySpentForProduct; } }
     }
 }

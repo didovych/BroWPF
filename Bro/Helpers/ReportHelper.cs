@@ -29,7 +29,7 @@ namespace Bro.Helpers
         {
             var result = GetSoldTransactions(fromDate, throughDate, context);
 
-            return result.Where(x => x.Salesman.ID == salesmanID).ToList();
+            return result.Where(x => x.SoldProduct.SalesmanWithProfit.ID == salesmanID).ToList();
         }
 
         public static List<CashTransactionViewModel> GetSalaryTransactions(DateTime fromDate, DateTime throughDate,

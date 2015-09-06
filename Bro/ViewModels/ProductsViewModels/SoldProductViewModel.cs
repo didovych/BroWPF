@@ -7,7 +7,7 @@ using BroData;
 
 namespace Bro.ViewModels
 {
-    public class SoldProductViewModel : ProductViewModel
+    public class SoldProductViewModel : ProductViewModel, IPriceModel
     {
         public SoldProductViewModel(Product product) : base(product)
         {
@@ -21,7 +21,11 @@ namespace Bro.ViewModels
                 DateSold = transactionSold.Date;
             }
 
+            SalesmanWithProfit = Origin == TranType.Bought ? SalesmanSold : SalesmanBought;
+
             Profit = PriceSold - MoneySpentForProduct;
+            SalesmanProfit = Profit*((decimal) SalesmanWithProfit.ProfitPercentage/(decimal) 100);
+           
         }
 
         private decimal _priceSold;
@@ -48,6 +52,18 @@ namespace Bro.ViewModels
             }
         }
 
+        private SalesmanViewModel _salesmanWithProfit;
+
+        public SalesmanViewModel SalesmanWithProfit
+        {
+            get { return _salesmanWithProfit; }
+            set
+            {
+                _salesmanWithProfit = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private decimal _profit;
 
         public decimal Profit
@@ -56,6 +72,18 @@ namespace Bro.ViewModels
             set
             {
                 _profit = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private decimal _salesmanProfit;
+
+        public decimal SalesmanProfit
+        {
+            get { return _salesmanProfit; }
+            set
+            {
+                _salesmanProfit = value;
                 NotifyPropertyChanged();
             }
         }
@@ -71,5 +99,7 @@ namespace Bro.ViewModels
                 NotifyPropertyChanged();
             }
         }
+
+        public decimal Price { get { return PriceSold; } }
     }
 }

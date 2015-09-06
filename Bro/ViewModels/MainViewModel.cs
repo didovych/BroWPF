@@ -1,6 +1,7 @@
 ﻿using System; 
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
@@ -34,6 +35,12 @@ namespace Bro.ViewModels
 
             MobileOperatorsViewModel = new MobileOperatorsViewModel(this);
             MobileTransactionsViewModel = new MobileTransactionsViewModel(this);
+
+            ReportsViewModel = new ReportsViewModel(_context);
+
+            WindowsIdentity user = WindowsIdentity.GetCurrent();
+            WindowsPrincipal principal = new WindowsPrincipal(user);
+            IsUserAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
 
         private Context _context;
@@ -47,6 +54,8 @@ namespace Bro.ViewModels
                 NotifyPropertyChanged();
             }
         }
+
+        public bool IsUserAdmin { get; set; }
 
         private decimal _cashInHand;
 
@@ -204,6 +213,18 @@ namespace Bro.ViewModels
             }
         }
 
+        private ReportsViewModel _reportsViewModel;
+
+        public ReportsViewModel ReportsViewModel
+        {
+            get { return _reportsViewModel; }
+            set
+            {
+                _reportsViewModel = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public void UpdateCashInHand()
         {
             CashInHand = 0;
@@ -280,46 +301,6 @@ namespace Bro.ViewModels
                 CashInHand -= transaction.Price.Value;
                 ProductsValue += transaction.Price.Value;
             }
-
-            //foreach (var transaction in allTransactions)
-            //{
-            //    if (transaction.Price == null) continue;
-
-            //    switch (transaction.TypeID)
-            //    {
-            //        case (int)TranType.Sold:
-            //            CashInHand += transaction.Price.Value;
-            //            break;
-            //        case (int)TranType.Bought:
-            //            CashInHand -= transaction.Price.Value;
-            //            ProductsValue += transaction.Price.Value;
-            //            break;
-            //        case (int)TranType.Repaired:
-            //            CashInHand -= transaction.Price.Value;
-            //            break;
-            //        case (int)TranType.ToPawn:
-            //            CashInHand -= transaction.Price.Value;
-            //            ProductsValue += transaction.Price.Value;
-            //            break;
-            //        case (int)TranType.CashOut:
-            //            CashInHand -= transaction.Price.Value;
-            //            break;
-            //        case (int)TranType.CashIn:
-            //            CashInHand += transaction.Price.Value;
-            //            break;
-            //        case (int) TranType.Coffee:
-            //            CashInHand += transaction.Price.Value;
-            //            break;
-            //        case (int)TranType.Salary:
-            //            CashInHand -= transaction.Price.Value;
-            //            break;
-            //        case (int)TranType.TopUp:
-            //            CashInHand += transaction.Price.Value;
-            //            break;
-            //        default:
-            //            break;
-            //    }
-            //}
         }
     }
 }

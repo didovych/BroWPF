@@ -7,12 +7,8 @@ using BroData;
 
 namespace Bro.ViewModels.MobileTransactions
 {
-    public class MobileTransactionViewModel: ViewModelBase
+    public class MobileTransactionViewModel: ViewModelBase, IPriceModel
     {
-        public MobileTransactionViewModel()
-        {
-        }
-
         public MobileTransactionViewModel(MobileTransaction mobileTransaction)
         {
             ID = mobileTransaction.ID;
