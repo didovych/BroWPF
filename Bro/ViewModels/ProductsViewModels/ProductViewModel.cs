@@ -18,6 +18,7 @@ namespace Bro.ViewModels
             Notes = product.Notes;
             SellingPrice = product.SellingPrice;
             DateSellTo = product.DateSellTo;
+            ModelID = product.ModelID;
 
             Origin = TranType.Zero;
             MoneySpentForProduct = 0;
@@ -86,6 +87,18 @@ namespace Bro.ViewModels
             set
             {
                 _modelName = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int _modelID;
+
+        public int ModelID
+        {
+            get { return _modelID; }
+            set
+            {
+                _modelID = value;
                 NotifyPropertyChanged();
             }
         }
@@ -174,6 +187,6 @@ namespace Bro.ViewModels
             }
         }
 
-        public decimal Price { get { return MoneySpentForProduct; } }
+        public decimal Price { get { return MoneySpentForProduct * IDs.Count; } }
     }
 }

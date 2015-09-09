@@ -12,6 +12,7 @@
         </Grid.RowDefinitions>
         <StackPanel>
             <dialogControl:Dialog Content="{Binding Path=OnStockProductsViewModel.AddDialogViewModel}" Title="Add product" CancelCommand="{Binding OnStockProductsViewModel.CloseAddDialogCommand}"/>
+            <dialogControl:Dialog Content="{Binding Path=OnStockProductsViewModel.ChangeNumberDialogViewModel}" Title="Change number" CancelCommand="{Binding OnStockProductsViewModel.CloseChangeNumberDialogCommand}"/>
             <dialogControl:Dialog Content="{Binding Path=OnStockProductsViewModel.OnAirProductDialogViewModel}" Title="On air product" CancelCommand="{Binding OnStockProductsViewModel.CloseOnAirDialogCommand}"/>
             <dialogControl:Dialog Content="{Binding Path=OnStockProductsViewModel.FromAirProductDialogViewModel}" Title="From air product" CancelCommand="{Binding OnStockProductsViewModel.CloseFromAirDialogCommand}"/>
             <dialogControl:Dialog Content="{Binding Path=ToRepairProductsViewModel.AddDialogViewModel}" Title="Add product" CancelCommand="{Binding ToRepairProductsViewModel.CloseAddDialogCommand}"/>
@@ -122,7 +123,9 @@
                                     <Button Content="Сделанно" Background="Aqua" Command="{Binding OnStockProductsViewModel.RepairedProductCommand}"/>
                                     <Button Content="На выносную" Background="Bisque" FontSize="10" Command="{Binding OnStockProductsViewModel.OnAirProductCommand}"/>
                                     <Button Content="С выносной" Background="Bisque" Command="{Binding OnStockProductsViewModel.FromAirCommand}"/>
-                                    
+                                    <Button FontSize="9" HorizontalContentAlignment="Center" Background="IndianRed" Command="{Binding OnStockProductsViewModel.ChangeProductsNumberCommand}" Visibility="{Binding IsUserAdmin, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <TextBlock>Изменить<LineBreak/>количество</TextBlock>
+                                    </Button>
                                 </StackPanel>
                             </StackPanel>
                         </Grid>
@@ -397,9 +400,9 @@
                 </TabControl>
             </TabItem>
 
-            <TabItem Header="Люди" Visibility="{Binding IsUserAdmin, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <TabItem Header="Люди">
                 <TabControl>
-                    <TabItem Header="Продавцы">
+                    <TabItem Header="Продавцы" Visibility="{Binding IsUserAdmin, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
@@ -438,7 +441,7 @@
 
                             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2">
                                 <Button Width="70" Height="30" Margin="20,0,0,0" Content="Редактировать" Background="Aqua" FontSize="9" Command="{Binding ClientsViewModel.EditContragentCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Background="Crimson" Command="{Binding ClientsViewModel.DeleteContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Background="Crimson" Command="{Binding ClientsViewModel.DeleteContragentCommand}" Visibility="{Binding IsUserAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>
@@ -459,7 +462,7 @@
                             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2">
                                 <Button Width="70" Height="30" Margin="20,0,0,0" Content="Добавить" Background="Aquamarine" Command="{Binding RepairersViewModel.AddContragentCommand}"/>
                                 <Button Width="70" Height="30" Margin="20,0,0,0" Content="Редактировать" Background="Aqua" FontSize="9" Command="{Binding RepairersViewModel.EditContragentCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Background="Crimson" Command="{Binding RepairersViewModel.DeleteContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Background="Crimson" Command="{Binding RepairersViewModel.DeleteContragentCommand}" Visibility="{Binding IsUserAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>
@@ -480,7 +483,7 @@
                             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2">
                                 <Button Width="70" Height="30" Margin="20,0,0,0" Content="Добавить" Background="Aquamarine" Command="{Binding GuardsViewModel.AddContragentCommand}"/>
                                 <Button Width="70" Height="30" Margin="20,0,0,0" Content="Редактировать" FontSize="9" Background="Aqua" Command="{Binding GuardsViewModel.EditContragentCommand}"/>
-                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Background="Crimson" Command="{Binding GuardsViewModel.DeleteContragentCommand}"/>
+                                <Button Width="70" Height="30" Margin="20,0,0,0" Content="Удалить" Background="Crimson" Command="{Binding GuardsViewModel.DeleteContragentCommand}" Visibility="{Binding IsUserAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>

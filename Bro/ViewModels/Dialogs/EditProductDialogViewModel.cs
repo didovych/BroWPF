@@ -149,6 +149,7 @@ namespace Bro.ViewModels.Dialogs
         private bool Validate()
         {
             if (string.IsNullOrEmpty(ModelName)) return false;
+
             if (ModelName.Length > 50)
             {
                 MessageBox.Show(("Название модели не может быть длинее 50 символов"), "Error", MessageBoxButton.OK,

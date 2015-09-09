@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using BroData;
 
 namespace Bro.Services
@@ -20,12 +21,15 @@ namespace Bro.Services
                 WindowsPrincipal principal = new WindowsPrincipal(user);
                 IsUserAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
 
-                var name = Environment.UserDomainName.ToLower();
+                var name = Environment.UserName.ToLower();
 
                 var salesman = context.Salesmen.FirstOrDefault(x => x.Login.ToLower() == name);
-                if (salesman == null) throw new Exception("Current user does not exist");
-
-                CurrentUserID = salesman.ID;
+                if (salesman == null)
+                {
+                    if (IsUserAdmin) CurrentUserID = 0;
+                    else throw new Exception("Current user does not exist");
+                }
+                else CurrentUserID = salesman.ID;
             }
         }
 

@@ -137,6 +137,9 @@
     <Compile Include="Controls\Dialogs\AddToRepairProductDialog.xaml.cs">
       <DependentUpon>AddToRepairProductDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Dialogs\ChangeOnStockProductsNumberDialog.xaml.cs">
+      <DependentUpon>ChangeOnStockProductsNumberDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Dialogs\EditClientDialog.xaml.cs">
       <DependentUpon>EditClientDialog.xaml</DependentUpon>
     </Compile>
@@ -187,6 +190,7 @@
     <Compile Include="IPriceModel.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="Services\OperatorManager.cs" />
+    <Compile Include="ViewModels\Dialogs\ChangeOnStockProductsNumberDialogViewModel.cs" />
     <Compile Include="ViewModels\ReportsViewModel.cs" />
     <Compile Include="ViewModels\Transactions\CashTransactionsViewModel.cs" />
     <Compile Include="ViewModels\Transactions\CashTransactionViewModel.cs" />
@@ -274,6 +278,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Dialogs\AddToRepairProductDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\ChangeOnStockProductsNumberDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

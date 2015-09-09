@@ -14,6 +14,9 @@
     <DataTemplate DataType="{x:Type dialogs:AddOnStockProductDialogViewModel}">
         <dialogs1:AddOnStockProductDialog/>
     </DataTemplate>
+    <DataTemplate DataType="{x:Type dialogs:ChangeOnStockProductsNumberDialogViewModel}">
+        <dialogs1:ChangeOnStockProductsNumberDialog Height="100" Width="200"/>
+    </DataTemplate>
     <DataTemplate DataType="{x:Type dialogs:OnAirProductDialogViewModel}">
         <dialogs1:OnAirProductDialog Height="100" Width="200"/>
     </DataTemplate>

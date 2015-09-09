@@ -43,6 +43,9 @@ namespace Bro.ViewModels.ProductsViewModels
             FromAirCommand = new DelegateCommand(FromAirProduct, () => SelectedProduct != null && SelectedProduct.Status == TranType.OnAir);
             CloseFromAirDialogCommand = new DelegateCommand(() => FromAirProductDialogViewModel = null);
 
+            ChangeProductsNumberCommand = new DelegateCommand(ChangeProductsNumber, () => SelectedProduct != null);
+            CloseChangeNumberDialogCommand = new DelegateCommand(() => ChangeNumberDialogViewModel = null);
+
             WriteOffProductCommand = new DelegateCommand(WriteOffProduct, () => SelectedProduct != null);
 
             ClearSerialNumberFilterCommand = new DelegateCommand(() => SerialNumberFilter = "");
@@ -73,6 +76,7 @@ namespace Bro.ViewModels.ProductsViewModels
                 OnAirProductCommand.RaiseCanExecuteChanged();
                 FromAirCommand.RaiseCanExecuteChanged();
                 WriteOffProductCommand.RaiseCanExecuteChanged();
+                ChangeProductsNumberCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -146,6 +150,18 @@ namespace Bro.ViewModels.ProductsViewModels
             set
             {
                 _closeFromAirDialogCommand = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private DelegateCommand _closeChangeNumberDialogCommand;
+
+        public DelegateCommand CloseChangeNumberDialogCommand
+        {
+            get { return _closeChangeNumberDialogCommand; }
+            set
+            {
+                _closeChangeNumberDialogCommand = value;
                 NotifyPropertyChanged();
             }
         }
@@ -247,6 +263,18 @@ namespace Bro.ViewModels.ProductsViewModels
             }
         }
 
+        private DelegateCommand _changeProductsNumberCommand;
+
+        public DelegateCommand ChangeProductsNumberCommand
+        {
+            get { return _changeProductsNumberCommand; }
+            set
+            {
+                _changeProductsNumberCommand = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region Dialog view models
@@ -306,6 +334,18 @@ namespace Bro.ViewModels.ProductsViewModels
             set
             {
                 _fromAirProductDialogViewModel = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private ChangeOnStockProductsNumberDialogViewModel _changeNumberDialogViewModel;
+
+        public ChangeOnStockProductsNumberDialogViewModel ChangeNumberDialogViewModel
+        {
+            get { return _changeNumberDialogViewModel; }
+            set
+            {
+                _changeNumberDialogViewModel = value;
                 NotifyPropertyChanged();
             }
         }
@@ -379,6 +419,12 @@ namespace Bro.ViewModels.ProductsViewModels
             Update();
             _mainViewModel.SoldProductsViewModel.Update();
         }
+
+        private void ChangeProductsNumber()
+        {
+            ChangeNumberDialogViewModel = new ChangeOnStockProductsNumberDialogViewModel(_mainViewModel);
+        }
+
         #endregion
 
         protected override bool Filter(object obj)
